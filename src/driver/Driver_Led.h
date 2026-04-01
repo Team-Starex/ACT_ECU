@@ -54,6 +54,8 @@
 void Driver_Led_Init(void);
 void Driver_Led_On_1(void);
 void Driver_Led_Off_1(void);
+void Driver_Led_On_2(void);
+void Driver_Led_Off_2(void);
 void Driver_Led_Toggle(void);
 
 #endif /* DRIVER_LED_H_ */

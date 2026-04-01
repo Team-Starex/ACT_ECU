@@ -29,7 +29,10 @@
 #include "Driver_Stm.h"
 #include "Driver_Led.h"
 #include "Driver_Buzzer.h"
+#include "Driver_Can.h"
 #include "Ifx_Types.h"
+
+#define APP_ONE_SHOT_HOLD_COUNT   20u
 
 static boolean g_ledOn = FALSE;
 static boolean g_buzzerOn = FALSE;
@@ -78,23 +81,22 @@ void AppTask1ms(void)
 }
 void AppTask10ms(void)
 {
-//    if (g_oneShotActive == 1u)
-//    {
-//        requestOneShotOutputs();
-//        LedOn(ONE_SHOT_LED_PIN);   // 예: LED12 ON
-//        g_oneShotCnt++;
-//
-//        if (g_oneShotCnt >= 20u)   // 20 * 10ms = 200ms
-//        {
-//            LedOff(ONE_SHOT_LED_PIN); // OFF
-//            g_oneShotActive = 0u;
-//            g_oneShotCnt = 0u;
-//        }
-//    }
-//    else
-//    {
-//        IfxPort_setPinLow(&MODULE_P10, 2);
-//    }
+    if (g_oneShotActive == 1u)
+    {
+        Driver_Led_On_2();   // 예: LED12 ON
+        g_oneShotCnt++;
+
+        if (g_oneShotCnt >= APP_ONE_SHOT_HOLD_COUNT)   // 20 * 10ms = 200ms
+        {
+            Driver_Led_Off_2(); // OFF
+            g_oneShotActive = 0u;
+            g_oneShotCnt = 0u;
+        }
+    }
+    else
+    {
+        Driver_Led_Off_2();
+    }
 //    if (g_servoActive == TRUE)
 //    {
 //        uint32 pulseUs;

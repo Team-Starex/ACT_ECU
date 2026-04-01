@@ -28,7 +28,7 @@
 #include "IfxScuWdt.h"
 
 #include "Driver_Stm.h"
-//#include "Driver_Can.h"
+#include "Driver_Can.h"
 #include "Driver_Led.h"
 #include "Driver_Buzzer.h"
 //#include "Driver_Servo.h"
@@ -51,7 +51,7 @@ int core0_main(void)
     Driver_Buzzer_Init();
 //    Driver_Servo_Init();
 //    Driver_DfPlayer_Init();
-//    Driver_Can_Init();
+    Driver_Can_Init();
     Driver_Stm_Init();
 
     /* app init */
@@ -59,7 +59,7 @@ int core0_main(void)
 
     while (1)
     {
-//        Driver_Can_Task();
+        Driver_Can_Task();
         App_Scheduler_Run();
     }
 

@@ -35,6 +35,7 @@
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
 #define LED_PIN_1   IfxPort_P10_3
+#define LED_PIN_2   IfxPort_P10_1
 
 void Driver_Led_Init(void)
 {
@@ -45,6 +46,14 @@ void Driver_Led_Init(void)
         IfxPort_OutputIdx_general);
 
     Driver_Led_Off_1();
+
+    IfxPort_setPinModeOutput(
+        LED_PIN_2.port,
+        LED_PIN_2.pinIndex,
+        IfxPort_OutputMode_pushPull,
+        IfxPort_OutputIdx_general);
+
+    Driver_Led_Off_2();
 }
 
 void Driver_Led_On_1(void)
@@ -55,6 +64,16 @@ void Driver_Led_On_1(void)
 void Driver_Led_Off_1(void)
 {
     IfxPort_setPinLow(LED_PIN_1.port, LED_PIN_1.pinIndex);
+}
+
+void Driver_Led_On_2(void)
+{
+    IfxPort_setPinHigh(LED_PIN_2.port, LED_PIN_2.pinIndex);
+}
+
+void Driver_Led_Off_2(void)
+{
+    IfxPort_setPinLow(LED_PIN_2.port, LED_PIN_2.pinIndex);
 }
 
 void Driver_Led_Toggle_1(void)
