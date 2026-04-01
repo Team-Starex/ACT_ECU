@@ -27,10 +27,10 @@
 #include "IfxCpu.h"
 #include "IfxScuWdt.h"
 
-//#include "Driver_Stm.h"
+#include "Driver_Stm.h"
 //#include "Driver_Can.h"
-//#include "Driver_Led.h"
-//#include "Driver_Buzzer.h"
+#include "Driver_Led.h"
+#include "Driver_Buzzer.h"
 //#include "Driver_Servo.h"
 //#include "Driver_DfPlayer.h"
 
@@ -47,12 +47,12 @@ int core0_main(void)
     IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
 
     /* driver init */
-//    Driver_Led_Init();
-//    Driver_Buzzer_Init();
+    Driver_Led_Init();
+    Driver_Buzzer_Init();
 //    Driver_Servo_Init();
 //    Driver_DfPlayer_Init();
 //    Driver_Can_Init();
-//    Driver_Stm_Init();
+    Driver_Stm_Init();
 
     /* app init */
     App_Scheduler_Init();

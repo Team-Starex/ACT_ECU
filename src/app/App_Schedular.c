@@ -25,17 +25,132 @@
  * IN THE SOFTWARE.
  *********************************************************************************************************************/
 
-#ifndef APP_SCHEDULAR_C_
-#define APP_SCHEDULAR_C_
-
 #include "App_Scheduler.h"
+#include "Driver_Stm.h"
+#include "Driver_Led.h"
+#include "Driver_Buzzer.h"
+#include "Ifx_Types.h"
+
+static boolean g_ledOn = FALSE;
+static boolean g_buzzerOn = FALSE;
+
+void AppTask1ms(void);
+void AppTask10ms(void);
+void AppTask100ms(void);
+void AppTask1000ms(void);
 
 void App_Scheduler_Init(void)
 {
+    g_ledOn = FALSE;
+    g_buzzerOn = FALSE;
 }
 
 void App_Scheduler_Run(void)
 {
+    if (stSchedulingInfo.u8nuScheduling1msFlag == 1u)
+    {
+        stSchedulingInfo.u8nuScheduling1msFlag = 0u;
+        AppTask1ms();
+
+        if (stSchedulingInfo.u8nuScheduling10msFlag == 1u)
+        {
+            stSchedulingInfo.u8nuScheduling10msFlag = 0u;
+            AppTask10ms();
+        }
+
+        if (stSchedulingInfo.u8nuScheduling100msFlag == 1u)
+        {
+            stSchedulingInfo.u8nuScheduling100msFlag = 0u;
+            AppTask100ms();
+        }
+
+        if (stSchedulingInfo.u8nuScheduling1000msFlag == 1u)
+        {
+            stSchedulingInfo.u8nuScheduling1000msFlag = 0u;
+            AppTask1000ms();
+        }
+    }
 }
 
-#endif /* APP_SCHEDULAR_C_ */
+void AppTask1ms(void)
+{
+
+}
+void AppTask10ms(void)
+{
+//    if (g_oneShotActive == 1u)
+//    {
+//        requestOneShotOutputs();
+//        LedOn(ONE_SHOT_LED_PIN);   // 예: LED12 ON
+//        g_oneShotCnt++;
+//
+//        if (g_oneShotCnt >= 20u)   // 20 * 10ms = 200ms
+//        {
+//            LedOff(ONE_SHOT_LED_PIN); // OFF
+//            g_oneShotActive = 0u;
+//            g_oneShotCnt = 0u;
+//        }
+//    }
+//    else
+//    {
+//        IfxPort_setPinLow(&MODULE_P10, 2);
+//    }
+//    if (g_servoActive == TRUE)
+//    {
+//        uint32 pulseUs;
+//
+//        g_servoElapsedMs += SERVO_TASK_STEP_MS;
+//        if (g_servoElapsedMs >= SERVO_TOTAL_MS)
+//        {
+//            g_servoElapsedMs = SERVO_TOTAL_MS;
+//            g_servoActive = FALSE;
+//        }
+//
+//        pulseUs = SERVO_START_US
+//                + (((SERVO_END_US - SERVO_START_US) * g_servoElapsedMs) / SERVO_TOTAL_MS);
+//
+//        setServoPulseUs(pulseUs);
+//    }
+//
+//    if (g_audioPlayReq == TRUE)
+//    {
+//        g_audioPlayReq = FALSE;
+//
+//        /* 트랙 1회 재생 */
+//        (void)DFPlayer_sendCmdOnce(0x0F, DFPLAYER_TRACK_NUM);
+//
+//        g_audioReleasePending = TRUE;
+//        g_audioReleaseMs = DFPLAYER_TX_RELEASE_MS;
+//    }
+}
+void AppTask100ms(void)
+{
+    /* LED 100ms 토글 */
+    g_ledOn = !g_ledOn;
+    if (g_ledOn == TRUE)
+    {
+        Driver_Led_On_1();
+    }
+    else
+    {
+        Driver_Led_Off_1();
+    }
+
+    /* 부저 100ms 토글 */
+    g_buzzerOn = !g_buzzerOn;
+    if (g_buzzerOn == TRUE)
+    {
+        Driver_Buzzer_On();
+    }
+    else
+    {
+        Driver_Buzzer_Off();
+    }
+}
+void AppTask1000ms(void)
+{
+
+}
+
+
+
