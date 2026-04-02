@@ -32,7 +32,7 @@
 #include "Driver_Led.h"
 #include "Driver_Buzzer.h"
 //#include "Driver_Servo.h"
-//#include "Driver_DfPlayer.h"
+#include "Driver_DfPlayer.h"
 
 #include "App_Scheduler.h"
 
@@ -50,7 +50,7 @@ int core0_main(void)
     Driver_Led_Init();
     Driver_Buzzer_Init();
 //    Driver_Servo_Init();
-//    Driver_DfPlayer_Init();
+    Driver_DfPlayer_Init();
     Driver_Can_Init();
     Driver_Stm_Init();
 

@@ -31,26 +31,32 @@
 /*********************************************************************************************************************/
 /*-----------------------------------------------------Includes------------------------------------------------------*/
 /*********************************************************************************************************************/
-
+#include "Ifx_Types.h"
+#include "IfxPort.h"
+#include "IfxPort_PinMap.h"
 /*********************************************************************************************************************/
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
-#define ACTECU_TASK_1MS_PERIOD          1U
-#define ACTECU_TASK_10MS_PERIOD         10U
-#define ACTECU_TASK_100MS_PERIOD        100U
+/* LED */
+#define ACTECU_LED_PIN                 IfxPort_P10_3
+#define ACTECU_ONE_SHOT_LED_PIN        IfxPort_P10_1
 
-#define ACTECU_ONE_SHOT_LED_ON_MS       200U
+/* Buzzer */
+#define ACTECU_BUZZER_NOTE_IDX         0U
+#define ACTECU_BUZZER_OFF_IDX          14U
 
-#define ACTECU_SERVO_START_US           1000U
-#define ACTECU_SERVO_END_US             2000U
-#define ACTECU_SERVO_TOTAL_MS           1000U
-#define ACTECU_SERVO_STEP_MS            10U
+/* Servo */
+#define ACTECU_SERVO_START_US          1000U
+#define ACTECU_SERVO_END_US            2000U
+#define ACTECU_SERVO_TOTAL_MS          1000U
+#define ACTECU_SERVO_TASK_STEP_MS      10U
 
-#define ACTECU_DFPLAYER_TRACK_NUM       0x0101U
-#define ACTECU_DFPLAYER_VOLUME          20U
+/* DFPlayer */
+#define ACTECU_DFPLAYER_TRACK_NUM      0x0102U
+#define ACTECU_DFPLAYER_TX_RELEASE_MS  20U
 
-#define ACTECU_BUZZER_NOTE_IDX          0U
-#define ACTECU_BUZZER_OFF_IDX           14U
+/* One-shot */
+#define ACTECU_ONE_SHOT_HOLD_COUNT     20U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/

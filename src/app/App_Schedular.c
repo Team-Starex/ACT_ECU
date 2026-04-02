@@ -26,21 +26,30 @@
  *********************************************************************************************************************/
 
 #include "App_Scheduler.h"
+#include "Driver_DfPlayer.h"
 #include "Driver_Stm.h"
 #include "Driver_Led.h"
 #include "Driver_Buzzer.h"
 #include "Driver_Can.h"
 #include "Ifx_Types.h"
-
-#define APP_ONE_SHOT_HOLD_COUNT   20u
+#include "ActEcu_Cfg.h"
 
 static boolean g_ledOn = FALSE;
 static boolean g_buzzerOn = FALSE;
+
+static boolean g_audioPlayReq = FALSE;
+static boolean g_audioReleasePending = FALSE;
+static uint16  g_audioReleaseMs = 0U;
 
 void AppTask1ms(void);
 void AppTask10ms(void);
 void AppTask100ms(void);
 void AppTask1000ms(void);
+
+static void requestOneShotOutputs(void)
+{
+    g_audioPlayReq = TRUE;
+}
 
 void App_Scheduler_Init(void)
 {
@@ -83,10 +92,11 @@ void AppTask10ms(void)
 {
     if (g_oneShotActive == 1u)
     {
+        requestOneShotOutputs();
         Driver_Led_On_2();   // 예: LED12 ON
         g_oneShotCnt++;
 
-        if (g_oneShotCnt >= APP_ONE_SHOT_HOLD_COUNT)   // 20 * 10ms = 200ms
+        if (g_oneShotCnt >= ACTECU_ONE_SHOT_HOLD_COUNT)   // 20 * 10ms = 200ms
         {
             Driver_Led_Off_2(); // OFF
             g_oneShotActive = 0u;
@@ -114,16 +124,16 @@ void AppTask10ms(void)
 //        setServoPulseUs(pulseUs);
 //    }
 //
-//    if (g_audioPlayReq == TRUE)
-//    {
-//        g_audioPlayReq = FALSE;
-//
-//        /* 트랙 1회 재생 */
-//        (void)DFPlayer_sendCmdOnce(0x0F, DFPLAYER_TRACK_NUM);
-//
-//        g_audioReleasePending = TRUE;
-//        g_audioReleaseMs = DFPLAYER_TX_RELEASE_MS;
-//    }
+    if (g_audioPlayReq == TRUE)
+    {
+        g_audioPlayReq = FALSE;
+
+        /* 트랙 1회 재생 */
+        (void)DFPlayer_sendCmdOnce(0x0F, ACTECU_DFPLAYER_TRACK_NUM);
+
+        g_audioReleasePending = TRUE;
+        g_audioReleaseMs = ACTECU_DFPLAYER_TX_RELEASE_MS;
+    }
 }
 void AppTask100ms(void)
 {
