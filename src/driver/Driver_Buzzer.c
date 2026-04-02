@@ -28,12 +28,7 @@
 #include "Ifx_Types.h"
 #include "IfxGtm_Tom_Pwm.h"
 #include "IfxGtm.h"
-
-#define BUZZER_PIN              IfxGtm_TOM0_9_TOUT1_P02_1_OUT
-#define BUZZER_TOM_CLK_HZ       6250000U
-
-#define BUZZER_NOTE_IDX_C4      0U
-#define BUZZER_NOTE_IDX_OFF     14U
+#include "ActEcu_Cfg.h"
 
 static IfxGtm_Tom_Pwm_Config  g_buzzerTomConfig;
 static IfxGtm_Tom_Pwm_Driver  g_buzzerTomDriver;
@@ -48,9 +43,9 @@ void Driver_Buzzer_Init(void)
 
     IfxGtm_Tom_Pwm_initConfig(&g_buzzerTomConfig, &MODULE_GTM);
 
-    g_buzzerTomConfig.tom                      = BUZZER_PIN.tom;
-    g_buzzerTomConfig.tomChannel               = BUZZER_PIN.channel;
-    g_buzzerTomConfig.pin.outputPin            = &BUZZER_PIN;
+    g_buzzerTomConfig.tom                      = ACTECU_BUZZER_PIN.tom;
+    g_buzzerTomConfig.tomChannel               = ACTECU_BUZZER_PIN.channel;
+    g_buzzerTomConfig.pin.outputPin            = &ACTECU_BUZZER_PIN;
     g_buzzerTomConfig.clock                    = IfxGtm_Tom_Ch_ClkSrc_cmuFxclk1;
     g_buzzerTomConfig.period                   = 1000U;
     g_buzzerTomConfig.dutyCycle                = 0U;
@@ -96,7 +91,7 @@ void makeSound(unsigned int sound)
         return;
     }
 
-    uPeriod = (unsigned int)(6250000.0f / fBuzz[sound]);
+    uPeriod = (unsigned int)(ACTECU_BUZZER_TOM_CLK_HZ / fBuzz[sound]);
 
     g_buzzerTomConfig.period = uPeriod;
     g_buzzerTomConfig.dutyCycle = (unsigned int)(uPeriod * 0.3f);
@@ -106,11 +101,11 @@ void makeSound(unsigned int sound)
 
 void Driver_Buzzer_On(void)
 {
-    makeSound(BUZZER_NOTE_IDX_C4);
+    makeSound(ACTECU_BUZZER_NOTE_IDX);
 }
 
 void Driver_Buzzer_Off(void)
 {
-    makeSound(BUZZER_NOTE_IDX_OFF);
+    makeSound(ACTECU_BUZZER_OFF_IDX);
 }
 

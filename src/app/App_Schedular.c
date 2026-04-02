@@ -33,9 +33,12 @@
 #include "Driver_Can.h"
 #include "Ifx_Types.h"
 #include "ActEcu_Cfg.h"
+#include "Bsp.h"
 
 static boolean g_ledOn = FALSE;
 static boolean g_buzzerOn = FALSE;
+static boolean g_servoActive = FALSE;
+static uint16  g_servoElapsedMs = 0U;
 
 static boolean g_audioPlayReq = FALSE;
 static boolean g_audioReleasePending = FALSE;
@@ -49,12 +52,27 @@ void AppTask1000ms(void);
 static void requestOneShotOutputs(void)
 {
     g_audioPlayReq = TRUE;
+
+    if (g_servoActive == FALSE)
+    {
+        g_servoActive = TRUE;
+        g_servoElapsedMs = 0U;
+        setServoPulseUs(ACTECU_SERVO_START_US);
+    }
 }
 
 void App_Scheduler_Init(void)
 {
     g_ledOn = FALSE;
     g_buzzerOn = FALSE;
+    g_servoActive = FALSE;
+    g_servoActive = FALSE;
+    g_servoElapsedMs = 0U;
+    g_audioPlayReq = FALSE;
+    g_audioReleasePending = FALSE;
+    g_audioReleaseMs = 0U;
+    g_oneShotActive = FALSE;
+    g_oneShotCnt = 0U;
 }
 
 void App_Scheduler_Run(void)
@@ -107,23 +125,23 @@ void AppTask10ms(void)
     {
         Driver_Led_Off_2();
     }
-//    if (g_servoActive == TRUE)
-//    {
-//        uint32 pulseUs;
-//
-//        g_servoElapsedMs += SERVO_TASK_STEP_MS;
-//        if (g_servoElapsedMs >= SERVO_TOTAL_MS)
-//        {
-//            g_servoElapsedMs = SERVO_TOTAL_MS;
-//            g_servoActive = FALSE;
-//        }
-//
-//        pulseUs = SERVO_START_US
-//                + (((SERVO_END_US - SERVO_START_US) * g_servoElapsedMs) / SERVO_TOTAL_MS);
-//
-//        setServoPulseUs(pulseUs);
-//    }
-//
+    if (g_servoActive == TRUE)
+    {
+        uint32 pulseUs;
+
+        g_servoElapsedMs += ACTECU_SERVO_TASK_STEP_MS;
+        if (g_servoElapsedMs >= ACTECU_SERVO_TOTAL_MS)
+        {
+            g_servoElapsedMs = ACTECU_SERVO_TOTAL_MS;
+            g_servoActive = FALSE;
+        }
+
+        pulseUs = ACTECU_SERVO_START_US
+                + (((ACTECU_SERVO_END_US - ACTECU_SERVO_START_US) * g_servoElapsedMs) / ACTECU_SERVO_TOTAL_MS);
+
+        setServoPulseUs(pulseUs);
+    }
+
     if (g_audioPlayReq == TRUE)
     {
         g_audioPlayReq = FALSE;
@@ -163,6 +181,3 @@ void AppTask1000ms(void)
 {
 
 }
-
-
-
