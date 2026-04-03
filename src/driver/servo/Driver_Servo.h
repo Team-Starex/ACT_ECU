@@ -51,8 +51,14 @@
 /*********************************************************************************************************************/
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
+void Driver_Servo_Init(void);
+
+void setServo1PulseUs(uint32 pulseUs);
+void setServo2PulseUs(uint32 pulseUs);
+void setServoAllPulseUs(uint32 pulseUs);
+
 void setServoPulseUs(uint32 pulseUs);
 void servoRampUs(uint32 startUs, uint32 endUs, uint32 totalMs, uint32 stepMs);
-void Driver_Servo_Init(void);
+
 
 #endif /* DRIVER_SERVO_H_ */

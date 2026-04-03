@@ -30,59 +30,62 @@
 #include "ActEcu_Params.h"
 #include "Driver_Servo.h"
 
-void App_Servo_Init(App_Context *ctx)
+static void App_Servo_MoveAllToStart(const App_Context *ctx)
 {
-    ctx->servoCtrl.startReq      = FALSE;
-    ctx->servoCtrl.active        = FALSE;
-    ctx->servoCtrl.elapsedMs     = 0U;
-    ctx->servoCtrl.startPulseUs  = P_SERVO_START_US;
-    ctx->servoCtrl.targetPulseUs = P_SERVO_TARGET_US;
-
-    setServoPulseUs(P_SERVO_START_US);
+    setServo1PulseUs(ctx->servo1Ctrl.startPulseUs);
+    setServo2PulseUs(ctx->servo2Ctrl.startPulseUs);
 }
 
-void App_Servo_RequestOneShot(App_Context *ctx)
+static void App_Servo_MoveServo1ToTarget(const App_Context *ctx)
 {
-    if (ctx->servoCtrl.active == FALSE)
-    {
-        ctx->servoCtrl.startReq = TRUE;
-    }
+    setServo1PulseUs(ctx->servo1Ctrl.targetPulseUs);
+}
+
+static void App_Servo_MoveServo2ToTarget(const App_Context *ctx)
+{
+    setServo2PulseUs(ctx->servo2Ctrl.targetPulseUs);
+}
+
+void App_Servo_Init(App_Context *ctx)
+{
+    ctx->servo1Ctrl.startPulseUs = P_SERVO1_START_US;
+    ctx->servo1Ctrl.targetPulseUs = P_SERVO1_TARGET_US;
+
+    ctx->servo2Ctrl.startPulseUs = P_SERVO2_START_US;
+    ctx->servo2Ctrl.targetPulseUs = P_SERVO2_TARGET_US;
+
+    ctx->prevSafeState = ctx->state.safeState;
+
+    App_Servo_MoveAllToStart(ctx);
 }
 
 void App_Servo_Task(App_Context *ctx)
 {
-    sint32 diff;
-    uint32 pulseUs;
+    ActEcu_SafeState prevState = ctx->prevSafeState;
+    ActEcu_SafeState currState = ctx->state.safeState;
 
-    if (ctx->servoCtrl.startReq == TRUE)
-    {
-        ctx->servoCtrl.startReq = FALSE;
-        ctx->servoCtrl.active = TRUE;
-        ctx->servoCtrl.elapsedMs = 0U;
-
-        setServoPulseUs(ctx->servoCtrl.startPulseUs);
-        return;
-    }
-
-    if (ctx->servoCtrl.active == FALSE)
+    if (prevState == currState)
     {
         return;
     }
 
-    ctx->servoCtrl.elapsedMs += ACTECU_SERVO_TASK_PERIOD_MS;
-
-    if (ctx->servoCtrl.elapsedMs >= P_SERVO_RUN_MS)
+    if ((prevState != ACTECU_SAFE_NORMAL) &&
+        (currState == ACTECU_SAFE_NORMAL))
     {
-        ctx->servoCtrl.elapsedMs = P_SERVO_RUN_MS;
-        setServoPulseUs(ctx->servoCtrl.targetPulseUs);
-        ctx->servoCtrl.active = FALSE;
-        return;
+        App_Servo_MoveAllToStart(ctx);
     }
 
-    diff = (sint32)ctx->servoCtrl.targetPulseUs - (sint32)ctx->servoCtrl.startPulseUs;
+    if ((prevState != ACTECU_SAFE_CRITICAL) &&
+        (currState == ACTECU_SAFE_CRITICAL))
+    {
+        App_Servo_MoveServo1ToTarget(ctx);
+    }
 
-    pulseUs = (uint32)((sint32)ctx->servoCtrl.startPulseUs
-            + ((diff * (sint32)ctx->servoCtrl.elapsedMs) / (sint32)P_SERVO_RUN_MS));
+    if ((prevState != ACTECU_SAFE_FATAL_NO_RESPONSE) &&
+        (currState == ACTECU_SAFE_FATAL_NO_RESPONSE))
+    {
+        App_Servo_MoveServo2ToTarget(ctx);
+    }
 
-    setServoPulseUs(pulseUs);
+    ctx->prevSafeState = currState;
 }

@@ -28,40 +28,22 @@
 #include "Ifx_Types.h"
 #include "IfxGtm_Tom_Pwm.h"
 #include "IfxGtm.h"
+#include "IfxStm.h"
 #include "Bsp.h"
 #include "ActEcu_Cfg.h"
 
-IfxGtm_Tom_Pwm_Config g_tomConfigServo;
-IfxGtm_Tom_Pwm_Driver g_tomDriverServo;
+static IfxGtm_Tom_Pwm_Config g_tomConfigServo1;
+static IfxGtm_Tom_Pwm_Driver g_tomDriverServo1;
+
+static IfxGtm_Tom_Pwm_Config g_tomConfigServo2;
+static IfxGtm_Tom_Pwm_Driver g_tomDriverServo2;
 
 static uint32 servoPulseUsToTicks(uint32 pulseUs)
 {
     return (uint32)(((uint64)ACTECU_SERVO_TOM_CLK_HZ * (uint64)pulseUs) / 1000000ULL);
 }
 
-void Driver_Servo_Init(void)
-{
-    IfxGtm_enable(&MODULE_GTM);
-    IfxGtm_Cmu_enableClocks(&MODULE_GTM, IFXGTM_CMU_CLKEN_FXCLK);
-
-    /* 반드시 initConfig 먼저 */
-    IfxGtm_Tom_Pwm_initConfig(&g_tomConfigServo, &MODULE_GTM);
-
-    /* 그 다음 clock, pin, period 설정 */
-    g_tomConfigServo.clock = IfxGtm_Tom_Ch_ClkSrc_cmuFxclk1;
-    g_tomConfigServo.tom = ACTECU_SERVO_PIN.tom;
-    g_tomConfigServo.tomChannel = ACTECU_SERVO_PIN.channel;
-    g_tomConfigServo.pin.outputPin = &ACTECU_SERVO_PIN;
-
-    g_tomConfigServo.period = ACTECU_SERVO_PERIOD_TICKS;                  /* 20ms */
-    g_tomConfigServo.dutyCycle = servoPulseUsToTicks(ACTECU_SERVO_MIN_US);/* 1000us 시작 */
-    g_tomConfigServo.synchronousUpdateEnabled = TRUE;
-
-    IfxGtm_Tom_Pwm_init(&g_tomDriverServo, &g_tomConfigServo);
-    IfxGtm_Tom_Pwm_start(&g_tomDriverServo, TRUE);
-}
-
-void setServoPulseUs(uint32 pulseUs)
+static uint32 Driver_Servo_ClampPulseUs(uint32 pulseUs)
 {
     if (pulseUs < ACTECU_SERVO_MIN_US)
     {
@@ -72,8 +54,67 @@ void setServoPulseUs(uint32 pulseUs)
         pulseUs = ACTECU_SERVO_MAX_US;
     }
 
-    g_tomConfigServo.dutyCycle = servoPulseUsToTicks(pulseUs);
-    IfxGtm_Tom_Pwm_init(&g_tomDriverServo, &g_tomConfigServo);
+    return pulseUs;
+}
+
+static void Driver_Servo_InitChannel(IfxGtm_Tom_Pwm_Config *config,
+                                     IfxGtm_Tom_Pwm_Driver *driver,
+                                     const IfxGtm_Tom_ToutMap *pinMap)
+{
+    IfxGtm_Tom_Pwm_initConfig(config, &MODULE_GTM);
+
+    config->clock                    = IfxGtm_Tom_Ch_ClkSrc_cmuFxclk1;
+    config->tom                      = pinMap->tom;
+    config->tomChannel               = pinMap->channel;
+    config->pin.outputPin            = pinMap;
+    config->period                   = ACTECU_SERVO_PERIOD_TICKS;
+    config->dutyCycle                = servoPulseUsToTicks(ACTECU_SERVO_CENTER_US);
+    config->synchronousUpdateEnabled = TRUE;
+
+    IfxGtm_Tom_Pwm_init(driver, config);
+    IfxGtm_Tom_Pwm_start(driver, TRUE);
+}
+
+static void Driver_Servo_UpdateChannel(IfxGtm_Tom_Pwm_Config *config,
+                                       IfxGtm_Tom_Pwm_Driver *driver,
+                                       uint32 pulseUs)
+{
+    config->dutyCycle = servoPulseUsToTicks(pulseUs);
+    IfxGtm_Tom_Pwm_init(driver, config);
+}
+
+void Driver_Servo_Init(void)
+{
+    IfxGtm_enable(&MODULE_GTM);
+    IfxGtm_Cmu_enableClocks(&MODULE_GTM, IFXGTM_CMU_CLKEN_FXCLK);
+
+    Driver_Servo_InitChannel(&g_tomConfigServo1, &g_tomDriverServo1, &ACTECU_SERVO1_PIN);
+    Driver_Servo_InitChannel(&g_tomConfigServo2, &g_tomDriverServo2, &ACTECU_SERVO2_PIN);
+}
+
+void setServo1PulseUs(uint32 pulseUs)
+{
+    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo1, &g_tomDriverServo1, pulseUs);
+}
+
+void setServo2PulseUs(uint32 pulseUs)
+{
+    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
+}
+
+void setServoAllPulseUs(uint32 pulseUs)
+{
+    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo1, &g_tomDriverServo1, pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
+}
+
+/* 기존 코드 호환용 */
+void setServoPulseUs(uint32 pulseUs)
+{
+    setServoAllPulseUs(pulseUs);
 }
 
 void servoRampUs(uint32 startUs, uint32 endUs, uint32 totalMs, uint32 stepMs)
@@ -100,11 +141,10 @@ void servoRampUs(uint32 startUs, uint32 endUs, uint32 totalMs, uint32 stepMs)
         uint32 pulseUs;
 
         pulseUs = (uint32)((sint32)startUs + ((diff * (sint32)i) / (sint32)stepCount));
-        setServoPulseUs(pulseUs);
+        setServoAllPulseUs(pulseUs);
 
         waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, stepMs));
     }
 
-    /* 마지막 값을 정확히 endUs로 한 번 더 고정 */
-    setServoPulseUs(endUs);
+    setServoAllPulseUs(endUs);
 }

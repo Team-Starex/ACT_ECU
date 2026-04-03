@@ -61,6 +61,13 @@ void Driver_Led_Init(void)
     Driver_Led_InitPin(ACTECU_LED2_2_PIN);
     Driver_Led_InitPin(ACTECU_LED2_3_PIN);
     Driver_Led_InitPin(ACTECU_LED2_4_PIN);
+
+    Driver_Led_InitPin(ACTECU_LED3_NORMAL_PIN);
+    Driver_Led_InitPin(ACTECU_LED3_FATAL_PIN);
+
+    /* LED3 기본 상태 */
+    Driver_Led_SetPin(ACTECU_LED3_NORMAL_PIN, TRUE);
+    Driver_Led_SetPin(ACTECU_LED3_FATAL_PIN, FALSE);
 }
 
 void Driver_Led_On_1(void)
@@ -117,4 +124,24 @@ void Driver_Led_Toggle_1(void)
 void Driver_Led_Toggle(void)
 {
     Driver_Led_Toggle_1();
+}
+
+void Driver_Led_On_3_Normal(void)
+{
+    IfxPort_setPinHigh(ACTECU_LED3_NORMAL_PIN.port, ACTECU_LED3_NORMAL_PIN.pinIndex);
+}
+
+void Driver_Led_Off_3_Normal(void)
+{
+    IfxPort_setPinLow(ACTECU_LED3_NORMAL_PIN.port, ACTECU_LED3_NORMAL_PIN.pinIndex);
+}
+
+void Driver_Led_On_3_Fatal(void)
+{
+    IfxPort_setPinHigh(ACTECU_LED3_FATAL_PIN.port, ACTECU_LED3_FATAL_PIN.pinIndex);
+}
+
+void Driver_Led_Off_3_Fatal(void)
+{
+    IfxPort_setPinLow(ACTECU_LED3_FATAL_PIN.port, ACTECU_LED3_FATAL_PIN.pinIndex);
 }

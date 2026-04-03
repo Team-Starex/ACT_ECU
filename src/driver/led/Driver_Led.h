@@ -62,4 +62,10 @@ void Driver_Led_Off_2(void);
 void Driver_Led_SetBrakeLampCount(uint8 count);
 void Driver_Led_Off_AllBrakeLamps(void);
 
+/* LED3 */
+void Driver_Led_On_3_Normal(void);
+void Driver_Led_Off_3_Normal(void);
+void Driver_Led_On_3_Fatal(void);
+void Driver_Led_Off_3_Fatal(void);
+
 #endif /* DRIVER_LED_H_ */

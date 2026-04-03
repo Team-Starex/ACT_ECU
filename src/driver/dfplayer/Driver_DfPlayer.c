@@ -38,49 +38,125 @@
 #define ASCLIN_TX_BUFFER_SIZE    64
 #define ASCLIN_RX_BUFFER_SIZE    64
 
-static IfxAsclin_Asc g_asclin2Handle;
+static IfxAsclin_Asc g_stateHandle;
+static IfxAsclin_Asc g_eventHandle;
 
-static uint8 g_asclin2TxBuffer[ASCLIN_TX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
-static uint8 g_asclin2RxBuffer[ASCLIN_RX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+static uint8 g_stateTxBuffer[ASCLIN_TX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+static uint8 g_stateRxBuffer[ASCLIN_RX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
 
-IFX_INTERRUPT(asclin2TxISR, 0, ACTECU_DFPLAYER_ISR_TX_PRIORITY);
+static uint8 g_eventTxBuffer[ASCLIN_TX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+static uint8 g_eventRxBuffer[ASCLIN_RX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+
+IFX_INTERRUPT(asclin2TxISR, 0, ACTECU_DFPLAYER_STATE_ISR_TX_PRIORITY);
 void asclin2TxISR(void)
 {
-    IfxAsclin_Asc_isrTransmit(&g_asclin2Handle);
+    IfxAsclin_Asc_isrTransmit(&g_stateHandle);
+}
+
+IFX_INTERRUPT(asclin3TxISR, 0, ACTECU_DFPLAYER_EVENT_ISR_TX_PRIORITY);
+void asclin3TxISR(void)
+{
+    IfxAsclin_Asc_isrTransmit(&g_eventHandle);
+}
+
+static IfxAsclin_Asc *Driver_DfPlayer_GetHandle(DfPlayer_Channel channel)
+{
+    return (channel == DFPLAYER_CHANNEL_STATE) ? &g_stateHandle : &g_eventHandle;
+}
+
+static Ifx_P *Driver_DfPlayer_GetReleasePort(DfPlayer_Channel channel)
+{
+    return (channel == DFPLAYER_CHANNEL_STATE)
+        ? ACTECU_DFPLAYER_STATE_TX_RELEASE_PORT
+        : ACTECU_DFPLAYER_EVENT_TX_RELEASE_PORT;
+}
+
+static uint8 Driver_DfPlayer_GetReleasePin(DfPlayer_Channel channel)
+{
+    return (channel == DFPLAYER_CHANNEL_STATE)
+        ? ACTECU_DFPLAYER_STATE_TX_RELEASE_PIN
+        : ACTECU_DFPLAYER_EVENT_TX_RELEASE_PIN;
+}
+
+static void Driver_DfPlayer_InitOne(DfPlayer_Channel channel)
+{
+    IfxAsclin_Asc_Config ascConfig;
+
+    IfxAsclin_Asc *handle;
+    uint8 *txBuffer;
+    uint8 *rxBuffer;
+
+    handle   = Driver_DfPlayer_GetHandle(channel);
+    txBuffer = (channel == DFPLAYER_CHANNEL_STATE) ? g_stateTxBuffer : g_eventTxBuffer;
+    rxBuffer = (channel == DFPLAYER_CHANNEL_STATE) ? g_stateRxBuffer : g_eventRxBuffer;
+
+    if (channel == DFPLAYER_CHANNEL_STATE)
+    {
+        IfxAsclin_Asc_initModuleConfig(&ascConfig, &ACTECU_DFPLAYER_STATE_ASCLIN);
+        ascConfig.baudrate.baudrate = ACTECU_DFPLAYER_STATE_BAUDRATE;
+        ascConfig.interrupt.txPriority = ACTECU_DFPLAYER_STATE_ISR_TX_PRIORITY;
+
+        {
+            const IfxAsclin_Asc_Pins pins =
+            {
+                NULL_PTR, IfxPort_InputMode_noPullDevice,
+                NULL_PTR, IfxPort_InputMode_noPullDevice,
+                NULL_PTR, IfxPort_OutputMode_pushPull,
+                &ACTECU_DFPLAYER_STATE_TX_PIN, IfxPort_OutputMode_pushPull,
+                IfxPort_PadDriver_cmosAutomotiveSpeed1
+            };
+
+            ascConfig.interrupt.rxPriority    = 0;
+            ascConfig.interrupt.erPriority    = 0;
+            ascConfig.interrupt.typeOfService = IfxCpu_Irq_getTos(IfxCpu_getCoreIndex());
+
+            ascConfig.txBuffer     = txBuffer;
+            ascConfig.txBufferSize = ASCLIN_TX_BUFFER_SIZE;
+            ascConfig.rxBuffer     = rxBuffer;
+            ascConfig.rxBufferSize = ASCLIN_RX_BUFFER_SIZE;
+            ascConfig.pins         = &pins;
+
+            IfxAsclin_Asc_initModule(handle, &ascConfig);
+        }
+    }
+    else
+    {
+        IfxAsclin_Asc_initModuleConfig(&ascConfig, &ACTECU_DFPLAYER_EVENT_ASCLIN);
+        ascConfig.baudrate.baudrate = ACTECU_DFPLAYER_EVENT_BAUDRATE;
+        ascConfig.interrupt.txPriority = ACTECU_DFPLAYER_EVENT_ISR_TX_PRIORITY;
+
+        {
+            const IfxAsclin_Asc_Pins pins =
+            {
+                NULL_PTR, IfxPort_InputMode_noPullDevice,
+                NULL_PTR, IfxPort_InputMode_noPullDevice,
+                NULL_PTR, IfxPort_OutputMode_pushPull,
+                &ACTECU_DFPLAYER_EVENT_TX_PIN, IfxPort_OutputMode_pushPull,
+                IfxPort_PadDriver_cmosAutomotiveSpeed1
+            };
+
+            ascConfig.interrupt.rxPriority    = 0;
+            ascConfig.interrupt.erPriority    = 0;
+            ascConfig.interrupt.typeOfService = IfxCpu_Irq_getTos(IfxCpu_getCoreIndex());
+
+            ascConfig.txBuffer     = txBuffer;
+            ascConfig.txBufferSize = ASCLIN_TX_BUFFER_SIZE;
+            ascConfig.rxBuffer     = rxBuffer;
+            ascConfig.rxBufferSize = ASCLIN_RX_BUFFER_SIZE;
+            ascConfig.pins         = &pins;
+
+            IfxAsclin_Asc_initModule(handle, &ascConfig);
+        }
+    }
 }
 
 void Driver_DfPlayer_Init(void)
 {
-    IfxAsclin_Asc_Config ascConfig;
-    IfxAsclin_Asc_initModuleConfig(&ascConfig, &ACTECU_DFPLAYER_ASCLIN);
-
-    ascConfig.baudrate.baudrate = ACTECU_DFPLAYER_BAUDRATE;
-
-    /* TX만 사용 */
-    ascConfig.interrupt.txPriority    = ACTECU_DFPLAYER_ISR_TX_PRIORITY;
-    ascConfig.interrupt.rxPriority    = 0;
-    ascConfig.interrupt.erPriority    = 0;
-    ascConfig.interrupt.typeOfService = IfxCpu_Irq_getTos(IfxCpu_getCoreIndex());
-
-    ascConfig.txBuffer     = g_asclin2TxBuffer;
-    ascConfig.txBufferSize = ASCLIN_TX_BUFFER_SIZE;
-    ascConfig.rxBuffer     = g_asclin2RxBuffer;
-    ascConfig.rxBufferSize = ASCLIN_RX_BUFFER_SIZE;
-
-    const IfxAsclin_Asc_Pins pins =
-    {
-        NULL_PTR, IfxPort_InputMode_noPullDevice,    /* CTS 미사용 */
-        NULL_PTR, IfxPort_InputMode_noPullDevice,    /* RX  미사용 */
-        NULL_PTR, IfxPort_OutputMode_pushPull,       /* RTS 미사용 */
-        &ACTECU_DFPLAYER_TX_PIN, IfxPort_OutputMode_pushPull,
-        IfxPort_PadDriver_cmosAutomotiveSpeed1
-    };
-    ascConfig.pins = &pins;
-
-    IfxAsclin_Asc_initModule(&g_asclin2Handle, &ascConfig);
+    Driver_DfPlayer_InitOne(DFPLAYER_CHANNEL_STATE);
+    Driver_DfPlayer_InitOne(DFPLAYER_CHANNEL_EVENT);
 }
 
-boolean DFPlayer_sendCmdOnce(uint8 cmd, uint16 param)
+boolean DFPlayer_SendCmd(DfPlayer_Channel channel, uint8 cmd, uint16 param)
 {
     uint8 frame[10];
     uint8 p1 = (uint8)((param >> 8) & 0xFF);
@@ -88,46 +164,46 @@ boolean DFPlayer_sendCmdOnce(uint8 cmd, uint16 param)
     uint16 sum;
     uint16 checksum;
     Ifx_SizeT count = 10;
+    IfxAsclin_Asc *handle = Driver_DfPlayer_GetHandle(channel);
 
     frame[0] = 0x7E;
     frame[1] = 0xFF;
     frame[2] = 0x06;
     frame[3] = cmd;
-    frame[4] = 0x00;    /* feedback off */
+    frame[4] = 0x00;
     frame[5] = p1;
     frame[6] = p2;
 
-    sum = (uint16)(0xFF + 0x06 + cmd + 0x00 + p1 + p2);
-    checksum = (uint16)((0U - sum) & 0xFFFF);
+    sum = (uint16)(0xFFU + 0x06U + cmd + 0x00U + p1 + p2);
+    checksum = (uint16)((0U - sum) & 0xFFFFU);
 
     frame[7] = (uint8)((checksum >> 8) & 0xFF);
     frame[8] = (uint8)(checksum & 0xFF);
     frame[9] = 0xEF;
 
-    return IfxAsclin_Asc_write(&g_asclin2Handle, frame, &count, TIME_INFINITE);
+    return IfxAsclin_Asc_write(handle, frame, &count, TIME_INFINITE);
 }
 
-boolean DFPlayer_PlayFolderTrack(uint8 folder, uint8 track)
+boolean DFPlayer_PlayFolderTrack(DfPlayer_Channel channel, uint8 folder, uint8 track)
 {
     uint16 param = (uint16)(((uint16)folder << 8) | (uint16)track);
-    return DFPlayer_sendCmdOnce(0x0FU, param);
+    return DFPlayer_SendCmd(channel, 0x0FU, param);
 }
 
-boolean DFPlayer_Stop(void)
+boolean DFPlayer_Stop(DfPlayer_Channel channel)
 {
-    return DFPlayer_sendCmdOnce(0x16U, 0U);
+    return DFPlayer_SendCmd(channel, 0x16U, 0U);
 }
 
-/* UART 전송이 끝난 뒤 TX 라인을 idle high의 일반 GPIO로 강제 전환 */
-void DfPlayer_releaseTxHigh(void)
+void DfPlayer_releaseTxHigh(DfPlayer_Channel channel)
 {
     IfxPort_setPinModeOutput(
-        ACTECU_DFPLAYER_TX_RELEASE_PORT,
-        ACTECU_DFPLAYER_TX_RELEASE_PIN,
+        Driver_DfPlayer_GetReleasePort(channel),
+        Driver_DfPlayer_GetReleasePin(channel),
         IfxPort_OutputMode_pushPull,
         IfxPort_OutputIdx_general);
 
     IfxPort_setPinHigh(
-        ACTECU_DFPLAYER_TX_RELEASE_PORT,
-        ACTECU_DFPLAYER_TX_RELEASE_PIN);
+        Driver_DfPlayer_GetReleasePort(channel),
+        Driver_DfPlayer_GetReleasePin(channel));
 }

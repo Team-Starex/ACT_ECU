@@ -56,29 +56,43 @@
 #define P_BUZZER_FATAL_ON_MS                    150U
 #define P_BUZZER_FATAL_OFF_MS                   150U
 
-/* DFPlayer */
+/* ------------------------------------------------------------------ */
+/* DFPlayer                                                            */
+/* ------------------------------------------------------------------ */
 #define ACTECU_DFPLAYER_TASK_PERIOD_MS          10U
-#define P_DFPLAYER_FOLDER_NO                    0x01U
-
-#define P_DFPLAYER_TRACK_STARTUP                0x01U
-#define P_DFPLAYER_TRACK_LOW_SPEED              0x02U
-#define P_DFPLAYER_TRACK_MID_SPEED              0x03U
-#define P_DFPLAYER_TRACK_HIGH_SPEED             0x04U
-#define P_DFPLAYER_TRACK_RAPID_BRAKE            0x05U
-#define P_DFPLAYER_TRACK_RAPID_ACCEL            0x06U
-#define P_DFPLAYER_TRACK_STEER_LEVEL1           0x07U
-#define P_DFPLAYER_TRACK_STEER_LEVEL2           0x08U
-#define P_DFPLAYER_TRACK_FAULT                  0x09U
-#define P_DFPLAYER_TRACK_FATAL                  0x0AU
-
-#define P_DFPLAYER_EVENT_HOLD_MS                1500U
 #define P_DFPLAYER_TX_RELEASE_MS                20U
 
-/* Servo */
+/* 상태 스피커: P33.9 */
+#define P_DFPLAYER_STATE_FOLDER_NO              0x01U
+#define P_DFPLAYER_STATE_TRACK_LOW_SPEED        0x01U
+#define P_DFPLAYER_STATE_TRACK_MID_SPEED        0x02U
+#define P_DFPLAYER_STATE_TRACK_HIGH_SPEED       0x03U
+#define P_DFPLAYER_STATE_TRACK_FAULT            0x04U
+#define P_DFPLAYER_STATE_TRACK_FATAL            0x05U
+
+/* 같은 상태일 때 다시 Play 명령을 보내는 주기
+ * 실제 mp3 길이에 맞춰 조정하면 됨.
+ */
+#define P_DFPLAYER_STATE_REPEAT_MS              3000U
+
+/* 이벤트 스피커: P20.0 */
+#define P_DFPLAYER_EVENT_FOLDER_NO              0x01U
+#define P_DFPLAYER_EVENT_TRACK_STARTUP          0x01U
+#define P_DFPLAYER_EVENT_TRACK_RAPID_BRAKE      0x02U
+#define P_DFPLAYER_EVENT_TRACK_RAPID_ACCEL      0x03U
+#define P_DFPLAYER_EVENT_TRACK_STEER_LEVEL1     0x04U
+#define P_DFPLAYER_EVENT_TRACK_STEER_LEVEL2     0x05U
+
+/* ------------------------------------------------------------------ */
+/* Servo - 네가 이미 적용한 2서보 구조 유지                            */
+/* ------------------------------------------------------------------ */
 #define ACTECU_SERVO_TASK_PERIOD_MS             10U
-#define P_SERVO_START_US                        1000U
-#define P_SERVO_TARGET_US                       2000U
-#define P_SERVO_RUN_MS                          1000U
+
+#define P_SERVO1_START_US                       1500U
+#define P_SERVO1_TARGET_US                      2000U
+
+#define P_SERVO2_START_US                       1500U
+#define P_SERVO2_TARGET_US                      2000U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/

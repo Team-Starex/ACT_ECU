@@ -59,4 +59,6 @@ void App_Led1_Apply(const App_Context *ctx);
 void App_Led2_Task(App_Context *ctx);
 void App_Led2_Apply(const App_Context *ctx);
 
+void App_Led3_Task(App_Context *ctx);
+void App_Led3_Apply(const App_Context *ctx);
 #endif /* APP_APP_LED_H_ */

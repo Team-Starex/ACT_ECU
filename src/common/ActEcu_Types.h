@@ -44,6 +44,9 @@
 /*********************************************************************************************************************/
 /*-------------------------------------------------Data Structures---------------------------------------------------*/
 /*********************************************************************************************************************/
+#include "Ifx_Types.h"
+#include "ActEcu_Enum.h"
+
 typedef struct
 {
     uint8 safeStateRaw;
@@ -75,6 +78,12 @@ typedef struct
 
 typedef struct
 {
+    boolean normalLampOn;
+    boolean fatalLampOn;
+} App_Led3Control;
+
+typedef struct
+{
     boolean buzzerOn;
     boolean buzzerPrevOn;
     uint16  buzzerElapsedMs;
@@ -82,35 +91,44 @@ typedef struct
     uint8   prevNoteIdx;
 } App_BuzzerControl;
 
+/* 네가 적용한 2서보 구조 유지 */
 typedef struct
 {
-    boolean startReq;
-    boolean active;
-    uint16  elapsedMs;
-    uint32  startPulseUs;
-    uint32  targetPulseUs;
+    uint32 startPulseUs;
+    uint32 targetPulseUs;
 } App_ServoControl;
 
+/* 상태 스피커 제어용 */
 typedef struct
 {
     App_AudioState currentState;
     App_AudioState prevAppliedState;
-    App_AudioState eventState;
-    boolean        eventActive;
-    uint16         eventElapsedMs;
+    uint16         repeatElapsedMs;
+} App_DfPlayerStateControl;
+
+/* 이벤트 스피커 제어용 */
+typedef struct
+{
+    App_AudioState pendingState;
     uint8          prevEvState;
-    uint8          prevAckButton;
-} App_DfPlayerControl;
+    boolean        playReq;
+} App_DfPlayerEventControl;
 
 typedef struct
 {
-    App_InputSignals   input;
-    App_State          state;
-    App_Led1Control    led1Ctrl;
-    App_Led2Control    led2Ctrl;
-    App_BuzzerControl  buzzerCtrl;
-    App_ServoControl   servoCtrl;
-    App_DfPlayerControl dfPlayerCtrl;
+    App_InputSignals         input;
+    App_State                state;
+    App_Led1Control          led1Ctrl;
+    App_Led2Control          led2Ctrl;
+    App_Led3Control          led3Ctrl;
+    App_BuzzerControl        buzzerCtrl;
+
+    App_ServoControl         servo1Ctrl;
+    App_ServoControl         servo2Ctrl;
+    ActEcu_SafeState         prevSafeState;
+
+    App_DfPlayerStateControl dfPlayerStateCtrl;
+    App_DfPlayerEventControl dfPlayerEventCtrl;
 } App_Context;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/

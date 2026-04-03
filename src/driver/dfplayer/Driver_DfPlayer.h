@@ -43,7 +43,11 @@
 /*********************************************************************************************************************/
 /*-------------------------------------------------Data Structures---------------------------------------------------*/
 /*********************************************************************************************************************/
-
+typedef enum
+{
+    DFPLAYER_CHANNEL_STATE = 0,
+    DFPLAYER_CHANNEL_EVENT
+} DfPlayer_Channel;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/
 /*********************************************************************************************************************/
@@ -52,11 +56,11 @@
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
 void Driver_DfPlayer_Init(void);
-boolean DFPlayer_sendCmdOnce(uint8 cmd, uint16 param);
 
-boolean DFPlayer_PlayFolderTrack(uint8 folder, uint8 track);
-boolean DFPlayer_Stop(void);
+boolean DFPlayer_SendCmd(DfPlayer_Channel channel, uint8 cmd, uint16 param);
+boolean DFPlayer_PlayFolderTrack(DfPlayer_Channel channel, uint8 folder, uint8 track);
+boolean DFPlayer_Stop(DfPlayer_Channel channel);
 
-void DfPlayer_releaseTxHigh(void);
+void DfPlayer_releaseTxHigh(DfPlayer_Channel channel);
 
 #endif /* DRIVER_DFPLAYER_H_ */

@@ -52,7 +52,6 @@
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
 void App_Servo_Init(App_Context *ctx);
-void App_Servo_RequestOneShot(App_Context *ctx);
 void App_Servo_Task(App_Context *ctx);
 
 #endif /* APP_APP_SERVO_H_ */

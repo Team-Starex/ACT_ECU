@@ -138,6 +138,9 @@ void AppTask10ms(void)
     App_Led2_Task(&g_appCtx);
     App_Led2_Apply(&g_appCtx);
 
+    App_Led3_Task(&g_appCtx);
+    App_Led3_Apply(&g_appCtx);
+
     App_Buzzer_Task(&g_appCtx);
     App_Buzzer_Apply(&g_appCtx);
 

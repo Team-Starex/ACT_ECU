@@ -36,8 +36,14 @@ void App_Led_Init(App_Context *ctx)
 
     ctx->led2Ctrl.brakeLampCount = 0U;
 
+    ctx->led3Ctrl.normalLampOn = TRUE;
+    ctx->led3Ctrl.fatalLampOn  = FALSE;
+
     Driver_Led_Off_1();
     Driver_Led_Off_AllBrakeLamps();
+
+    Driver_Led_On_3_Normal();
+    Driver_Led_Off_3_Fatal();
 }
 
 void App_Led1_Task(App_Context *ctx)
@@ -138,4 +144,39 @@ void App_Led2_Task(App_Context *ctx)
 void App_Led2_Apply(const App_Context *ctx)
 {
     Driver_Led_SetBrakeLampCount(ctx->led2Ctrl.brakeLampCount);
+}
+
+void App_Led3_Task(App_Context *ctx)
+{
+    if (ctx->state.safeState == ACTECU_SAFE_FATAL_NO_RESPONSE)
+    {
+        ctx->led3Ctrl.normalLampOn = FALSE;
+        ctx->led3Ctrl.fatalLampOn  = TRUE;
+    }
+    else
+    {
+        ctx->led3Ctrl.normalLampOn = TRUE;
+        ctx->led3Ctrl.fatalLampOn  = FALSE;
+    }
+}
+
+void App_Led3_Apply(const App_Context *ctx)
+{
+    if (ctx->led3Ctrl.normalLampOn == TRUE)
+    {
+        Driver_Led_On_3_Normal();
+    }
+    else
+    {
+        Driver_Led_Off_3_Normal();
+    }
+
+    if (ctx->led3Ctrl.fatalLampOn == TRUE)
+    {
+        Driver_Led_On_3_Fatal();
+    }
+    else
+    {
+        Driver_Led_Off_3_Fatal();
+    }
 }
