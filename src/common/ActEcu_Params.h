@@ -45,6 +45,7 @@
 
 #define ACTECU_BUZZER_TASK_PERIOD_MS            10U
 
+#define P_BUZZER_DEFAULT_NOTE_IDX               0U
 #define P_BUZZER_CRITICAL_NOTE_IDX              0U
 #define P_BUZZER_FATAL_NOTE_IDX                 12U
 #define P_BUZZER_OFF_NOTE_IDX                   14U
@@ -71,7 +72,9 @@
 #define P_DFPLAYER_TRACK_FATAL                  0x0AU
 
 #define P_DFPLAYER_EVENT_HOLD_MS                1500U
+#define P_DFPLAYER_TX_RELEASE_MS                20U
 
+/* Servo */
 #define ACTECU_SERVO_TASK_PERIOD_MS             10U
 #define P_SERVO_START_US                        1000U
 #define P_SERVO_TARGET_US                       2000U

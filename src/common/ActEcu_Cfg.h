@@ -38,32 +38,35 @@
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
 /* LED1 */
-#define ACTECU_LED1_PIN                IfxPort_P10_3
+#define ACTECU_LED1_PIN                        IfxPort_P10_3
 
 /* LED2 group (brake lamp simulation) */
-#define ACTECU_LED2_1_PIN              IfxPort_P10_1
-#define ACTECU_LED2_2_PIN              IfxPort_P10_5
-#define ACTECU_LED2_3_PIN              IfxPort_P02_6
-#define ACTECU_LED2_4_PIN              IfxPort_P02_7
+#define ACTECU_LED2_1_PIN                      IfxPort_P10_1
+#define ACTECU_LED2_2_PIN                      IfxPort_P10_5
+#define ACTECU_LED2_3_PIN                      IfxPort_P02_6
+#define ACTECU_LED2_4_PIN                      IfxPort_P02_7
 
-/* Buzzer */
-#define ACTECU_BUZZER_NOTE_IDX         0U
-#define ACTECU_BUZZER_OFF_IDX          14U
-#define ACTECU_BUZZER_PIN              IfxGtm_TOM0_9_TOUT1_P02_1_OUT
-#define ACTECU_BUZZER_TOM_CLK_HZ       6250000U
+/* Buzzer hardware */
+#define ACTECU_BUZZER_PIN                      IfxGtm_TOM0_9_TOUT1_P02_1_OUT
+#define ACTECU_BUZZER_TOM_CLK_HZ               6250000U
 
 /* Servo hardware */
-#define ACTECU_SERVO_TOM_CLK_HZ        6250000U
-#define ACTECU_SERVO_PIN               IfxGtm_TOM0_11_TOUT3_P02_3_OUT
-#define ACTECU_SERVO_PERIOD_TICKS      125000U
+#define ACTECU_SERVO_TOM_CLK_HZ                6250000U
+#define ACTECU_SERVO_PIN                       IfxGtm_TOM0_11_TOUT3_P02_3_OUT
+#define ACTECU_SERVO_PERIOD_TICKS              125000U
 
-#define ACTECU_SERVO_MIN_US            1000U
-#define ACTECU_SERVO_CENTER_US         1500U
-#define ACTECU_SERVO_MAX_US            2000U
+#define ACTECU_SERVO_MIN_US                    1000U
+#define ACTECU_SERVO_CENTER_US                 1500U
+#define ACTECU_SERVO_MAX_US                    2000U
 
-/* DFPlayer */
-#define ACTECU_DFPLAYER_TRACK_NUM      0x0103U
-#define ACTECU_DFPLAYER_TX_RELEASE_MS  20U
+/* DFPlayer hardware / interface */
+#define ACTECU_DFPLAYER_ASCLIN                 MODULE_ASCLIN2
+#define ACTECU_DFPLAYER_BAUDRATE               9600U
+#define ACTECU_DFPLAYER_TX_PIN                 IfxAsclin2_TX_P33_9_OUT
+#define ACTECU_DFPLAYER_ISR_TX_PRIORITY        18U
+
+#define ACTECU_DFPLAYER_TX_RELEASE_PORT        (&MODULE_P33)
+#define ACTECU_DFPLAYER_TX_RELEASE_PIN         9U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/

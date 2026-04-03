@@ -33,11 +33,7 @@
 #include "IfxCpu.h"
 #include "IfxPort.h"
 
-#define DFPLAYER_BAUDRATE        9600
-
-#define DFPLAYER_TX_PIN          IfxAsclin2_TX_P33_9_OUT
-
-#define ISR_PRIORITY_ASCLIN2_TX  18
+#include "ActEcu_Cfg.h"
 
 #define ASCLIN_TX_BUFFER_SIZE    64
 #define ASCLIN_RX_BUFFER_SIZE    64
@@ -47,7 +43,7 @@ static IfxAsclin_Asc g_asclin2Handle;
 static uint8 g_asclin2TxBuffer[ASCLIN_TX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
 static uint8 g_asclin2RxBuffer[ASCLIN_RX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
 
-IFX_INTERRUPT(asclin2TxISR, 0, ISR_PRIORITY_ASCLIN2_TX);
+IFX_INTERRUPT(asclin2TxISR, 0, ACTECU_DFPLAYER_ISR_TX_PRIORITY);
 void asclin2TxISR(void)
 {
     IfxAsclin_Asc_isrTransmit(&g_asclin2Handle);
@@ -56,12 +52,12 @@ void asclin2TxISR(void)
 void Driver_DfPlayer_Init(void)
 {
     IfxAsclin_Asc_Config ascConfig;
-    IfxAsclin_Asc_initModuleConfig(&ascConfig, &MODULE_ASCLIN2);
+    IfxAsclin_Asc_initModuleConfig(&ascConfig, &ACTECU_DFPLAYER_ASCLIN);
 
-    ascConfig.baudrate.baudrate = DFPLAYER_BAUDRATE;
+    ascConfig.baudrate.baudrate = ACTECU_DFPLAYER_BAUDRATE;
 
     /* TX만 사용 */
-    ascConfig.interrupt.txPriority    = ISR_PRIORITY_ASCLIN2_TX;
+    ascConfig.interrupt.txPriority    = ACTECU_DFPLAYER_ISR_TX_PRIORITY;
     ascConfig.interrupt.rxPriority    = 0;
     ascConfig.interrupt.erPriority    = 0;
     ascConfig.interrupt.typeOfService = IfxCpu_Irq_getTos(IfxCpu_getCoreIndex());
@@ -76,7 +72,7 @@ void Driver_DfPlayer_Init(void)
         NULL_PTR, IfxPort_InputMode_noPullDevice,    /* CTS 미사용 */
         NULL_PTR, IfxPort_InputMode_noPullDevice,    /* RX  미사용 */
         NULL_PTR, IfxPort_OutputMode_pushPull,       /* RTS 미사용 */
-        &DFPLAYER_TX_PIN, IfxPort_OutputMode_pushPull,
+        &ACTECU_DFPLAYER_TX_PIN, IfxPort_OutputMode_pushPull,
         IfxPort_PadDriver_cmosAutomotiveSpeed1
     };
     ascConfig.pins = &pins;
@@ -125,7 +121,13 @@ boolean DFPlayer_Stop(void)
 /* UART 전송이 끝난 뒤 TX 라인을 idle high의 일반 GPIO로 강제 전환 */
 void DfPlayer_releaseTxHigh(void)
 {
-    IfxPort_setPinModeOutput(&MODULE_P33, 9, IfxPort_OutputMode_pushPull, IfxPort_OutputIdx_general);
-    IfxPort_setPinHigh(&MODULE_P33, 9);
-}
+    IfxPort_setPinModeOutput(
+        ACTECU_DFPLAYER_TX_RELEASE_PORT,
+        ACTECU_DFPLAYER_TX_RELEASE_PIN,
+        IfxPort_OutputMode_pushPull,
+        IfxPort_OutputIdx_general);
 
+    IfxPort_setPinHigh(
+        ACTECU_DFPLAYER_TX_RELEASE_PORT,
+        ACTECU_DFPLAYER_TX_RELEASE_PIN);
+}

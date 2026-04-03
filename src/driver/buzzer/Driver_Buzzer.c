@@ -29,6 +29,7 @@
 #include "IfxGtm_Tom_Pwm.h"
 #include "IfxGtm.h"
 #include "ActEcu_Cfg.h"
+#include "ActEcu_Params.h"
 
 static IfxGtm_Tom_Pwm_Config  g_buzzerTomConfig;
 static IfxGtm_Tom_Pwm_Driver  g_buzzerTomDriver;
@@ -105,10 +106,10 @@ void Driver_Buzzer_SetNote(unsigned int sound)
 
 void Driver_Buzzer_On(void)
 {
-    makeSound(ACTECU_BUZZER_NOTE_IDX);
+    makeSound(P_BUZZER_DEFAULT_NOTE_IDX);
 }
 
 void Driver_Buzzer_Off(void)
 {
-    makeSound(ACTECU_BUZZER_OFF_IDX);
+    makeSound(P_BUZZER_OFF_NOTE_IDX);
 }
