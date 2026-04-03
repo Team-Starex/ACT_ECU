@@ -56,5 +56,8 @@ void App_Scheduler_Init(void);
 void App_Scheduler_Run(void);
 
 void App_Scheduler_SetSafeState(ActEcu_SafeState state);
+void App_Scheduler_SetSpeedState(uint8 speedState);
 void App_Scheduler_SetBrakeActive(uint8 brakeActive);
+void App_Scheduler_SetEventState(uint8 evState);
+void App_Scheduler_SetAckButton(uint8 ackButton);
 #endif /* APP_SCHEDULER_H_ */

@@ -29,6 +29,7 @@
 #include "App_Led.h"
 #include "App_Buzzer.h"
 #include "App_Servo.h"
+#include "App_DfPlayer.h"
 
 #include "Driver_Stm.h"
 #include "Ifx_Types.h"
@@ -42,8 +43,6 @@ void AppTask1000ms(void);
 
 void App_Scheduler_SetSafeState(ActEcu_SafeState state)
 {
-    ActEcu_SafeState prevState = g_appCtx.state.safeState;
-
     switch (state)
     {
     case ACTECU_SAFE_NORMAL:
@@ -57,19 +56,26 @@ void App_Scheduler_SetSafeState(ActEcu_SafeState state)
         g_appCtx.state.safeState = ACTECU_SAFE_NORMAL;
         break;
     }
+}
 
-    g_appCtx.state.prevSafeState = prevState;
-
-    if ((prevState != ACTECU_SAFE_FATAL_NO_RESPONSE) &&
-        (g_appCtx.state.safeState == ACTECU_SAFE_FATAL_NO_RESPONSE))
-    {
-        App_Servo_RequestOneShot(&g_appCtx);
-    }
+void App_Scheduler_SetSpeedState(uint8 speedState)
+{
+    g_appCtx.input.speedStateRaw = speedState;
 }
 
 void App_Scheduler_SetBrakeActive(uint8 brakeActive)
 {
     g_appCtx.input.brakeActive = (brakeActive != 0U) ? 1U : 0U;
+}
+
+void App_Scheduler_SetEventState(uint8 evState)
+{
+    g_appCtx.input.evState = evState;
+}
+
+void App_Scheduler_SetAckButton(uint8 ackButton)
+{
+    g_appCtx.input.ackButton = (ackButton != 0U) ? 1U : 0U;
 }
 
 void App_Scheduler_Init(void)
@@ -84,12 +90,12 @@ void App_Scheduler_Init(void)
     g_appCtx.input.ackSeq = 0U;
     g_appCtx.input.ackSeqPrev = 0U;
 
-    g_appCtx.state.safeState = ACTECU_SAFE_NORMAL;
-    g_appCtx.state.prevSafeState = ACTECU_SAFE_NORMAL;
+    App_Scheduler_SetSafeState(ACTECU_SAFE_NORMAL);
 
     App_Led_Init(&g_appCtx);
     App_Buzzer_Init(&g_appCtx);
     App_Servo_Init(&g_appCtx);
+    App_DfPlayer_Init(&g_appCtx);
 }
 
 void App_Scheduler_Run(void)
@@ -136,6 +142,9 @@ void AppTask10ms(void)
     App_Buzzer_Apply(&g_appCtx);
 
     App_Servo_Task(&g_appCtx);
+
+    App_DfPlayer_Task(&g_appCtx);
+    App_DfPlayer_Apply(&g_appCtx);
 }
 
 void AppTask100ms(void)

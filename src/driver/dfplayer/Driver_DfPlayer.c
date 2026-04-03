@@ -111,6 +111,17 @@ boolean DFPlayer_sendCmdOnce(uint8 cmd, uint16 param)
     return IfxAsclin_Asc_write(&g_asclin2Handle, frame, &count, TIME_INFINITE);
 }
 
+boolean DFPlayer_PlayFolderTrack(uint8 folder, uint8 track)
+{
+    uint16 param = (uint16)(((uint16)folder << 8) | (uint16)track);
+    return DFPlayer_sendCmdOnce(0x0FU, param);
+}
+
+boolean DFPlayer_Stop(void)
+{
+    return DFPlayer_sendCmdOnce(0x16U, 0U);
+}
+
 /* UART 전송이 끝난 뒤 TX 라인을 idle high의 일반 GPIO로 강제 전환 */
 void DfPlayer_releaseTxHigh(void)
 {

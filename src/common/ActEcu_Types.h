@@ -59,22 +59,7 @@ typedef struct
 
 typedef struct
 {
-    boolean ledPeriodicOn;
-    boolean buzzerPeriodicOn;
-
-    boolean oneShotActive;
-    uint16  oneShotCnt;
-
-    boolean servoActive;
-    uint16  servoElapsedMs;
-
-    boolean audioPlayReq;
-} App_OutputState;
-
-typedef struct
-{
     ActEcu_SafeState safeState;
-    ActEcu_SafeState prevSafeState;
 } App_State;
 
 typedef struct
@@ -108,12 +93,24 @@ typedef struct
 
 typedef struct
 {
-    App_InputSignals  input;
-    App_State         state;
-    App_Led1Control   led1Ctrl;
-    App_Led2Control   led2Ctrl;
-    App_BuzzerControl buzzerCtrl;
-    App_ServoControl  servoCtrl;
+    App_AudioState currentState;
+    App_AudioState prevAppliedState;
+    App_AudioState eventState;
+    boolean        eventActive;
+    uint16         eventElapsedMs;
+    uint8          prevEvState;
+    uint8          prevAckButton;
+} App_DfPlayerControl;
+
+typedef struct
+{
+    App_InputSignals   input;
+    App_State          state;
+    App_Led1Control    led1Ctrl;
+    App_Led2Control    led2Ctrl;
+    App_BuzzerControl  buzzerCtrl;
+    App_ServoControl   servoCtrl;
+    App_DfPlayerControl dfPlayerCtrl;
 } App_Context;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/

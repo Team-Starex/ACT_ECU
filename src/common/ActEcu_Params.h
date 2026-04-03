@@ -55,7 +55,23 @@
 #define P_BUZZER_FATAL_ON_MS                    150U
 #define P_BUZZER_FATAL_OFF_MS                   150U
 
-/* Servo App parameters */
+/* DFPlayer */
+#define ACTECU_DFPLAYER_TASK_PERIOD_MS          10U
+#define P_DFPLAYER_FOLDER_NO                    0x01U
+
+#define P_DFPLAYER_TRACK_STARTUP                0x01U
+#define P_DFPLAYER_TRACK_LOW_SPEED              0x02U
+#define P_DFPLAYER_TRACK_MID_SPEED              0x03U
+#define P_DFPLAYER_TRACK_HIGH_SPEED             0x04U
+#define P_DFPLAYER_TRACK_RAPID_BRAKE            0x05U
+#define P_DFPLAYER_TRACK_RAPID_ACCEL            0x06U
+#define P_DFPLAYER_TRACK_STEER_LEVEL1           0x07U
+#define P_DFPLAYER_TRACK_STEER_LEVEL2           0x08U
+#define P_DFPLAYER_TRACK_FAULT                  0x09U
+#define P_DFPLAYER_TRACK_FATAL                  0x0AU
+
+#define P_DFPLAYER_EVENT_HOLD_MS                1500U
+
 #define ACTECU_SERVO_TASK_PERIOD_MS             10U
 #define P_SERVO_START_US                        1000U
 #define P_SERVO_TARGET_US                       2000U

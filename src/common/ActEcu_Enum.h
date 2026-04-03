@@ -45,12 +45,44 @@
 /*********************************************************************************************************************/
 typedef enum
 {
-    ACTECU_SAFE_INVALID           = 0x00u,
-    ACTECU_SAFE_NORMAL            = 0x01u,
-    ACTECU_SAFE_WARNING           = 0x02u,
-    ACTECU_SAFE_CRITICAL          = 0x04u,
-    ACTECU_SAFE_FATAL_NO_RESPONSE = 0x08u
+    ACTECU_SAFE_NORMAL = 0,
+    ACTECU_SAFE_WARNING,
+    ACTECU_SAFE_CRITICAL,
+    ACTECU_SAFE_FATAL_NO_RESPONSE
 } ActEcu_SafeState;
+
+typedef enum
+{
+    ACTECU_SPEED_STOP = 0,
+    ACTECU_SPEED_LOW,
+    ACTECU_SPEED_MID,
+    ACTECU_SPEED_HIGH
+} ActEcu_SpeedState;
+
+typedef enum
+{
+    ACTECU_EVENT_NONE = 0,
+    ACTECU_EVENT_RAPID_BRAKE,
+    ACTECU_EVENT_RAPID_ACCEL,
+    ACTECU_EVENT_STEER_LEVEL1,
+    ACTECU_EVENT_STEER_LEVEL2,
+    ACTECU_EVENT_FAULT
+} ActEcu_EventState;
+
+typedef enum
+{
+    APP_AUDIO_NONE = 0,
+    APP_AUDIO_STARTUP,
+    APP_AUDIO_LOW_SPEED,
+    APP_AUDIO_MID_SPEED,
+    APP_AUDIO_HIGH_SPEED,
+    APP_AUDIO_RAPID_BRAKE,
+    APP_AUDIO_RAPID_ACCEL,
+    APP_AUDIO_STEER_LEVEL1,
+    APP_AUDIO_STEER_LEVEL2,
+    APP_AUDIO_FAULT,
+    APP_AUDIO_FATAL
+} App_AudioState;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/
 /*********************************************************************************************************************/

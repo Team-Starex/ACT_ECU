@@ -53,6 +53,10 @@
 /*********************************************************************************************************************/
 void Driver_DfPlayer_Init(void);
 boolean DFPlayer_sendCmdOnce(uint8 cmd, uint16 param);
-void DfPlayer_Driver_releaseTxHigh(void);
+
+boolean DFPlayer_PlayFolderTrack(uint8 folder, uint8 track);
+boolean DFPlayer_Stop(void);
+
+void DfPlayer_releaseTxHigh(void);
 
 #endif /* DRIVER_DFPLAYER_H_ */
