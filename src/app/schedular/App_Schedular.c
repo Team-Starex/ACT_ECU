@@ -25,20 +25,26 @@
  * IN THE SOFTWARE.
  *********************************************************************************************************************/
 
+/**********************************************************************************************************************
+ * \file App_Scheduler.c
+ *********************************************************************************************************************/
+
 #include "App_Scheduler.h"
+#include "App_Led.h"
+
 #include "Driver_DfPlayer.h"
 #include "Driver_Stm.h"
-#include "Driver_Led.h"
 #include "Driver_Buzzer.h"
 #include "Driver_Can.h"
 #include "Ifx_Types.h"
 #include "ActEcu_Cfg.h"
 #include "Bsp.h"
 
-static boolean g_ledOn = FALSE;
 static boolean g_buzzerOn = FALSE;
 static boolean g_servoActive = FALSE;
 static uint16  g_servoElapsedMs = 0U;
+
+static App_Context g_appCtx;
 
 static boolean g_audioPlayReq = FALSE;
 static boolean g_audioReleasePending = FALSE;
@@ -61,11 +67,31 @@ static void requestOneShotOutputs(void)
     }
 }
 
+void App_Scheduler_SetSafeState(ActEcu_SafeState state)
+{
+    switch (state)
+    {
+    case ACTECU_SAFE_NORMAL:
+    case ACTECU_SAFE_WARNING:
+    case ACTECU_SAFE_CRITICAL:
+    case ACTECU_SAFE_FATAL_NO_RESPONSE:
+        g_appCtx.state.safeState = state;
+        break;
+
+    default:
+        g_appCtx.state.safeState = ACTECU_SAFE_NORMAL;
+        break;
+    }
+}
+
+void App_Scheduler_SetBrakeActive(uint8 brakeActive)
+{
+    g_appCtx.input.brakeActive = (brakeActive != 0U) ? 1U : 0U;
+}
+
 void App_Scheduler_Init(void)
 {
-    g_ledOn = FALSE;
     g_buzzerOn = FALSE;
-    g_servoActive = FALSE;
     g_servoActive = FALSE;
     g_servoElapsedMs = 0U;
     g_audioPlayReq = FALSE;
@@ -73,6 +99,19 @@ void App_Scheduler_Init(void)
     g_audioReleaseMs = 0U;
     g_oneShotActive = FALSE;
     g_oneShotCnt = 0U;
+
+    g_appCtx.input.safeStateRaw = 0U;
+    g_appCtx.input.speedStateRaw = 0U;
+    g_appCtx.input.brakeActive = 0U;
+    g_appCtx.input.evState = 0U;
+    g_appCtx.input.ackButton = 0U;
+    g_appCtx.input.msgValid = 0U;
+    g_appCtx.input.aliveCnt = 0U;
+    g_appCtx.input.ackSeq = 0U;
+    g_appCtx.input.ackSeqPrev = 0U;
+
+    App_Scheduler_SetSafeState(ACTECU_SAFE_NORMAL);
+    App_Led_Init(&g_appCtx);
 }
 
 void App_Scheduler_Run(void)
@@ -104,27 +143,39 @@ void App_Scheduler_Run(void)
 
 void AppTask1ms(void)
 {
-
+    if (g_audioReleasePending == TRUE)
+    {
+        if (g_audioReleaseMs > 0U)
+        {
+            g_audioReleaseMs--;
+        }
+        else
+        {
+            g_audioReleasePending = FALSE;
+        }
+    }
 }
+
 void AppTask10ms(void)
 {
+    App_Led1_Task(&g_appCtx);
+    App_Led1_Apply(&g_appCtx);
+
+    App_Led2_Task(&g_appCtx);
+    App_Led2_Apply(&g_appCtx);
+
     if (g_oneShotActive == 1u)
     {
         requestOneShotOutputs();
-        Driver_Led_On_2();   // 예: LED12 ON
         g_oneShotCnt++;
 
-        if (g_oneShotCnt >= ACTECU_ONE_SHOT_HOLD_COUNT)   // 20 * 10ms = 200ms
+        if (g_oneShotCnt >= ACTECU_ONE_SHOT_HOLD_COUNT)
         {
-            Driver_Led_Off_2(); // OFF
             g_oneShotActive = 0u;
             g_oneShotCnt = 0u;
         }
     }
-    else
-    {
-        Driver_Led_Off_2();
-    }
+
     if (g_servoActive == TRUE)
     {
         uint32 pulseUs;
@@ -137,7 +188,8 @@ void AppTask10ms(void)
         }
 
         pulseUs = ACTECU_SERVO_START_US
-                + (((ACTECU_SERVO_END_US - ACTECU_SERVO_START_US) * g_servoElapsedMs) / ACTECU_SERVO_TOTAL_MS);
+                + (((ACTECU_SERVO_END_US - ACTECU_SERVO_START_US) * g_servoElapsedMs)
+                / ACTECU_SERVO_TOTAL_MS);
 
         setServoPulseUs(pulseUs);
     }
@@ -146,27 +198,15 @@ void AppTask10ms(void)
     {
         g_audioPlayReq = FALSE;
 
-        /* 트랙 1회 재생 */
         (void)DFPlayer_sendCmdOnce(0x0F, ACTECU_DFPLAYER_TRACK_NUM);
 
         g_audioReleasePending = TRUE;
         g_audioReleaseMs = ACTECU_DFPLAYER_TX_RELEASE_MS;
     }
 }
+
 void AppTask100ms(void)
 {
-    /* LED 100ms 토글 */
-    g_ledOn = !g_ledOn;
-    if (g_ledOn == TRUE)
-    {
-        Driver_Led_On_1();
-    }
-    else
-    {
-        Driver_Led_Off_1();
-    }
-
-    /* 부저 100ms 토글 */
     g_buzzerOn = !g_buzzerOn;
     if (g_buzzerOn == TRUE)
     {
@@ -177,7 +217,7 @@ void AppTask100ms(void)
         Driver_Buzzer_Off();
     }
 }
+
 void AppTask1000ms(void)
 {
-
 }
