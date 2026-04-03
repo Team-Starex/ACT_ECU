@@ -45,10 +45,11 @@
 /*********************************************************************************************************************/
 typedef enum
 {
-    ACTECU_SAFE_NORMAL = 0,
-    ACTECU_SAFE_WARNING,
-    ACTECU_SAFE_CRITICAL,
-    ACTECU_SAFE_FATAL_NO_RESPONSE
+    ACTECU_SAFE_INVALID           = 0x00u,
+    ACTECU_SAFE_NORMAL            = 0x01u,
+    ACTECU_SAFE_WARNING           = 0x02u,
+    ACTECU_SAFE_CRITICAL          = 0x04u,
+    ACTECU_SAFE_FATAL_NO_RESPONSE = 0x08u
 } ActEcu_SafeState;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/

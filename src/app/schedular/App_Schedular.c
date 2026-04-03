@@ -28,43 +28,22 @@
 #include "App_Scheduler.h"
 #include "App_Led.h"
 #include "App_Buzzer.h"
+#include "App_Servo.h"
 
-#include "Driver_DfPlayer.h"
 #include "Driver_Stm.h"
-#include "Driver_Servo.h"
-#include "Driver_Can.h"
 #include "Ifx_Types.h"
-#include "ActEcu_Cfg.h"
-#include "Bsp.h"
-
-static boolean g_servoActive = FALSE;
-static uint16  g_servoElapsedMs = 0U;
 
 static App_Context g_appCtx;
-
-static boolean g_audioPlayReq = FALSE;
-static boolean g_audioReleasePending = FALSE;
-static uint16  g_audioReleaseMs = 0U;
 
 void AppTask1ms(void);
 void AppTask10ms(void);
 void AppTask100ms(void);
 void AppTask1000ms(void);
 
-static void requestOneShotOutputs(void)
-{
-    g_audioPlayReq = TRUE;
-
-    if (g_servoActive == FALSE)
-    {
-        g_servoActive = TRUE;
-        g_servoElapsedMs = 0U;
-        setServoPulseUs(ACTECU_SERVO_START_US);
-    }
-}
-
 void App_Scheduler_SetSafeState(ActEcu_SafeState state)
 {
+    ActEcu_SafeState prevState = g_appCtx.state.safeState;
+
     switch (state)
     {
     case ACTECU_SAFE_NORMAL:
@@ -78,6 +57,14 @@ void App_Scheduler_SetSafeState(ActEcu_SafeState state)
         g_appCtx.state.safeState = ACTECU_SAFE_NORMAL;
         break;
     }
+
+    g_appCtx.state.prevSafeState = prevState;
+
+    if ((prevState != ACTECU_SAFE_FATAL_NO_RESPONSE) &&
+        (g_appCtx.state.safeState == ACTECU_SAFE_FATAL_NO_RESPONSE))
+    {
+        App_Servo_RequestOneShot(&g_appCtx);
+    }
 }
 
 void App_Scheduler_SetBrakeActive(uint8 brakeActive)
@@ -87,14 +74,6 @@ void App_Scheduler_SetBrakeActive(uint8 brakeActive)
 
 void App_Scheduler_Init(void)
 {
-    g_servoActive = FALSE;
-    g_servoElapsedMs = 0U;
-    g_audioPlayReq = FALSE;
-    g_audioReleasePending = FALSE;
-    g_audioReleaseMs = 0U;
-    g_oneShotActive = FALSE;
-    g_oneShotCnt = 0U;
-
     g_appCtx.input.safeStateRaw = 0U;
     g_appCtx.input.speedStateRaw = 0U;
     g_appCtx.input.brakeActive = 0U;
@@ -105,9 +84,12 @@ void App_Scheduler_Init(void)
     g_appCtx.input.ackSeq = 0U;
     g_appCtx.input.ackSeqPrev = 0U;
 
-    App_Scheduler_SetSafeState(ACTECU_SAFE_NORMAL);
+    g_appCtx.state.safeState = ACTECU_SAFE_NORMAL;
+    g_appCtx.state.prevSafeState = ACTECU_SAFE_NORMAL;
+
     App_Led_Init(&g_appCtx);
     App_Buzzer_Init(&g_appCtx);
+    App_Servo_Init(&g_appCtx);
 }
 
 void App_Scheduler_Run(void)
@@ -139,17 +121,7 @@ void App_Scheduler_Run(void)
 
 void AppTask1ms(void)
 {
-    if (g_audioReleasePending == TRUE)
-    {
-        if (g_audioReleaseMs > 0U)
-        {
-            g_audioReleaseMs--;
-        }
-        else
-        {
-            g_audioReleasePending = FALSE;
-        }
-    }
+    /* empty */
 }
 
 void AppTask10ms(void)
@@ -163,51 +135,15 @@ void AppTask10ms(void)
     App_Buzzer_Task(&g_appCtx);
     App_Buzzer_Apply(&g_appCtx);
 
-    if (g_oneShotActive == 1u)
-    {
-        requestOneShotOutputs();
-        g_oneShotCnt++;
-
-        if (g_oneShotCnt >= ACTECU_ONE_SHOT_HOLD_COUNT)
-        {
-            g_oneShotActive = 0u;
-            g_oneShotCnt = 0u;
-        }
-    }
-
-    if (g_servoActive == TRUE)
-    {
-        uint32 pulseUs;
-
-        g_servoElapsedMs += ACTECU_SERVO_TASK_STEP_MS;
-        if (g_servoElapsedMs >= ACTECU_SERVO_TOTAL_MS)
-        {
-            g_servoElapsedMs = ACTECU_SERVO_TOTAL_MS;
-            g_servoActive = FALSE;
-        }
-
-        pulseUs = ACTECU_SERVO_START_US
-                + (((ACTECU_SERVO_END_US - ACTECU_SERVO_START_US) * g_servoElapsedMs)
-                / ACTECU_SERVO_TOTAL_MS);
-
-        setServoPulseUs(pulseUs);
-    }
-
-    if (g_audioPlayReq == TRUE)
-    {
-        g_audioPlayReq = FALSE;
-        (void)DFPlayer_sendCmdOnce(0x0F, ACTECU_DFPLAYER_TRACK_NUM);
-
-        g_audioReleasePending = TRUE;
-        g_audioReleaseMs = ACTECU_DFPLAYER_TX_RELEASE_MS;
-    }
+    App_Servo_Task(&g_appCtx);
 }
 
 void AppTask100ms(void)
 {
-    /* keep empty: old buzzer test removed */
+    /* empty */
 }
 
 void AppTask1000ms(void)
 {
+    /* empty */
 }

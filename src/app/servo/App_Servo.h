@@ -1,5 +1,5 @@
 /**********************************************************************************************************************
- * \file ActEcu_Params.h
+ * \file App_Servo.h
  * \copyright Copyright (C) Infineon Technologies AG 2019
  * 
  * Use of this file is subject to the terms of use agreed between (i) you or the company in which ordinary course of 
@@ -25,41 +25,17 @@
  * IN THE SOFTWARE.
  *********************************************************************************************************************/
 
-#ifndef ACTECU_PARAMS_H_
-#define ACTECU_PARAMS_H_
+#ifndef APP_APP_SERVO_H_
+#define APP_APP_SERVO_H_
 
 /*********************************************************************************************************************/
 /*-----------------------------------------------------Includes------------------------------------------------------*/
 /*********************************************************************************************************************/
-
+#include "ActEcu_Types.h"
 /*********************************************************************************************************************/
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
-#define ACTECU_LED1_TASK_PERIOD_MS              10U
 
-#define P_LED1_CRITICAL_BLINK_ON_MS             500U
-#define P_LED1_CRITICAL_BLINK_OFF_MS            500U
-
-#define P_LED1_FATAL_BLINK_ON_MS                200U
-#define P_LED1_FATAL_BLINK_OFF_MS               200U
-
-#define ACTECU_BUZZER_TASK_PERIOD_MS            10U
-
-#define P_BUZZER_CRITICAL_NOTE_IDX              0U
-#define P_BUZZER_FATAL_NOTE_IDX                 12U
-#define P_BUZZER_OFF_NOTE_IDX                   14U
-
-#define P_BUZZER_CRITICAL_ON_MS                 500U
-#define P_BUZZER_CRITICAL_OFF_MS                500U
-
-#define P_BUZZER_FATAL_ON_MS                    150U
-#define P_BUZZER_FATAL_OFF_MS                   150U
-
-/* Servo App parameters */
-#define ACTECU_SERVO_TASK_PERIOD_MS             10U
-#define P_SERVO_START_US                        1000U
-#define P_SERVO_TARGET_US                       2000U
-#define P_SERVO_RUN_MS                          1000U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/
@@ -75,6 +51,8 @@
 /*********************************************************************************************************************/
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
+void App_Servo_Init(App_Context *ctx);
+void App_Servo_RequestOneShot(App_Context *ctx);
+void App_Servo_Task(App_Context *ctx);
 
-
-#endif /* ACTECU_PARAMS_H_ */
+#endif /* APP_APP_SERVO_H_ */

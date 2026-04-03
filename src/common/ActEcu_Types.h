@@ -74,6 +74,7 @@ typedef struct
 typedef struct
 {
     ActEcu_SafeState safeState;
+    ActEcu_SafeState prevSafeState;
 } App_State;
 
 typedef struct
@@ -98,11 +99,21 @@ typedef struct
 
 typedef struct
 {
+    boolean startReq;
+    boolean active;
+    uint16  elapsedMs;
+    uint32  startPulseUs;
+    uint32  targetPulseUs;
+} App_ServoControl;
+
+typedef struct
+{
     App_InputSignals  input;
     App_State         state;
     App_Led1Control   led1Ctrl;
     App_Led2Control   led2Ctrl;
     App_BuzzerControl buzzerCtrl;
+    App_ServoControl  servoCtrl;
 } App_Context;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/

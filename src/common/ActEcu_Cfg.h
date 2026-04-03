@@ -52,7 +52,7 @@
 #define ACTECU_BUZZER_PIN              IfxGtm_TOM0_9_TOUT1_P02_1_OUT
 #define ACTECU_BUZZER_TOM_CLK_HZ       6250000U
 
-/* Servo */
+/* Servo hardware */
 #define ACTECU_SERVO_TOM_CLK_HZ        6250000U
 #define ACTECU_SERVO_PIN               IfxGtm_TOM0_11_TOUT3_P02_3_OUT
 #define ACTECU_SERVO_PERIOD_TICKS      125000U
@@ -61,17 +61,9 @@
 #define ACTECU_SERVO_CENTER_US         1500U
 #define ACTECU_SERVO_MAX_US            2000U
 
-#define ACTECU_SERVO_START_US          1000U
-#define ACTECU_SERVO_END_US            2000U
-#define ACTECU_SERVO_TOTAL_MS          1000U
-#define ACTECU_SERVO_TASK_STEP_MS      10U
-
 /* DFPlayer */
 #define ACTECU_DFPLAYER_TRACK_NUM      0x0103U
 #define ACTECU_DFPLAYER_TX_RELEASE_MS  20U
-
-/* One-shot */
-#define ACTECU_ONE_SHOT_HOLD_COUNT     20U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/
