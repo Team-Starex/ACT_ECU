@@ -26,11 +26,10 @@
  *********************************************************************************************************************/
 #include "IfxCpu.h"
 #include "IfxScuWdt.h"
-#include "IfxStm.h"
 #include "Bsp.h"
 
 #include "Driver_Stm.h"
-//#include "Driver_Can.h"
+#include "Driver_Can.h"
 #include "Driver_Led.h"
 #include "Driver_Buzzer.h"
 #include "Driver_Servo.h"
@@ -38,7 +37,6 @@
 
 #include "App_Scheduler.h"
 #include "ActEcu_Cfg.h"
-#include "Virtual_Input.h"
 
 IfxCpu_syncEvent cpuSyncEvent = 0;
 
@@ -49,35 +47,35 @@ int core0_main(void)
     IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
     IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
 
+    /* driver init */
     Driver_Led_Init();
     Driver_Buzzer_Init();
     Driver_Servo_Init();
     Driver_DfPlayer_Init();
-//    Driver_Can_Init();
+    Driver_Can_Init();
 
-    Virtual_Input_Init();
-
+    /* initial safe state */
     App_Scheduler_Init();
-    Driver_Buzzer_Off();
+    makeSound(ACTECU_BUZZER_OFF_IDX);
     setServoPulseUs(ACTECU_SERVO_START_US);
 
+    /* one-time DFPlayer boot sequence */
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 500));
     (void)DFPlayer_sendCmdOnce(0x06, 20U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
     (void)DFPlayer_sendCmdOnce(0x09, 0x0002U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
 
+    /* scheduler tick start */
     Driver_Stm_Init();
-
-    IfxCpu_emitEvent(&cpuSyncEvent);
-    IfxCpu_waitEvent(&cpuSyncEvent, 1);
 
     while (1)
     {
-//        Driver_Can_Task();
-        Virtual_Input_Task();
+        Driver_Can_Task();
         App_Scheduler_Run();
     }
 
     return 0;
 }
+
+/* leshgo*/
