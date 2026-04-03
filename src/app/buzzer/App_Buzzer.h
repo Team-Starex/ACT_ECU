@@ -1,5 +1,5 @@
 /**********************************************************************************************************************
- * \file ActEcu_Types.h
+ * \file App_Buzzer.h
  * \copyright Copyright (C) Infineon Technologies AG 2019
  * 
  * Use of this file is subject to the terms of use agreed between (i) you or the company in which ordinary course of 
@@ -25,14 +25,13 @@
  * IN THE SOFTWARE.
  *********************************************************************************************************************/
 
-#ifndef ACTECU_TYPES_H_
-#define ACTECU_TYPES_H_
+#ifndef APP_APP_BUZZER_H_
+#define APP_APP_BUZZER_H_
 
 /*********************************************************************************************************************/
 /*-----------------------------------------------------Includes------------------------------------------------------*/
 /*********************************************************************************************************************/
-#include "Ifx_Types.h"
-#include "ActEcu_Enum.h"
+#include "ActEcu_Types.h"
 /*********************************************************************************************************************/
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
@@ -44,66 +43,7 @@
 /*********************************************************************************************************************/
 /*-------------------------------------------------Data Structures---------------------------------------------------*/
 /*********************************************************************************************************************/
-typedef struct
-{
-    uint8 safeStateRaw;
-    uint8 speedStateRaw;
-    uint8 brakeActive;
-    uint8 evState;
-    uint8 ackButton;
-    uint8 msgValid;
-    uint8 aliveCnt;
-    uint8 ackSeq;
-    uint8 ackSeqPrev;
-} App_InputSignals;
-
-typedef struct
-{
-    boolean ledPeriodicOn;
-    boolean buzzerPeriodicOn;
-
-    boolean oneShotActive;
-    uint16  oneShotCnt;
-
-    boolean servoActive;
-    uint16  servoElapsedMs;
-
-    boolean audioPlayReq;
-} App_OutputState;
-
-typedef struct
-{
-    ActEcu_SafeState safeState;
-} App_State;
-
-typedef struct
-{
-    boolean led1On;
-    uint16  led1BlinkElapsedMs;
-} App_Led1Control;
-
-typedef struct
-{
-    uint8 brakeLampCount;
-} App_Led2Control;
-
-typedef struct
-{
-    boolean buzzerOn;
-    boolean buzzerPrevOn;
-    uint16  buzzerElapsedMs;
-    uint8   noteIdx;
-    uint8   prevNoteIdx;
-} App_BuzzerControl;
-
-typedef struct
-{
-    App_InputSignals  input;
-    App_State         state;
-    App_Led1Control   led1Ctrl;
-    App_Led2Control   led2Ctrl;
-    App_BuzzerControl buzzerCtrl;
-} App_Context;
+ 
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/
 /*********************************************************************************************************************/
@@ -111,5 +51,8 @@ typedef struct
 /*********************************************************************************************************************/
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
+void App_Buzzer_Init(App_Context *ctx);
+void App_Buzzer_Task(App_Context *ctx);
+void App_Buzzer_Apply(App_Context *ctx);
 
-#endif /* ACTECU_TYPES_H_ */
+#endif /* APP_APP_BUZZER_H_ */

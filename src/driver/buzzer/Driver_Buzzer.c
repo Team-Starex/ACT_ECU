@@ -33,8 +33,7 @@
 static IfxGtm_Tom_Pwm_Config  g_buzzerTomConfig;
 static IfxGtm_Tom_Pwm_Driver  g_buzzerTomDriver;
 
-
-void Driver_Buzzer_Off(void);
+static void makeSound(unsigned int sound);
 
 void Driver_Buzzer_Init(void)
 {
@@ -57,12 +56,12 @@ void Driver_Buzzer_Init(void)
     Driver_Buzzer_Off();
 }
 
-void makeSound(unsigned int sound)
+static void makeSound(unsigned int sound)
 {
-    unsigned int uPeriod = 0U;
-    float fBuzz[15] =
+    uint16 uPeriod = 0U;
+    static const float fBuzz[15] =
     {
-        261.63f,   /* 0: 도 (C4) */
+        261.63f,   /* 0: C4 */
         277.18f,
         293.66f,
         311.13f,
@@ -74,9 +73,9 @@ void makeSound(unsigned int sound)
         440.00f,
         466.16f,
         493.88f,
-        523.25f,
+        523.25f,   /* 12: C5 */
         554.37f,
-        0.0f       /* 14: 무음 */
+        0.0f       /* 14: mute */
     };
 
     if (sound >= 15U)
@@ -91,12 +90,17 @@ void makeSound(unsigned int sound)
         return;
     }
 
-    uPeriod = (unsigned int)(ACTECU_BUZZER_TOM_CLK_HZ / fBuzz[sound]);
+    uPeriod = (uint16)(ACTECU_BUZZER_TOM_CLK_HZ / fBuzz[sound]);
 
     g_buzzerTomConfig.period = uPeriod;
-    g_buzzerTomConfig.dutyCycle = (unsigned int)(uPeriod * 0.3f);
+    g_buzzerTomConfig.dutyCycle = (uint16)(uPeriod / 2U);
 
     IfxGtm_Tom_Pwm_init(&g_buzzerTomDriver, &g_buzzerTomConfig);
+}
+
+void Driver_Buzzer_SetNote(unsigned int sound)
+{
+    makeSound(sound);
 }
 
 void Driver_Buzzer_On(void)
@@ -108,4 +112,3 @@ void Driver_Buzzer_Off(void)
 {
     makeSound(ACTECU_BUZZER_OFF_IDX);
 }
-

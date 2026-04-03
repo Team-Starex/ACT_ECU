@@ -25,22 +25,18 @@
  * IN THE SOFTWARE.
  *********************************************************************************************************************/
 
-/**********************************************************************************************************************
- * \file App_Scheduler.c
- *********************************************************************************************************************/
-
 #include "App_Scheduler.h"
 #include "App_Led.h"
+#include "App_Buzzer.h"
 
 #include "Driver_DfPlayer.h"
 #include "Driver_Stm.h"
-#include "Driver_Buzzer.h"
+#include "Driver_Servo.h"
 #include "Driver_Can.h"
 #include "Ifx_Types.h"
 #include "ActEcu_Cfg.h"
 #include "Bsp.h"
 
-static boolean g_buzzerOn = FALSE;
 static boolean g_servoActive = FALSE;
 static uint16  g_servoElapsedMs = 0U;
 
@@ -91,7 +87,6 @@ void App_Scheduler_SetBrakeActive(uint8 brakeActive)
 
 void App_Scheduler_Init(void)
 {
-    g_buzzerOn = FALSE;
     g_servoActive = FALSE;
     g_servoElapsedMs = 0U;
     g_audioPlayReq = FALSE;
@@ -112,6 +107,7 @@ void App_Scheduler_Init(void)
 
     App_Scheduler_SetSafeState(ACTECU_SAFE_NORMAL);
     App_Led_Init(&g_appCtx);
+    App_Buzzer_Init(&g_appCtx);
 }
 
 void App_Scheduler_Run(void)
@@ -164,6 +160,9 @@ void AppTask10ms(void)
     App_Led2_Task(&g_appCtx);
     App_Led2_Apply(&g_appCtx);
 
+    App_Buzzer_Task(&g_appCtx);
+    App_Buzzer_Apply(&g_appCtx);
+
     if (g_oneShotActive == 1u)
     {
         requestOneShotOutputs();
@@ -197,7 +196,6 @@ void AppTask10ms(void)
     if (g_audioPlayReq == TRUE)
     {
         g_audioPlayReq = FALSE;
-
         (void)DFPlayer_sendCmdOnce(0x0F, ACTECU_DFPLAYER_TRACK_NUM);
 
         g_audioReleasePending = TRUE;
@@ -207,15 +205,7 @@ void AppTask10ms(void)
 
 void AppTask100ms(void)
 {
-    g_buzzerOn = !g_buzzerOn;
-    if (g_buzzerOn == TRUE)
-    {
-        Driver_Buzzer_On();
-    }
-    else
-    {
-        Driver_Buzzer_Off();
-    }
+    /* keep empty: old buzzer test removed */
 }
 
 void AppTask1000ms(void)

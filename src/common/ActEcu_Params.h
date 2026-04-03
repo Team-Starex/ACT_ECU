@@ -42,6 +42,18 @@
 
 #define P_LED1_FATAL_BLINK_ON_MS                200U
 #define P_LED1_FATAL_BLINK_OFF_MS               200U
+
+#define ACTECU_BUZZER_TASK_PERIOD_MS            10U
+
+#define P_BUZZER_CRITICAL_NOTE_IDX              0U      /* C4 */
+#define P_BUZZER_FATAL_NOTE_IDX                 12U     /* C5 */
+#define P_BUZZER_OFF_NOTE_IDX                   14U     /* mute */
+
+#define P_BUZZER_CRITICAL_ON_MS                 500U
+#define P_BUZZER_CRITICAL_OFF_MS                500U
+
+#define P_BUZZER_FATAL_ON_MS                    150U
+#define P_BUZZER_FATAL_OFF_MS                   150U
 /*********************************************************************************************************************/
 /*-------------------------------------------------Global variables--------------------------------------------------*/
 /*********************************************************************************************************************/

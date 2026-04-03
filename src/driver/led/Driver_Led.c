@@ -73,6 +73,16 @@ void Driver_Led_Off_1(void)
     IfxPort_setPinLow(ACTECU_LED1_PIN.port, ACTECU_LED1_PIN.pinIndex);
 }
 
+void Driver_Led_On_2(void)
+{
+    IfxPort_setPinHigh(ACTECU_LED2_1_PIN.port, ACTECU_LED2_1_PIN.pinIndex);
+}
+
+void Driver_Led_Off_2(void)
+{
+    IfxPort_setPinLow(ACTECU_LED2_1_PIN.port, ACTECU_LED2_1_PIN.pinIndex);
+}
+
 void Driver_Led_Off_AllBrakeLamps(void)
 {
     Driver_Led_SetPin(ACTECU_LED2_1_PIN, FALSE);
@@ -88,25 +98,10 @@ void Driver_Led_SetBrakeLampCount(uint8 count)
     boolean lamp3 = FALSE;
     boolean lamp4 = FALSE;
 
-    if (count >= 1U)
-    {
-        lamp1 = TRUE;
-    }
-
-    if (count >= 2U)
-    {
-        lamp2 = TRUE;
-    }
-
-    if (count >= 3U)
-    {
-        lamp3 = TRUE;
-    }
-
-    if (count >= 4U)
-    {
-        lamp4 = TRUE;
-    }
+    if (count >= 1U) { lamp1 = TRUE; }
+    if (count >= 2U) { lamp2 = TRUE; }
+    if (count >= 3U) { lamp3 = TRUE; }
+    if (count >= 4U) { lamp4 = TRUE; }
 
     Driver_Led_SetPin(ACTECU_LED2_1_PIN, lamp1);
     Driver_Led_SetPin(ACTECU_LED2_2_PIN, lamp2);
@@ -117,4 +112,9 @@ void Driver_Led_SetBrakeLampCount(uint8 count)
 void Driver_Led_Toggle_1(void)
 {
     IfxPort_togglePin(ACTECU_LED1_PIN.port, ACTECU_LED1_PIN.pinIndex);
+}
+
+void Driver_Led_Toggle(void)
+{
+    Driver_Led_Toggle_1();
 }
