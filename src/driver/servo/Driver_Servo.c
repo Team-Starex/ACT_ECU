@@ -38,6 +38,9 @@ static IfxGtm_Tom_Pwm_Driver g_tomDriverServo1;
 static IfxGtm_Tom_Pwm_Config g_tomConfigServo2;
 static IfxGtm_Tom_Pwm_Driver g_tomDriverServo2;
 
+static IfxGtm_Tom_Pwm_Config g_tomConfigServo3;
+static IfxGtm_Tom_Pwm_Driver g_tomDriverServo3;
+
 static uint32 servoPulseUsToTicks(uint32 pulseUs)
 {
     return (uint32)(((uint64)ACTECU_SERVO_TOM_CLK_HZ * (uint64)pulseUs) / 1000000ULL);
@@ -90,6 +93,7 @@ void Driver_Servo_Init(void)
 
     Driver_Servo_InitChannel(&g_tomConfigServo1, &g_tomDriverServo1, &ACTECU_SERVO1_PIN);
     Driver_Servo_InitChannel(&g_tomConfigServo2, &g_tomDriverServo2, &ACTECU_SERVO2_PIN);
+    Driver_Servo_InitChannel(&g_tomConfigServo3, &g_tomDriverServo3, &ACTECU_SERVO3_PIN);
 }
 
 void setServo1PulseUs(uint32 pulseUs)
@@ -104,11 +108,18 @@ void setServo2PulseUs(uint32 pulseUs)
     Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
 }
 
+void setServo3PulseUs(uint32 pulseUs)
+{
+    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo3, &g_tomDriverServo3, pulseUs);
+}
+
 void setServoAllPulseUs(uint32 pulseUs)
 {
     pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
     Driver_Servo_UpdateChannel(&g_tomConfigServo1, &g_tomDriverServo1, pulseUs);
     Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
+    Driver_Servo_UpdateChannel(&g_tomConfigServo3, &g_tomDriverServo3, pulseUs);
 }
 
 /* 기존 코드 호환용 */

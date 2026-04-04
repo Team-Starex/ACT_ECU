@@ -34,6 +34,7 @@ static void App_Servo_MoveAllToStart(const App_Context *ctx)
 {
     setServo1PulseUs(ctx->servo1Ctrl.startPulseUs);
     setServo2PulseUs(ctx->servo2Ctrl.startPulseUs);
+    setServo3PulseUs(ctx->servo3Ctrl.startPulseUs);
 }
 
 static void App_Servo_MoveServo1ToTarget(const App_Context *ctx)
@@ -46,6 +47,11 @@ static void App_Servo_MoveServo2ToTarget(const App_Context *ctx)
     setServo2PulseUs(ctx->servo2Ctrl.targetPulseUs);
 }
 
+static void App_Servo_MoveServo3ToTarget(const App_Context *ctx)
+{
+    setServo3PulseUs(ctx->servo3Ctrl.targetPulseUs);
+}
+
 void App_Servo_Init(App_Context *ctx)
 {
     ctx->servo1Ctrl.startPulseUs = P_SERVO1_START_US;
@@ -54,8 +60,10 @@ void App_Servo_Init(App_Context *ctx)
     ctx->servo2Ctrl.startPulseUs = P_SERVO2_START_US;
     ctx->servo2Ctrl.targetPulseUs = P_SERVO2_TARGET_US;
 
-    ctx->prevSafeState = ctx->state.safeState;
+    ctx->servo3Ctrl.startPulseUs = P_SERVO3_START_US;
+    ctx->servo3Ctrl.targetPulseUs = P_SERVO3_TARGET_US;
 
+    ctx->prevSafeState = ctx->state.safeState;
     App_Servo_MoveAllToStart(ctx);
 }
 
@@ -85,6 +93,7 @@ void App_Servo_Task(App_Context *ctx)
         (currState == ACTECU_SAFE_FATAL_NO_RESPONSE))
     {
         App_Servo_MoveServo2ToTarget(ctx);
+        App_Servo_MoveServo3ToTarget(ctx);
     }
 
     ctx->prevSafeState = currState;

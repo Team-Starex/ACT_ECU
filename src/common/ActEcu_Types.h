@@ -91,14 +91,12 @@ typedef struct
     uint8   prevNoteIdx;
 } App_BuzzerControl;
 
-/* 네가 적용한 2서보 구조 유지 */
 typedef struct
 {
     uint32 startPulseUs;
     uint32 targetPulseUs;
 } App_ServoControl;
 
-/* 상태 스피커 제어용 */
 typedef struct
 {
     App_AudioState currentState;
@@ -106,7 +104,6 @@ typedef struct
     uint16         repeatElapsedMs;
 } App_DfPlayerStateControl;
 
-/* 이벤트 스피커 제어용 */
 typedef struct
 {
     App_AudioState pendingState;
@@ -125,6 +122,7 @@ typedef struct
 
     App_ServoControl         servo1Ctrl;
     App_ServoControl         servo2Ctrl;
+    App_ServoControl         servo3Ctrl;
     ActEcu_SafeState         prevSafeState;
 
     App_DfPlayerStateControl dfPlayerStateCtrl;

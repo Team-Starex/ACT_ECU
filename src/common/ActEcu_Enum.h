@@ -45,18 +45,18 @@
 /*********************************************************************************************************************/
 typedef enum
 {
-    ACTECU_SAFE_NORMAL = 0,
-    ACTECU_SAFE_WARNING,
-    ACTECU_SAFE_CRITICAL,
-    ACTECU_SAFE_FATAL_NO_RESPONSE
+    ACTECU_SAFE_NORMAL = 1,
+    ACTECU_SAFE_WARNING = 2,
+    ACTECU_SAFE_CRITICAL = 4,
+    ACTECU_SAFE_FATAL_NO_RESPONSE = 8
 } ActEcu_SafeState;
 
 typedef enum
 {
-    ACTECU_SPEED_STOP = 0,
-    ACTECU_SPEED_LOW,
-    ACTECU_SPEED_MID,
-    ACTECU_SPEED_HIGH
+    ACTECU_SPEED_STOP = 1,
+    ACTECU_SPEED_LOW = 2,
+    ACTECU_SPEED_MID = 4,
+    ACTECU_SPEED_HIGH = 8
 } ActEcu_SpeedState;
 
 typedef enum

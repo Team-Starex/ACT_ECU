@@ -58,6 +58,7 @@
 #define ACTECU_SERVO_TOM_CLK_HZ                6250000U
 #define ACTECU_SERVO1_PIN                      IfxGtm_TOM0_11_TOUT3_P02_3_OUT
 #define ACTECU_SERVO2_PIN                      IfxGtm_TOM0_12_TOUT4_P02_4_OUT
+#define ACTECU_SERVO3_PIN                      IfxGtm_TOM0_2_TOUT104_P10_2_OUT
 #define ACTECU_SERVO_PERIOD_TICKS              125000U
 
 #define ACTECU_SERVO_MIN_US                    1000U

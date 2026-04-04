@@ -55,6 +55,7 @@ void Driver_Servo_Init(void);
 
 void setServo1PulseUs(uint32 pulseUs);
 void setServo2PulseUs(uint32 pulseUs);
+void setServo3PulseUs(uint32 pulseUs);
 void setServoAllPulseUs(uint32 pulseUs);
 
 void setServoPulseUs(uint32 pulseUs);
