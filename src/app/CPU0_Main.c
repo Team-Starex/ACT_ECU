@@ -49,14 +49,14 @@ int core0_main(void)
     IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
     IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
 
-    /* Driver init */
+    /* driver init */
     Driver_Led_Init();
     Driver_Buzzer_Init();
     Driver_Servo_Init();
     Driver_DfPlayer_Init();
     Driver_Can_Init();
 
-    /* App / input init */
+    /* app / input init */
     Virtual_Input_Init();
     App_Scheduler_Init();
 
@@ -95,127 +95,3 @@ int core0_main(void)
 
     return 0;
 }
-//#include "IfxCpu.h"
-//#include "IfxScuWdt.h"
-//#include "IfxStm.h"
-//#include "Bsp.h"
-//
-//#include "Driver_Stm.h"
-////#include "Driver_Can.h"
-//#include "Driver_Led.h"
-//#include "Driver_Buzzer.h"
-//#include "Driver_Servo.h"
-//#include "Driver_DfPlayer.h"
-//
-//#include "App_Scheduler.h"
-//#include "Virtual_Input.h"
-//
-//IfxCpu_syncEvent cpuSyncEvent = 0;
-//
-//int core0_main(void)
-//{
-//    IfxCpu_enableInterrupts();
-//
-//    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
-//    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
-//
-//    Driver_Led_Init();
-//    Driver_Buzzer_Init();
-//    Driver_Servo_Init();
-//    Driver_DfPlayer_Init();
-////    Driver_Can_Init();
-//
-//    Virtual_Input_Init();
-//    App_Scheduler_Init();
-//
-//    Driver_Buzzer_Off();
-//
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 500));
-//
-//    /* 상태 스피커 초기 설정 */
-//    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_STATE, 0x06U, 15U);
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
-//    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_STATE, 0x09U, 0x0002U);
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
-//
-//    /* 이벤트 스피커 초기 설정 */
-//    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_EVENT, 0x06U, 15U);
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
-//    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_EVENT, 0x09U, 0x0002U);
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
-//
-//    Driver_Stm_Init();
-//
-//    IfxCpu_emitEvent(&cpuSyncEvent);
-//    IfxCpu_waitEvent(&cpuSyncEvent, 1);
-//
-//    while (1)
-//    {
-////        Driver_Can_Task();
-//        Virtual_Input_Task();
-//        App_Scheduler_Run();
-//    }
-//
-//    return 0;
-//}
-
-//#include "IfxCpu.h"
-//#include "IfxScuWdt.h"
-//#include "IfxStm.h"
-//#include "Bsp.h"
-//
-//#include "Driver_Servo.h"
-//
-//#define SERVO_MIN_US    1000U
-//#define SERVO_CENTER_US 1500U
-//#define SERVO_MAX_US    2000U
-//
-//static uint32 ReverseServo3PulseUs(uint32 pulseUs)
-//{
-//    if (pulseUs < SERVO_MIN_US)
-//    {
-//        pulseUs = SERVO_MIN_US;
-//    }
-//    else if (pulseUs > SERVO_MAX_US)
-//    {
-//        pulseUs = SERVO_MAX_US;
-//    }
-//
-//    return (SERVO_MIN_US + SERVO_MAX_US) - pulseUs;
-//}
-//
-//static void SetAllServosWithServo3Reverse(uint32 pulseUs)
-//{
-//    setServo1PulseUs(pulseUs);
-//    setServo2PulseUs(pulseUs);
-//    setServo3PulseUs(ReverseServo3PulseUs(pulseUs));
-//}
-//
-//IfxCpu_syncEvent cpuSyncEvent = 0;
-//
-//int core0_main(void)
-//{
-//    IfxCpu_enableInterrupts();
-//
-//    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
-//    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
-//
-//    Driver_Servo_Init();
-//
-//    /* 시작 중앙 */
-//    SetAllServosWithServo3Reverse(SERVO_MIN_US);
-//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
-//
-//    while (1)
-//    {
-//        /* 1000 us */
-//        SetAllServosWithServo3Reverse(SERVO_MIN_US);
-//        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
-//
-//        /* 2000 us */
-//        SetAllServosWithServo3Reverse(SERVO_MIN_US);
-//        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
-//    }
-//
-//    return 0;
-//}

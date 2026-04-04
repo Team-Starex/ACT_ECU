@@ -43,6 +43,13 @@
 /*********************************************************************************************************************/
 /*-------------------------------------------------Data Structures---------------------------------------------------*/
 /*********************************************************************************************************************/
+
+/* speed state structure */
+/* 0001 : SAFE_NORMAL */
+/* 0010 : SAFE_WARNING */
+/* 0100 : SAFE_CRITICAL */
+/* 1000 : SAFE_FATALE_NO_RESPONSE */
+
 typedef enum
 {
     ACTECU_SAFE_NORMAL = 1,
@@ -51,6 +58,11 @@ typedef enum
     ACTECU_SAFE_FATAL_NO_RESPONSE = 8
 } ActEcu_SafeState;
 
+/* speed state structure */
+/* 0001 : STOP */
+/* 0010 : LOW_SPEED */
+/* 0100 : MID_SPEED */
+/* 1000 : HIHG_SPEED */
 typedef enum
 {
     ACTECU_SPEED_STOP = 1,
@@ -59,6 +71,7 @@ typedef enum
     ACTECU_SPEED_HIGH = 8
 } ActEcu_SpeedState;
 
+/* event situation structure */
 typedef enum
 {
     ACTECU_EVENT_NONE = 0,
@@ -69,6 +82,7 @@ typedef enum
     ACTECU_EVENT_FAULT
 } ActEcu_EventState;
 
+/* dfplayer line-up structure*/
 typedef enum
 {
     APP_AUDIO_NONE = 0,

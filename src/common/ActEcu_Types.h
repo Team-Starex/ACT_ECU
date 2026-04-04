@@ -44,89 +44,86 @@
 /*********************************************************************************************************************/
 /*-------------------------------------------------Data Structures---------------------------------------------------*/
 /*********************************************************************************************************************/
-#include "Ifx_Types.h"
-#include "ActEcu_Enum.h"
-
 typedef struct
 {
-    uint8 safeStateRaw;
-    uint8 speedStateRaw;
-    uint8 brakeActive;
-    uint8 evState;
-    uint8 ackButton;
-    uint8 msgValid;
-    uint8 aliveCnt;
-    uint8 ackSeq;
-    uint8 ackSeqPrev;
+    uint8 safe_state_raw;
+    uint8 speed_state_raw;
+    uint8 brake_active;
+    uint8 ev_state;
+    uint8 ack_button;
+    uint8 msg_valid;
+    uint8 alive_cnt;
+    uint8 ack_seq;
+    uint8 ack_seq_prev;
 } App_InputSignals;
 
 typedef struct
 {
-    ActEcu_SafeState safeState;
+    ActEcu_SafeState safe_state;
 } App_State;
 
 typedef struct
 {
-    boolean led1On;
-    uint16  led1BlinkElapsedMs;
+    boolean led1_on;
+    uint16  led1_blink_elapsed_ms;
 } App_Led1Control;
 
 typedef struct
 {
-    uint8 brakeLampCount;
+    uint8 brake_lamp_count;
 } App_Led2Control;
 
 typedef struct
 {
-    boolean normalLampOn;
-    boolean fatalLampOn;
+    boolean normal_lamp_on;
+    boolean fatal_lamp_on;
 } App_Led3Control;
 
 typedef struct
 {
-    boolean buzzerOn;
-    boolean buzzerPrevOn;
-    uint16  buzzerElapsedMs;
-    uint8   noteIdx;
-    uint8   prevNoteIdx;
+    boolean buzzer_on;
+    boolean buzzer_prev_on;
+    uint16  buzzer_elapsed_ms;
+    uint8   note_idx;
+    uint8   prev_note_idx;
 } App_BuzzerControl;
 
 typedef struct
 {
-    uint32 startPulseUs;
-    uint32 targetPulseUs;
+    uint32 start_pulse_us;
+    uint32 target_pulse_us;
 } App_ServoControl;
 
 typedef struct
 {
-    App_AudioState currentState;
-    App_AudioState prevAppliedState;
-    uint16         repeatElapsedMs;
+    App_AudioState current_state;
+    App_AudioState prev_applied_state;
+    uint16         repeat_elapsed_ms;
 } App_DfPlayerStateControl;
 
 typedef struct
 {
-    App_AudioState pendingState;
-    uint8          prevEvState;
-    boolean        playReq;
+    App_AudioState pending_state;
+    uint8          prev_ev_state;
+    boolean        play_req;
 } App_DfPlayerEventControl;
 
 typedef struct
 {
     App_InputSignals         input;
     App_State                state;
-    App_Led1Control          led1Ctrl;
-    App_Led2Control          led2Ctrl;
-    App_Led3Control          led3Ctrl;
-    App_BuzzerControl        buzzerCtrl;
+    App_Led1Control          led1_ctrl;
+    App_Led2Control          led2_ctrl;
+    App_Led3Control          led3_ctrl;
+    App_BuzzerControl        buzzer_ctrl;
 
-    App_ServoControl         servo1Ctrl;
-    App_ServoControl         servo2Ctrl;
-    App_ServoControl         servo3Ctrl;
-    ActEcu_SafeState         prevSafeState;
+    App_ServoControl         servo1_ctrl;
+    App_ServoControl         servo2_ctrl;
+    App_ServoControl         servo3_ctrl;
+    ActEcu_SafeState         prev_safe_state;
 
-    App_DfPlayerStateControl dfPlayerStateCtrl;
-    App_DfPlayerEventControl dfPlayerEventCtrl;
+    App_DfPlayerStateControl df_player_state_ctrl;
+    App_DfPlayerEventControl df_player_event_ctrl;
 } App_Context;
 /*********************************************************************************************************************/
 /*--------------------------------------------Private Variables/Constants--------------------------------------------*/

@@ -26,22 +26,21 @@
  *********************************************************************************************************************/
 
 #include "Driver_Stm.h"
-#include "IfxPort.h"
-#include "IfxPort_PinMap.h"
 #include "IfxStm.h"
 #include "IfxCpu_Irq.h"
 
 typedef struct
 {
-    Ifx_STM                 *stmSfr;
-    IfxStm_CompareConfig    stmConfig;
-    volatile uint32         counter;
+    Ifx_STM              *stm_sfr;
+    IfxStm_CompareConfig  stm_config;
+    volatile uint32       counter;
 } App_Stm;
 
-App_Stm g_Stm;
-uint32 u32nuCounter1ms = 0u;
-SchedulingFlag stSchedulingInfo;
-stTestCnt stTestCntInfo;
+static App_Stm g_stm;
+static uint32 g_counter_1ms = 0u;
+
+SchedulingFlag st_scheduling_info = {0u, 0u, 0u, 0u};
+stTestCnt st_test_cnt_info = {0u, 0u, 0u, 0u};
 
 IFX_INTERRUPT(STM_Int0Handler, 0, 100);
 
@@ -49,47 +48,64 @@ void STM_Int0Handler(void)
 {
     IfxCpu_enableInterrupts();
 
-    IfxStm_clearCompareFlag(g_Stm.stmSfr, g_Stm.stmConfig.comparator);
-    IfxStm_increaseCompare(g_Stm.stmSfr, g_Stm.stmConfig.comparator, 100000u);
+    IfxStm_clearCompareFlag(g_stm.stm_sfr, g_stm.stm_config.comparator);
+    IfxStm_increaseCompare(g_stm.stm_sfr, g_stm.stm_config.comparator, 100000u);
 
-    u32nuCounter1ms++;
+    g_counter_1ms++;
 
-    if ((u32nuCounter1ms % 1u) == 0u)
+    st_test_cnt_info.cnt_1ms++;
+
+    if ((g_counter_1ms % 1u) == 0u)
     {
-        stSchedulingInfo.u8nuScheduling1msFlag = 1u;
+        st_scheduling_info.scheduling_1ms_flag = 1u;
     }
 
-    if ((u32nuCounter1ms % 10u) == 0u)
+    if ((g_counter_1ms % 10u) == 0u)
     {
-        stSchedulingInfo.u8nuScheduling10msFlag = 1u;
+        st_scheduling_info.scheduling_10ms_flag = 1u;
+        st_test_cnt_info.cnt_10ms++;
     }
 
-    if ((u32nuCounter1ms % 100u) == 0u)
+    if ((g_counter_1ms % 100u) == 0u)
     {
-        stSchedulingInfo.u8nuScheduling100msFlag = 1u;
+        st_scheduling_info.scheduling_100ms_flag = 1u;
+        st_test_cnt_info.cnt_100ms++;
     }
 
-    if ((u32nuCounter1ms % 1000u) == 0u)
+    if ((g_counter_1ms % 1000u) == 0u)
     {
-        stSchedulingInfo.u8nuScheduling1000msFlag = 1u;
+        st_scheduling_info.scheduling_1000ms_flag = 1u;
+        st_test_cnt_info.cnt_1000ms++;
     }
 }
 
 void Driver_Stm_Init(void)
 {
-    boolean interruptState = IfxCpu_disableInterrupts();
+    boolean interrupt_state = IfxCpu_disableInterrupts();
+
+    g_counter_1ms = 0u;
+
+    st_scheduling_info.scheduling_1ms_flag = 0u;
+    st_scheduling_info.scheduling_10ms_flag = 0u;
+    st_scheduling_info.scheduling_100ms_flag = 0u;
+    st_scheduling_info.scheduling_1000ms_flag = 0u;
+
+    st_test_cnt_info.cnt_1ms = 0u;
+    st_test_cnt_info.cnt_10ms = 0u;
+    st_test_cnt_info.cnt_100ms = 0u;
+    st_test_cnt_info.cnt_1000ms = 0u;
 
     IfxStm_enableOcdsSuspend(&MODULE_STM0);
 
-    g_Stm.stmSfr = &MODULE_STM0;
-    IfxStm_initCompareConfig(&g_Stm.stmConfig);
+    g_stm.stm_sfr = &MODULE_STM0;
+    IfxStm_initCompareConfig(&g_stm.stm_config);
 
-    g_Stm.stmConfig.comparator      = IfxStm_Comparator_0;
-    g_Stm.stmConfig.triggerPriority = 100u;
-    g_Stm.stmConfig.typeOfService   = IfxSrc_Tos_cpu0;
-    g_Stm.stmConfig.ticks           = 100000u;
+    g_stm.stm_config.comparator      = IfxStm_Comparator_0;
+    g_stm.stm_config.triggerPriority = 100u;
+    g_stm.stm_config.typeOfService   = IfxSrc_Tos_cpu0;
+    g_stm.stm_config.ticks           = 100000u;
 
-    IfxStm_initCompare(g_Stm.stmSfr, &g_Stm.stmConfig);
+    IfxStm_initCompare(g_stm.stm_sfr, &g_stm.stm_config);
 
-    IfxCpu_restoreInterrupts(interruptState);
+    IfxCpu_restoreInterrupts(interrupt_state);
 }

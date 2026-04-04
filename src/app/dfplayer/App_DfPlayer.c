@@ -32,18 +32,18 @@
 
 static App_AudioState App_DfPlayer_MapStateAudio(const App_Context *ctx)
 {
-    if (ctx->state.safeState == ACTECU_SAFE_FATAL_NO_RESPONSE)
+    if (ctx->state.safe_state == ACTECU_SAFE_FATAL_NO_RESPONSE)
     {
         return APP_AUDIO_FATAL;
     }
 
-    if ((ctx->state.safeState == ACTECU_SAFE_CRITICAL) ||
-        (ctx->input.evState == (uint8)ACTECU_EVENT_FAULT))
+    if ((ctx->state.safe_state == ACTECU_SAFE_CRITICAL) ||
+        (ctx->input.ev_state == (uint8)ACTECU_EVENT_FAULT))
     {
         return APP_AUDIO_FAULT;
     }
 
-    switch ((ActEcu_SpeedState)ctx->input.speedStateRaw)
+    switch ((ActEcu_SpeedState)ctx->input.speed_state_raw)
     {
     case ACTECU_SPEED_LOW:
         return APP_AUDIO_LOW_SPEED;
@@ -60,9 +60,9 @@ static App_AudioState App_DfPlayer_MapStateAudio(const App_Context *ctx)
     }
 }
 
-static App_AudioState App_DfPlayer_MapEventAudio(uint8 evState)
+static App_AudioState App_DfPlayer_MapEventAudio(uint8 ev_state)
 {
-    switch ((ActEcu_EventState)evState)
+    switch ((ActEcu_EventState)ev_state)
     {
     case ACTECU_EVENT_RAPID_BRAKE:
         return APP_AUDIO_RAPID_BRAKE;
@@ -131,111 +131,105 @@ static uint8 App_DfPlayer_GetEventTrackNo(App_AudioState state)
 
 void App_DfPlayer_Init(App_Context *ctx)
 {
-    ctx->dfPlayerStateCtrl.currentState = APP_AUDIO_NONE;
-    ctx->dfPlayerStateCtrl.prevAppliedState = APP_AUDIO_NONE;
-    ctx->dfPlayerStateCtrl.repeatElapsedMs = 0U;
+    ctx->df_player_state_ctrl.current_state = APP_AUDIO_NONE;
+    ctx->df_player_state_ctrl.prev_applied_state = APP_AUDIO_NONE;
+    ctx->df_player_state_ctrl.repeat_elapsed_ms = 0U;
 
-    ctx->dfPlayerEventCtrl.pendingState = APP_AUDIO_STARTUP;
-    ctx->dfPlayerEventCtrl.prevEvState = (uint8)ACTECU_EVENT_NONE;
-    ctx->dfPlayerEventCtrl.playReq = TRUE;
+    ctx->df_player_event_ctrl.pending_state = APP_AUDIO_STARTUP;
+    ctx->df_player_event_ctrl.prev_ev_state = (uint8)ACTECU_EVENT_NONE;
+    ctx->df_player_event_ctrl.play_req = TRUE;
 }
 
 void App_DfPlayer_Task(App_Context *ctx)
 {
-    App_AudioState stateAudio;
-    App_AudioState newEventAudio;
-    uint8 evState = ctx->input.evState;
+    App_AudioState state_audio;
+    App_AudioState new_event_audio;
+    uint8 ev_state = ctx->input.ev_state;
 
-    stateAudio = App_DfPlayer_MapStateAudio(ctx);
+    state_audio = App_DfPlayer_MapStateAudio(ctx);
 
-    if (ctx->dfPlayerStateCtrl.currentState != stateAudio)
+    if (ctx->df_player_state_ctrl.current_state != state_audio)
     {
-        ctx->dfPlayerStateCtrl.currentState = stateAudio;
-        ctx->dfPlayerStateCtrl.repeatElapsedMs = 0U;
+        ctx->df_player_state_ctrl.current_state = state_audio;
+        ctx->df_player_state_ctrl.repeat_elapsed_ms = 0U;
     }
     else
     {
-        if (stateAudio != APP_AUDIO_NONE)
+        if (state_audio != APP_AUDIO_NONE)
         {
-            if (ctx->dfPlayerStateCtrl.repeatElapsedMs < P_DFPLAYER_STATE_REPEAT_MS)
+            if (ctx->df_player_state_ctrl.repeat_elapsed_ms < P_DFPLAYER_STATE_REPEAT_MS)
             {
-                ctx->dfPlayerStateCtrl.repeatElapsedMs += ACTECU_DFPLAYER_TASK_PERIOD_MS;
+                ctx->df_player_state_ctrl.repeat_elapsed_ms += ACTECU_DFPLAYER_TASK_PERIOD_MS;
             }
         }
         else
         {
-            ctx->dfPlayerStateCtrl.repeatElapsedMs = 0U;
+            ctx->df_player_state_ctrl.repeat_elapsed_ms = 0U;
         }
     }
 
-    if ((evState != ctx->dfPlayerEventCtrl.prevEvState) &&
-        (evState != (uint8)ACTECU_EVENT_NONE))
+    if ((ev_state != ctx->df_player_event_ctrl.prev_ev_state) &&
+        (ev_state != (uint8)ACTECU_EVENT_NONE))
     {
-        newEventAudio = App_DfPlayer_MapEventAudio(evState);
+        new_event_audio = App_DfPlayer_MapEventAudio(ev_state);
 
-        if (newEventAudio != APP_AUDIO_NONE)
+        if (new_event_audio != APP_AUDIO_NONE)
         {
-            ctx->dfPlayerEventCtrl.pendingState = newEventAudio;
-            ctx->dfPlayerEventCtrl.playReq = TRUE;
+            ctx->df_player_event_ctrl.pending_state = new_event_audio;
+            ctx->df_player_event_ctrl.play_req = TRUE;
         }
     }
 
-    ctx->dfPlayerEventCtrl.prevEvState = evState;
+    ctx->df_player_event_ctrl.prev_ev_state = ev_state;
 }
 
 void App_DfPlayer_Apply(App_Context *ctx)
 {
-    uint8 trackNo;
+    uint8 track_no;
 
-    /* -------------------------------------------------------------- */
-    /* 상태 스피커 : 같은 상태면 주기적으로 다시 Play                  */
-    /* -------------------------------------------------------------- */
-    if (ctx->dfPlayerStateCtrl.currentState == APP_AUDIO_NONE)
+    if (ctx->df_player_state_ctrl.current_state == APP_AUDIO_NONE)
     {
-        if (ctx->dfPlayerStateCtrl.prevAppliedState != APP_AUDIO_NONE)
+        if (ctx->df_player_state_ctrl.prev_applied_state != APP_AUDIO_NONE)
         {
             (void)DFPlayer_Stop(DFPLAYER_CHANNEL_STATE);
-            ctx->dfPlayerStateCtrl.prevAppliedState = APP_AUDIO_NONE;
-            ctx->dfPlayerStateCtrl.repeatElapsedMs = 0U;
+            ctx->df_player_state_ctrl.prev_applied_state = APP_AUDIO_NONE;
+            ctx->df_player_state_ctrl.repeat_elapsed_ms = 0U;
         }
     }
     else
     {
-        if ((ctx->dfPlayerStateCtrl.currentState != ctx->dfPlayerStateCtrl.prevAppliedState) ||
-            (ctx->dfPlayerStateCtrl.repeatElapsedMs >= P_DFPLAYER_STATE_REPEAT_MS))
+        if ((ctx->df_player_state_ctrl.current_state != ctx->df_player_state_ctrl.prev_applied_state) ||
+            (ctx->df_player_state_ctrl.repeat_elapsed_ms >= P_DFPLAYER_STATE_REPEAT_MS))
         {
-            trackNo = App_DfPlayer_GetStateTrackNo(ctx->dfPlayerStateCtrl.currentState);
+            track_no = App_DfPlayer_GetStateTrackNo(ctx->df_player_state_ctrl.current_state);
 
-            if (trackNo != 0U)
+            if (track_no != 0U)
             {
                 (void)DFPlayer_PlayFolderTrack(
                     DFPLAYER_CHANNEL_STATE,
                     P_DFPLAYER_STATE_FOLDER_NO,
-                    trackNo);
+                    track_no);
 
-                ctx->dfPlayerStateCtrl.prevAppliedState = ctx->dfPlayerStateCtrl.currentState;
-                ctx->dfPlayerStateCtrl.repeatElapsedMs = 0U;
+                ctx->df_player_state_ctrl.prev_applied_state = ctx->df_player_state_ctrl.current_state;
+                ctx->df_player_state_ctrl.repeat_elapsed_ms = 0U;
             }
         }
     }
 
-    /* -------------------------------------------------------------- */
-    /* 이벤트 스피커 : 변화가 생겼을 때만 1회 재생                     */
-    /* -------------------------------------------------------------- */
-    if ((ctx->dfPlayerEventCtrl.playReq == TRUE) &&
-        (ctx->dfPlayerEventCtrl.pendingState != APP_AUDIO_NONE))
+    if ((ctx->df_player_event_ctrl.play_req == TRUE) &&
+        (ctx->df_player_event_ctrl.pending_state != APP_AUDIO_NONE))
     {
-        trackNo = App_DfPlayer_GetEventTrackNo(ctx->dfPlayerEventCtrl.pendingState);
+        track_no = App_DfPlayer_GetEventTrackNo(ctx->df_player_event_ctrl.pending_state);
 
-        if (trackNo != 0U)
+        if (track_no != 0U)
         {
             (void)DFPlayer_PlayFolderTrack(
                 DFPLAYER_CHANNEL_EVENT,
                 P_DFPLAYER_EVENT_FOLDER_NO,
-                trackNo);
+                track_no);
         }
 
-        ctx->dfPlayerEventCtrl.playReq = FALSE;
-        ctx->dfPlayerEventCtrl.pendingState = APP_AUDIO_NONE;
+        ctx->df_player_event_ctrl.play_req = FALSE;
+        ctx->df_player_event_ctrl.pending_state = APP_AUDIO_NONE;
     }
 }

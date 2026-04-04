@@ -36,40 +36,27 @@
 #include "IfxMultican_Can.h"
 #include "Virtual_Input.h"
 
-volatile uint32 g_canDbgRawWord = 0u;
-volatile uint8  g_canDbgByte0   = 0u;
-volatile uint8  g_canDbgByte1   = 0u;
-volatile uint8  g_canDbgByte2   = 0u;
-volatile uint32 g_canDbgRxCount = 0u;
-volatile uint32 g_canDbgStatus  = 0u;
+volatile uint32 g_can_dbg_raw_word = 0u;
+volatile uint8  g_can_dbg_byte0    = 0u;
+volatile uint8  g_can_dbg_byte1    = 0u;
+volatile uint8  g_can_dbg_byte2    = 0u;
+volatile uint32 g_can_dbg_rx_count = 0u;
+volatile uint32 g_can_dbg_status   = 0u;
 
-/* =========================
- * 사용자 설정
- * ========================= */
 #define RX_MSG_ID               0x201u
 
-/* CAN 트랜시버 STB */
 #define CAN_STB_PORT            (&MODULE_P20)
 #define CAN_STB_PIN             6
 
-/* =========================
- * 정적 전역 변수
- * ========================= */
-static IfxMultican_Can         g_can;
-static IfxMultican_Can_Node    g_canNode;
-static IfxMultican_Can_MsgObj  g_rxMsgObj;
-static IfxMultican_Message     g_rxMsg;
+static IfxMultican_Can        g_can;
+static IfxMultican_Can_Node   g_can_node;
+static IfxMultican_Can_MsgObj g_rx_msg_obj;
+static IfxMultican_Message    g_rx_msg;
 
-/* =========================
- * 내부 함수 선언
- * ========================= */
-static void Driver_Can_InitGpio(void);
-static void Driver_Can_InitModule(void);
+static void driver_can_init_gpio(void);
+static void driver_can_init_module(void);
 
-/* =========================
- * GPIO 초기화
- * ========================= */
-static void Driver_Can_InitGpio(void)
+static void driver_can_init_gpio(void)
 {
     /* 트랜시버 STB: LOW = normal mode */
     IfxPort_setPinMode(CAN_STB_PORT,
@@ -84,43 +71,43 @@ static void Driver_Can_InitGpio(void)
  * - Node0 사용
  * - 외부 핀 P20.7 / P20.8 사용
  * - 500 kbps
- * - ID 0x123 수신
+ * - ID 0x201 수신
  * - DLC 3 bytes
  * ========================= */
-static void Driver_Can_InitModule(void)
+static void driver_can_init_module(void)
 {
-    IfxMultican_Can_Config       canConfig;
-    IfxMultican_Can_NodeConfig   nodeConfig;
-    IfxMultican_Can_MsgObjConfig msgObjConfig;
+    IfxMultican_Can_Config       can_config;
+    IfxMultican_Can_NodeConfig   node_config;
+    IfxMultican_Can_MsgObjConfig msg_obj_config;
 
-    IfxMultican_Can_initModuleConfig(&canConfig, &MODULE_CAN);
-    IfxMultican_Can_initModule(&g_can, &canConfig);
+    IfxMultican_Can_initModuleConfig(&can_config, &MODULE_CAN);
+    IfxMultican_Can_initModule(&g_can, &can_config);
 
-    IfxMultican_Can_Node_initConfig(&nodeConfig, &g_can);
+    IfxMultican_Can_Node_initConfig(&node_config, &g_can);
 
-    nodeConfig.nodeId       = IfxMultican_NodeId_0;
-    nodeConfig.loopBackMode = FALSE;
-    nodeConfig.baudrate     = 500000;
+    node_config.nodeId       = IfxMultican_NodeId_0;
+    node_config.loopBackMode = FALSE;
+    node_config.baudrate     = 500000;
 
-    nodeConfig.rxPin        = &IfxMultican_RXD0B_P20_7_IN;
-    nodeConfig.rxPinMode    = IfxPort_InputMode_pullUp;
-    nodeConfig.txPin        = &IfxMultican_TXD0_P20_8_OUT;
-    nodeConfig.txPinMode    = IfxPort_OutputMode_pushPull;
+    node_config.rxPin        = &IfxMultican_RXD0B_P20_7_IN;
+    node_config.rxPinMode    = IfxPort_InputMode_pullUp;
+    node_config.txPin        = &IfxMultican_TXD0_P20_8_OUT;
+    node_config.txPinMode    = IfxPort_OutputMode_pushPull;
 
-    IfxMultican_Can_Node_init(&g_canNode, &nodeConfig);
+    IfxMultican_Can_Node_init(&g_can_node, &node_config);
 
-    IfxMultican_Can_MsgObj_initConfig(&msgObjConfig, &g_canNode);
+    IfxMultican_Can_MsgObj_initConfig(&msg_obj_config, &g_can_node);
 
-    msgObjConfig.msgObjId              = 1;
-    msgObjConfig.messageId             = RX_MSG_ID;
-    msgObjConfig.frame                 = IfxMultican_Frame_receive;
-    msgObjConfig.control.extendedFrame = FALSE;
-    msgObjConfig.control.messageLen    = IfxMultican_DataLengthCode_3;
-    msgObjConfig.rxInterrupt.enabled   = FALSE;
+    msg_obj_config.msgObjId              = 1;
+    msg_obj_config.messageId             = RX_MSG_ID;
+    msg_obj_config.frame                 = IfxMultican_Frame_receive;
+    msg_obj_config.control.extendedFrame = FALSE;
+    msg_obj_config.control.messageLen    = IfxMultican_DataLengthCode_3;
+    msg_obj_config.rxInterrupt.enabled   = FALSE;
 
-    IfxMultican_Can_MsgObj_init(&g_rxMsgObj, &msgObjConfig);
+    IfxMultican_Can_MsgObj_init(&g_rx_msg_obj, &msg_obj_config);
 
-    IfxMultican_Message_init(&g_rxMsg,
+    IfxMultican_Message_init(&g_rx_msg,
                              RX_MSG_ID,
                              0u,
                              0u,
@@ -129,38 +116,37 @@ static void Driver_Can_InitModule(void)
 
 void Driver_Can_Init(void)
 {
-    Driver_Can_InitGpio();
-    Driver_Can_InitModule();
+    driver_can_init_gpio();
+    driver_can_init_module();
 }
 
 void Driver_Can_Task(void)
 {
     IfxMultican_Status status;
-    uint32 rawWord;
-    uint8 byte0;
-    uint8 byte1;
-    uint8 byte2;
+    uint32 raw_word;
+    uint8  byte0;
+    uint8  byte1;
+    uint8  byte2;
 
-    status = IfxMultican_Can_MsgObj_readMessage(&g_rxMsgObj, &g_rxMsg);
-    g_canDbgStatus = (uint32)status;
+    status = IfxMultican_Can_MsgObj_readMessage(&g_rx_msg_obj, &g_rx_msg);
+    g_can_dbg_status = (uint32)status;
 
     if ((status & IfxMultican_Status_newData) == 0u)
     {
         return;
     }
 
-    /* CAN RX payload 3 bytes -> 기존 Virtual_Input 해석기로 전달 */
-    rawWord = g_rxMsg.data[0];
+    raw_word = g_rx_msg.data[0];
 
-    byte0 = (uint8)( rawWord        & 0xFFu);
-    byte1 = (uint8)((rawWord >> 8)  & 0xFFu);
-    byte2 = (uint8)((rawWord >> 16) & 0xFFu);
+    byte0 = (uint8)( raw_word        & 0xFFu);
+    byte1 = (uint8)((raw_word >> 8)  & 0xFFu);
+    byte2 = (uint8)((raw_word >> 16) & 0xFFu);
 
-    g_canDbgRawWord = rawWord;
-    g_canDbgByte0   = byte0;
-    g_canDbgByte1   = byte1;
-    g_canDbgByte2   = byte2;
-    g_canDbgRxCount++;
+    g_can_dbg_raw_word = raw_word;
+    g_can_dbg_byte0    = byte0;
+    g_can_dbg_byte1    = byte1;
+    g_can_dbg_byte2    = byte2;
+    g_can_dbg_rx_count++;
 
     Virtual_Input_InjectorWriteFrame(byte0, byte1, byte2);
 }

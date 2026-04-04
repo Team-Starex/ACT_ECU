@@ -32,69 +32,69 @@
 
 static void App_Servo_MoveAllToStart(const App_Context *ctx)
 {
-    setServo1PulseUs(ctx->servo1Ctrl.startPulseUs);
-    setServo2PulseUs(ctx->servo2Ctrl.startPulseUs);
-    setServo3PulseUs(ctx->servo3Ctrl.startPulseUs);
+    setServo1PulseUs(ctx->servo1_ctrl.start_pulse_us);
+    setServo2PulseUs(ctx->servo2_ctrl.start_pulse_us);
+    setServo3PulseUs(ctx->servo3_ctrl.start_pulse_us);
 }
 
 static void App_Servo_MoveServo1ToTarget(const App_Context *ctx)
 {
-    setServo1PulseUs(ctx->servo1Ctrl.targetPulseUs);
+    setServo1PulseUs(ctx->servo1_ctrl.target_pulse_us);
 }
 
 static void App_Servo_MoveServo2ToTarget(const App_Context *ctx)
 {
-    setServo2PulseUs(ctx->servo2Ctrl.targetPulseUs);
+    setServo2PulseUs(ctx->servo2_ctrl.target_pulse_us);
 }
 
 static void App_Servo_MoveServo3ToTarget(const App_Context *ctx)
 {
-    setServo3PulseUs(ctx->servo3Ctrl.targetPulseUs);
+    setServo3PulseUs(ctx->servo3_ctrl.target_pulse_us);
 }
 
 void App_Servo_Init(App_Context *ctx)
 {
-    ctx->servo1Ctrl.startPulseUs = P_SERVO1_START_US;
-    ctx->servo1Ctrl.targetPulseUs = P_SERVO1_TARGET_US;
+    ctx->servo1_ctrl.start_pulse_us = P_SERVO1_START_US;
+    ctx->servo1_ctrl.target_pulse_us = P_SERVO1_TARGET_US;
 
-    ctx->servo2Ctrl.startPulseUs = P_SERVO2_START_US;
-    ctx->servo2Ctrl.targetPulseUs = P_SERVO2_TARGET_US;
+    ctx->servo2_ctrl.start_pulse_us = P_SERVO2_START_US;
+    ctx->servo2_ctrl.target_pulse_us = P_SERVO2_TARGET_US;
 
-    ctx->servo3Ctrl.startPulseUs = P_SERVO3_START_US;
-    ctx->servo3Ctrl.targetPulseUs = P_SERVO3_TARGET_US;
+    ctx->servo3_ctrl.start_pulse_us = P_SERVO3_START_US;
+    ctx->servo3_ctrl.target_pulse_us = P_SERVO3_TARGET_US;
 
-    ctx->prevSafeState = ctx->state.safeState;
+    ctx->prev_safe_state = ctx->state.safe_state;
     App_Servo_MoveAllToStart(ctx);
 }
 
 void App_Servo_Task(App_Context *ctx)
 {
-    ActEcu_SafeState prevState = ctx->prevSafeState;
-    ActEcu_SafeState currState = ctx->state.safeState;
+    ActEcu_SafeState prev_state = ctx->prev_safe_state;
+    ActEcu_SafeState curr_state = ctx->state.safe_state;
 
-    if (prevState == currState)
+    if (prev_state == curr_state)
     {
         return;
     }
 
-    if ((prevState != ACTECU_SAFE_NORMAL) &&
-        (currState == ACTECU_SAFE_NORMAL))
+    if ((prev_state != ACTECU_SAFE_NORMAL) &&
+        (curr_state == ACTECU_SAFE_NORMAL))
     {
         App_Servo_MoveAllToStart(ctx);
     }
 
-    if ((prevState != ACTECU_SAFE_CRITICAL) &&
-        (currState == ACTECU_SAFE_CRITICAL))
+    if ((prev_state != ACTECU_SAFE_CRITICAL) &&
+        (curr_state == ACTECU_SAFE_CRITICAL))
     {
         App_Servo_MoveServo1ToTarget(ctx);
     }
 
-    if ((prevState != ACTECU_SAFE_FATAL_NO_RESPONSE) &&
-        (currState == ACTECU_SAFE_FATAL_NO_RESPONSE))
+    if ((prev_state != ACTECU_SAFE_FATAL_NO_RESPONSE) &&
+        (curr_state == ACTECU_SAFE_FATAL_NO_RESPONSE))
     {
         App_Servo_MoveServo2ToTarget(ctx);
         App_Servo_MoveServo3ToTarget(ctx);
     }
 
-    ctx->prevSafeState = currState;
+    ctx->prev_safe_state = curr_state;
 }

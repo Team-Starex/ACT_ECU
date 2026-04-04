@@ -35,6 +35,7 @@
 /*********************************************************************************************************************/
 /*------------------------------------------------------Macros-------------------------------------------------------*/
 /*********************************************************************************************************************/
+/* Led1 Param */
 #define ACTECU_LED1_TASK_PERIOD_MS              10U
 
 #define P_LED1_CRITICAL_BLINK_ON_MS             500U
@@ -43,6 +44,7 @@
 #define P_LED1_FATAL_BLINK_ON_MS                200U
 #define P_LED1_FATAL_BLINK_OFF_MS               200U
 
+/* Buzzer Param */
 #define ACTECU_BUZZER_TASK_PERIOD_MS            10U
 
 #define P_BUZZER_DEFAULT_NOTE_IDX               0U
@@ -56,13 +58,11 @@
 #define P_BUZZER_FATAL_ON_MS                    150U
 #define P_BUZZER_FATAL_OFF_MS                   150U
 
-/* ------------------------------------------------------------------ */
-/* DFPlayer                                                            */
-/* ------------------------------------------------------------------ */
+/* DfPlayer Param */
 #define ACTECU_DFPLAYER_TASK_PERIOD_MS          10U
 #define P_DFPLAYER_TX_RELEASE_MS                20U
 
-/* 상태 스피커: P33.9 */
+/* State Speaker Param: P33.9 */
 #define P_DFPLAYER_STATE_FOLDER_NO              0x01U
 #define P_DFPLAYER_STATE_TRACK_LOW_SPEED        0x01U
 #define P_DFPLAYER_STATE_TRACK_MID_SPEED        0x02U
@@ -70,12 +70,10 @@
 #define P_DFPLAYER_STATE_TRACK_FAULT            0x04U
 #define P_DFPLAYER_STATE_TRACK_FATAL            0x05U
 
-/* 같은 상태일 때 다시 Play 명령을 보내는 주기
- * 실제 mp3 길이에 맞춰 조정하면 됨.
- */
+/* 같은 상태일 때 다시 Play 명령을 보내는 주기 */
 #define P_DFPLAYER_STATE_REPEAT_MS              3000U
 
-/* 이벤트 스피커: P20.0 */
+/* Event Speaker Param */
 #define P_DFPLAYER_EVENT_FOLDER_NO              0x01U
 #define P_DFPLAYER_EVENT_TRACK_STARTUP          0x01U
 #define P_DFPLAYER_EVENT_TRACK_RAPID_BRAKE      0x02U
@@ -83,9 +81,7 @@
 #define P_DFPLAYER_EVENT_TRACK_STEER_LEVEL1     0x04U
 #define P_DFPLAYER_EVENT_TRACK_STEER_LEVEL2     0x05U
 
-/* ------------------------------------------------------------------ */
-/* Servo - 네가 이미 적용한 2서보 구조 유지                            */
-/* ------------------------------------------------------------------ */
+/* Servo Param */
 #define ACTECU_SERVO_TASK_PERIOD_MS             10U
 
 #define P_SERVO1_START_US                       1000U

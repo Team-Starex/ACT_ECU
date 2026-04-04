@@ -7,37 +7,37 @@
 #define VIRTUAL_INPUT_INVALID_FRAME_LIMIT    (3u)
 #define VIRTUAL_INPUT_ALIVE_STALE_LIMIT      (3u)
 
-volatile VirtualInput_Shared g_virtualInputShared = {0u, 0u, {0u, 0u, 0u}, 0u};
+volatile VirtualInput_Shared g_virtual_input_shared = {0u, 0u, {0u, 0u, 0u}, 0u};
 
-volatile uint8  g_oneShotActive = 0u;
-volatile uint16 g_oneShotCnt    = 0u;
+volatile uint8  g_one_shot_active = 0u;
+volatile uint16 g_one_shot_cnt    = 0u;
 
-static uint32 g_lastSeqCpu0          = 0u;
-static uint8  g_prevAckSeqCpu0       = 0u;
-static uint8  g_ackSeqInitialized    = 0u;
+static uint32 g_last_seq_cpu0         = 0u;
+static uint8  g_prev_ack_seq_cpu0     = 0u;
+static uint8  g_ack_seq_initialized   = 0u;
 
-static uint8  g_prevAliveCntCpu0     = 0u;
-static uint8  g_aliveInitialized     = 0u;
+static uint8  g_prev_alive_cnt_cpu0   = 0u;
+static uint8  g_alive_initialized     = 0u;
 
-static uint8  g_noNewFrameCntCpu0    = 0u;
-static uint8  g_invalidFrameCntCpu0  = 0u;
-static uint8  g_aliveStaleCntCpu0    = 0u;
+static uint8  g_no_new_frame_cnt_cpu0  = 0u;
+static uint8  g_invalid_frame_cnt_cpu0 = 0u;
+static uint8  g_alive_stale_cnt_cpu0   = 0u;
 
-static App_InputSignals g_rxSignals;
+static App_InputSignals g_rx_signals;
 
-static uint8 Virtual_Input_IsValidSafeState(uint8 rawSafeState)
+static uint8 virtual_input_is_valid_safe_state(uint8 raw_safe_state)
 {
-    return (rawSafeState <= (uint8)ACTECU_SAFE_FATAL_NO_RESPONSE) ? 1u : 0u;
+    return (raw_safe_state <= (uint8)ACTECU_SAFE_FATAL_NO_RESPONSE) ? 1u : 0u;
 }
 
-static uint8 Virtual_Input_IsValidSpeedState(uint8 rawSpeedState)
+static uint8 virtual_input_is_valid_speed_state(uint8 raw_speed_state)
 {
-    return (rawSpeedState <= (uint8)ACTECU_SPEED_HIGH) ? 1u : 0u;
+    return (raw_speed_state <= (uint8)ACTECU_SPEED_HIGH) ? 1u : 0u;
 }
 
-static ActEcu_SafeState Virtual_Input_DecodeSafeState(uint8 rawSafeState)
+static ActEcu_SafeState virtual_input_decode_safe_state(uint8 raw_safe_state)
 {
-    switch (rawSafeState)
+    switch (raw_safe_state)
     {
     case ACTECU_SAFE_NORMAL:
         return ACTECU_SAFE_NORMAL;
@@ -52,46 +52,46 @@ static ActEcu_SafeState Virtual_Input_DecodeSafeState(uint8 rawSafeState)
     }
 }
 
-static void Virtual_Input_ClearRxSignals(void)
+static void virtual_input_clear_rx_signals(void)
 {
-    g_rxSignals.safeStateRaw = 0u;
-    g_rxSignals.speedStateRaw = 0u;
-    g_rxSignals.brakeActive = 0u;
-    g_rxSignals.evState = 0u;
-    g_rxSignals.ackButton = 0u;
-    g_rxSignals.msgValid = 0u;
-    g_rxSignals.aliveCnt = 0u;
-    g_rxSignals.ackSeq = 0u;
-    g_rxSignals.ackSeqPrev = 0u;
+    g_rx_signals.safe_state_raw = 0u;
+    g_rx_signals.speed_state_raw = 0u;
+    g_rx_signals.brake_active = 0u;
+    g_rx_signals.ev_state = 0u;
+    g_rx_signals.ack_button = 0u;
+    g_rx_signals.msg_valid = 0u;
+    g_rx_signals.alive_cnt = 0u;
+    g_rx_signals.ack_seq = 0u;
+    g_rx_signals.ack_seq_prev = 0u;
 }
 
-static void Virtual_Input_ResetCommMonitor(void)
+static void virtual_input_reset_comm_monitor(void)
 {
-    g_prevAckSeqCpu0      = 0u;
-    g_ackSeqInitialized   = 0u;
+    g_prev_ack_seq_cpu0      = 0u;
+    g_ack_seq_initialized    = 0u;
 
-    g_prevAliveCntCpu0    = 0u;
-    g_aliveInitialized    = 0u;
+    g_prev_alive_cnt_cpu0    = 0u;
+    g_alive_initialized      = 0u;
 
-    g_noNewFrameCntCpu0   = 0u;
-    g_invalidFrameCntCpu0 = 0u;
-    g_aliveStaleCntCpu0   = 0u;
+    g_no_new_frame_cnt_cpu0   = 0u;
+    g_invalid_frame_cnt_cpu0  = 0u;
+    g_alive_stale_cnt_cpu0    = 0u;
 }
 
-static void Virtual_Input_ApplyParsedSignals(uint8 rawSafeState,
-                                             uint8 rawSpeedState,
-                                             uint8 brakeActive,
-                                             uint8 evState,
-                                             uint8 ackButton)
+static void virtual_input_apply_parsed_signals(uint8 raw_safe_state,
+                                               uint8 raw_speed_state,
+                                               uint8 brake_active,
+                                               uint8 ev_state,
+                                               uint8 ack_button)
 {
-    App_Scheduler_SetSafeState(Virtual_Input_DecodeSafeState(rawSafeState));
-    App_Scheduler_SetSpeedState(rawSpeedState);
-    App_Scheduler_SetBrakeActive(brakeActive);
-    App_Scheduler_SetEventState(evState);
-    App_Scheduler_SetAckButton(ackButton);
+    App_Scheduler_SetSafeState(virtual_input_decode_safe_state(raw_safe_state));
+    App_Scheduler_SetSpeedState(raw_speed_state);
+    App_Scheduler_SetBrakeActive(brake_active);
+    App_Scheduler_SetEventState(ev_state);
+    App_Scheduler_SetAckButton(ack_button);
 }
 
-static void Virtual_Input_ApplyCommFailSafe(void)
+static void virtual_input_apply_comm_fail_safe(void)
 {
 //    App_Scheduler_SetSafeState(ACTECU_SAFE_FATAL_NO_RESPONSE);
 //    App_Scheduler_SetSpeedState((uint8)ACTECU_SPEED_STOP);
@@ -99,189 +99,188 @@ static void Virtual_Input_ApplyCommFailSafe(void)
 //    App_Scheduler_SetEventState((uint8)ACTECU_EVENT_NONE);
 //    App_Scheduler_SetAckButton(0u);
 //
-//    Virtual_Input_ResetCommMonitor();
+//    virtual_input_reset_comm_monitor();
 }
 
 void Virtual_Input_Init(void)
 {
-    g_virtualInputShared.valid = 0u;
-    g_virtualInputShared.seq = 0u;
-    g_virtualInputShared.data[0] = 0u;
-    g_virtualInputShared.data[1] = 0u;
-    g_virtualInputShared.data[2] = 0u;
-    g_virtualInputShared.reserved = 0u;
+    g_virtual_input_shared.valid = 0u;
+    g_virtual_input_shared.seq = 0u;
+    g_virtual_input_shared.data[0] = 0u;
+    g_virtual_input_shared.data[1] = 0u;
+    g_virtual_input_shared.data[2] = 0u;
+    g_virtual_input_shared.reserved = 0u;
 
-    g_lastSeqCpu0 = 0u;
+    g_last_seq_cpu0 = 0u;
 
-    Virtual_Input_ResetCommMonitor();
-    Virtual_Input_ClearRxSignals();
+    virtual_input_reset_comm_monitor();
+    virtual_input_clear_rx_signals();
 
-    g_oneShotActive = 0u;
-    g_oneShotCnt = 0u;
+    g_one_shot_active = 0u;
+    g_one_shot_cnt = 0u;
 }
 
 void Virtual_Input_Task(void)
 {
-    uint32 currSeq;
+    uint32 curr_seq;
     uint8  byte0;
     uint8  byte1;
     uint8  byte2;
 
-    uint8  rawSafeState;
-    uint8  rawSpeedState;
-    uint8  brakeActive;
-    uint8  evState;
-    uint8  ackButton;
-    uint8  msgValid;
-    uint8  reservedBit;
-    uint8  aliveCnt;
-    uint8  ackSeq;
+    uint8  raw_safe_state;
+    uint8  raw_speed_state;
+    uint8  brake_active;
+    uint8  ev_state;
+    uint8  ack_button;
+    uint8  msg_valid;
+    uint8  reserved_bit;
+    uint8  alive_cnt;
+    uint8  ack_seq;
 
-    if (g_virtualInputShared.valid == 0u)
+    if (g_virtual_input_shared.valid == 0u)
     {
         return;
     }
 
-    currSeq = g_virtualInputShared.seq;
+    curr_seq = g_virtual_input_shared.seq;
 
-    if (currSeq == g_lastSeqCpu0)
+    if (curr_seq == g_last_seq_cpu0)
     {
-        if (g_noNewFrameCntCpu0 < 0xFFu)
+        if (g_no_new_frame_cnt_cpu0 < 0xFFu)
         {
-            g_noNewFrameCntCpu0++;
+            g_no_new_frame_cnt_cpu0++;
         }
 
-        if (g_noNewFrameCntCpu0 >= VIRTUAL_INPUT_FRAME_TIMEOUT_CYCLES)
+        if (g_no_new_frame_cnt_cpu0 >= VIRTUAL_INPUT_FRAME_TIMEOUT_CYCLES)
         {
-            Virtual_Input_ApplyCommFailSafe();
-        }
-
-        return;
-    }
-
-    g_lastSeqCpu0 = currSeq;
-    g_noNewFrameCntCpu0 = 0u;
-
-    byte0 = g_virtualInputShared.data[0];
-    byte1 = g_virtualInputShared.data[1];
-    byte2 = g_virtualInputShared.data[2];
-
-    rawSafeState = (uint8)(byte0 & 0x0Fu);
-    rawSpeedState = (uint8)((byte0 >> 4) & 0x0Fu);
-
-    brakeActive = (uint8)(byte1 & 0x01u);
-    evState     = (uint8)((byte1 >> 1) & 0x0Fu);
-    ackButton   = (uint8)((byte1 >> 5) & 0x01u);
-    msgValid    = (uint8)((byte1 >> 6) & 0x01u);
-    reservedBit = (uint8)((byte1 >> 7) & 0x01u);
-
-    aliveCnt = (uint8)(byte2 & 0x0Fu);
-    ackSeq   = (uint8)((byte2 >> 4) & 0x0Fu);
-
-    g_rxSignals.safeStateRaw = rawSafeState;
-    g_rxSignals.speedStateRaw = rawSpeedState;
-    g_rxSignals.brakeActive = brakeActive;
-    g_rxSignals.evState = evState;
-    g_rxSignals.ackButton = ackButton;
-    g_rxSignals.msgValid = msgValid;
-    g_rxSignals.aliveCnt = aliveCnt;
-    g_rxSignals.ackSeqPrev = g_rxSignals.ackSeq;
-    g_rxSignals.ackSeq = ackSeq;
-
-    if ((msgValid == 0u) ||
-        (reservedBit != 0u) ||
-        (Virtual_Input_IsValidSafeState(rawSafeState) == 0u) ||
-        (Virtual_Input_IsValidSpeedState(rawSpeedState) == 0u))
-    {
-        if (g_invalidFrameCntCpu0 < 0xFFu)
-        {
-            g_invalidFrameCntCpu0++;
-        }
-
-        if (g_invalidFrameCntCpu0 >= VIRTUAL_INPUT_INVALID_FRAME_LIMIT)
-        {
-            Virtual_Input_ApplyCommFailSafe();
+            virtual_input_apply_comm_fail_safe();
         }
 
         return;
     }
 
-    g_invalidFrameCntCpu0 = 0u;
+    g_last_seq_cpu0 = curr_seq;
+    g_no_new_frame_cnt_cpu0 = 0u;
 
-    if (g_aliveInitialized == 0u)
+    byte0 = g_virtual_input_shared.data[0];
+    byte1 = g_virtual_input_shared.data[1];
+    byte2 = g_virtual_input_shared.data[2];
+
+    raw_safe_state  = (uint8)(byte0 & 0x0Fu);
+    raw_speed_state = (uint8)((byte0 >> 4) & 0x0Fu);
+
+    brake_active = (uint8)(byte1 & 0x01u);
+    ev_state     = (uint8)((byte1 >> 1) & 0x0Fu);
+    ack_button   = (uint8)((byte1 >> 5) & 0x01u);
+    msg_valid    = (uint8)((byte1 >> 6) & 0x01u);
+    reserved_bit = (uint8)((byte1 >> 7) & 0x01u);
+
+    alive_cnt = (uint8)(byte2 & 0x0Fu);
+    ack_seq   = (uint8)((byte2 >> 4) & 0x0Fu);
+
+    g_rx_signals.safe_state_raw = raw_safe_state;
+    g_rx_signals.speed_state_raw = raw_speed_state;
+    g_rx_signals.brake_active = brake_active;
+    g_rx_signals.ev_state = ev_state;
+    g_rx_signals.ack_button = ack_button;
+    g_rx_signals.msg_valid = msg_valid;
+    g_rx_signals.alive_cnt = alive_cnt;
+    g_rx_signals.ack_seq_prev = g_rx_signals.ack_seq;
+    g_rx_signals.ack_seq = ack_seq;
+
+    if ((msg_valid == 0u) ||
+        (reserved_bit != 0u) ||
+        (virtual_input_is_valid_safe_state(raw_safe_state) == 0u) ||
+        (virtual_input_is_valid_speed_state(raw_speed_state) == 0u))
     {
-        g_prevAliveCntCpu0 = aliveCnt;
-        g_aliveInitialized = 1u;
-        g_aliveStaleCntCpu0 = 0u;
+        if (g_invalid_frame_cnt_cpu0 < 0xFFu)
+        {
+            g_invalid_frame_cnt_cpu0++;
+        }
+
+        if (g_invalid_frame_cnt_cpu0 >= VIRTUAL_INPUT_INVALID_FRAME_LIMIT)
+        {
+            virtual_input_apply_comm_fail_safe();
+        }
+
+        return;
+    }
+
+    g_invalid_frame_cnt_cpu0 = 0u;
+
+    if (g_alive_initialized == 0u)
+    {
+        g_prev_alive_cnt_cpu0 = alive_cnt;
+        g_alive_initialized = 1u;
+        g_alive_stale_cnt_cpu0 = 0u;
     }
     else
     {
-        if (aliveCnt == g_prevAliveCntCpu0)
+        if (alive_cnt == g_prev_alive_cnt_cpu0)
         {
-            if (g_aliveStaleCntCpu0 < 0xFFu)
+            if (g_alive_stale_cnt_cpu0 < 0xFFu)
             {
-                g_aliveStaleCntCpu0++;
+                g_alive_stale_cnt_cpu0++;
             }
         }
         else
         {
-            g_aliveStaleCntCpu0 = 0u;
+            g_alive_stale_cnt_cpu0 = 0u;
         }
 
-        g_prevAliveCntCpu0 = aliveCnt;
+        g_prev_alive_cnt_cpu0 = alive_cnt;
     }
 
-    if (g_aliveStaleCntCpu0 >= VIRTUAL_INPUT_ALIVE_STALE_LIMIT)
+    if (g_alive_stale_cnt_cpu0 >= VIRTUAL_INPUT_ALIVE_STALE_LIMIT)
     {
-        Virtual_Input_ApplyCommFailSafe();
+        virtual_input_apply_comm_fail_safe();
         return;
     }
 
-    Virtual_Input_ApplyParsedSignals(rawSafeState,
-                                     rawSpeedState,
-                                     brakeActive,
-                                     evState,
-                                     ackButton);
+    virtual_input_apply_parsed_signals(raw_safe_state,
+                                       raw_speed_state,
+                                       brake_active,
+                                       ev_state,
+                                       ack_button);
 
-    if (g_ackSeqInitialized == 0u)
+    if (g_ack_seq_initialized == 0u)
     {
-        g_prevAckSeqCpu0 = ackSeq;
-        g_ackSeqInitialized = 1u;
+        g_prev_ack_seq_cpu0 = ack_seq;
+        g_ack_seq_initialized = 1u;
     }
     else
     {
-        if (ackSeq != g_prevAckSeqCpu0)
+        if (ack_seq != g_prev_ack_seq_cpu0)
         {
-            g_oneShotActive = 1u;
-            g_oneShotCnt = 0u;
+            g_one_shot_active = 1u;
+            g_one_shot_cnt = 0u;
         }
 
-        g_prevAckSeqCpu0 = ackSeq;
+        g_prev_ack_seq_cpu0 = ack_seq;
     }
 }
 
 void Virtual_Input_InjectorInit(void)
 {
-    g_virtualInputShared.valid = 0u;
-    g_virtualInputShared.seq = 0u;
-    g_virtualInputShared.data[0] = 0u;
-    g_virtualInputShared.data[1] = 0u;
-    g_virtualInputShared.data[2] = 0u;
-    g_virtualInputShared.reserved = 0u;
+    g_virtual_input_shared.valid = 0u;
+    g_virtual_input_shared.seq = 0u;
+    g_virtual_input_shared.data[0] = 0u;
+    g_virtual_input_shared.data[1] = 0u;
+    g_virtual_input_shared.data[2] = 0u;
+    g_virtual_input_shared.reserved = 0u;
 
-    /* 초기값은 "아직 유효한 프레임 없음" 상태로 둠 */
     Virtual_Input_InjectorWriteFrame(0x00u, 0x00u, 0x00u);
 }
 
 void Virtual_Input_InjectorWriteFrame(uint8 byte0, uint8 byte1, uint8 byte2)
 {
-    g_virtualInputShared.valid = 0u;
+    g_virtual_input_shared.valid = 0u;
 
-    g_virtualInputShared.data[0] = byte0;
-    g_virtualInputShared.data[1] = byte1;
-    g_virtualInputShared.data[2] = byte2;
-    g_virtualInputShared.reserved = 0u;
+    g_virtual_input_shared.data[0] = byte0;
+    g_virtual_input_shared.data[1] = byte1;
+    g_virtual_input_shared.data[2] = byte2;
+    g_virtual_input_shared.reserved = 0u;
 
-    g_virtualInputShared.seq++;
-    g_virtualInputShared.valid = 1u;
+    g_virtual_input_shared.seq++;
+    g_virtual_input_shared.valid = 1u;
 }

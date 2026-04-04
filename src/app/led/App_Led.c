@@ -31,13 +31,13 @@
 
 void App_Led_Init(App_Context *ctx)
 {
-    ctx->led1Ctrl.led1On = FALSE;
-    ctx->led1Ctrl.led1BlinkElapsedMs = 0U;
+    ctx->led1_ctrl.led1_on = FALSE;
+    ctx->led1_ctrl.led1_blink_elapsed_ms = 0U;
 
-    ctx->led2Ctrl.brakeLampCount = 0U;
+    ctx->led2_ctrl.brake_lamp_count = 0U;
 
-    ctx->led3Ctrl.normalLampOn = TRUE;
-    ctx->led3Ctrl.fatalLampOn  = FALSE;
+    ctx->led3_ctrl.normal_lamp_on = TRUE;
+    ctx->led3_ctrl.fatal_lamp_on  = FALSE;
 
     Driver_Led_Off_1();
     Driver_Led_Off_AllBrakeLamps();
@@ -48,56 +48,56 @@ void App_Led_Init(App_Context *ctx)
 
 void App_Led1_Task(App_Context *ctx)
 {
-    uint16 onMs = 0U;
-    uint16 offMs = 0U;
+    uint16 on_ms = 0U;
+    uint16 off_ms = 0U;
 
-    switch (ctx->state.safeState)
+    switch (ctx->state.safe_state)
     {
     case ACTECU_SAFE_NORMAL:
     case ACTECU_SAFE_WARNING:
-        ctx->led1Ctrl.led1On = FALSE;
-        ctx->led1Ctrl.led1BlinkElapsedMs = 0U;
+        ctx->led1_ctrl.led1_on = FALSE;
+        ctx->led1_ctrl.led1_blink_elapsed_ms = 0U;
         return;
 
     case ACTECU_SAFE_CRITICAL:
-        onMs  = P_LED1_CRITICAL_BLINK_ON_MS;
-        offMs = P_LED1_CRITICAL_BLINK_OFF_MS;
+        on_ms  = P_LED1_CRITICAL_BLINK_ON_MS;
+        off_ms = P_LED1_CRITICAL_BLINK_OFF_MS;
         break;
 
     case ACTECU_SAFE_FATAL_NO_RESPONSE:
-        onMs  = P_LED1_FATAL_BLINK_ON_MS;
-        offMs = P_LED1_FATAL_BLINK_OFF_MS;
+        on_ms  = P_LED1_FATAL_BLINK_ON_MS;
+        off_ms = P_LED1_FATAL_BLINK_OFF_MS;
         break;
 
     default:
-        ctx->led1Ctrl.led1On = FALSE;
-        ctx->led1Ctrl.led1BlinkElapsedMs = 0U;
+        ctx->led1_ctrl.led1_on = FALSE;
+        ctx->led1_ctrl.led1_blink_elapsed_ms = 0U;
         return;
     }
 
-    ctx->led1Ctrl.led1BlinkElapsedMs += ACTECU_LED1_TASK_PERIOD_MS;
+    ctx->led1_ctrl.led1_blink_elapsed_ms += ACTECU_LED1_TASK_PERIOD_MS;
 
-    if (ctx->led1Ctrl.led1On == TRUE)
+    if (ctx->led1_ctrl.led1_on == TRUE)
     {
-        if (ctx->led1Ctrl.led1BlinkElapsedMs >= onMs)
+        if (ctx->led1_ctrl.led1_blink_elapsed_ms >= on_ms)
         {
-            ctx->led1Ctrl.led1On = FALSE;
-            ctx->led1Ctrl.led1BlinkElapsedMs = 0U;
+            ctx->led1_ctrl.led1_on = FALSE;
+            ctx->led1_ctrl.led1_blink_elapsed_ms = 0U;
         }
     }
     else
     {
-        if (ctx->led1Ctrl.led1BlinkElapsedMs >= offMs)
+        if (ctx->led1_ctrl.led1_blink_elapsed_ms >= off_ms)
         {
-            ctx->led1Ctrl.led1On = TRUE;
-            ctx->led1Ctrl.led1BlinkElapsedMs = 0U;
+            ctx->led1_ctrl.led1_on = TRUE;
+            ctx->led1_ctrl.led1_blink_elapsed_ms = 0U;
         }
     }
 }
 
 void App_Led1_Apply(const App_Context *ctx)
 {
-    if (ctx->led1Ctrl.led1On == TRUE)
+    if (ctx->led1_ctrl.led1_on == TRUE)
     {
         Driver_Led_On_1();
     }
@@ -109,60 +109,60 @@ void App_Led1_Apply(const App_Context *ctx)
 
 void App_Led2_Task(App_Context *ctx)
 {
-    uint8 lampCount = 0U;
+    uint8 lamp_count = 0U;
 
-    switch (ctx->state.safeState)
+    switch (ctx->state.safe_state)
     {
     case ACTECU_SAFE_FATAL_NO_RESPONSE:
-        lampCount = 4U;
+        lamp_count = 4U;
         break;
 
     case ACTECU_SAFE_CRITICAL:
-        lampCount = 2U;
+        lamp_count = 2U;
         break;
 
     case ACTECU_SAFE_WARNING:
-        lampCount = 1U;
+        lamp_count = 1U;
         break;
 
     case ACTECU_SAFE_NORMAL:
     default:
-        if (ctx->input.brakeActive != 0U)
+        if (ctx->input.brake_active != 0U)
         {
-            lampCount = 1U;
+            lamp_count = 1U;
         }
         else
         {
-            lampCount = 0U;
+            lamp_count = 0U;
         }
         break;
     }
 
-    ctx->led2Ctrl.brakeLampCount = lampCount;
+    ctx->led2_ctrl.brake_lamp_count = lamp_count;
 }
 
 void App_Led2_Apply(const App_Context *ctx)
 {
-    Driver_Led_SetBrakeLampCount(ctx->led2Ctrl.brakeLampCount);
+    Driver_Led_SetBrakeLampCount(ctx->led2_ctrl.brake_lamp_count);
 }
 
 void App_Led3_Task(App_Context *ctx)
 {
-    if (ctx->state.safeState == ACTECU_SAFE_FATAL_NO_RESPONSE)
+    if (ctx->state.safe_state == ACTECU_SAFE_FATAL_NO_RESPONSE)
     {
-        ctx->led3Ctrl.normalLampOn = FALSE;
-        ctx->led3Ctrl.fatalLampOn  = TRUE;
+        ctx->led3_ctrl.normal_lamp_on = FALSE;
+        ctx->led3_ctrl.fatal_lamp_on  = TRUE;
     }
     else
     {
-        ctx->led3Ctrl.normalLampOn = TRUE;
-        ctx->led3Ctrl.fatalLampOn  = FALSE;
+        ctx->led3_ctrl.normal_lamp_on = TRUE;
+        ctx->led3_ctrl.fatal_lamp_on  = FALSE;
     }
 }
 
 void App_Led3_Apply(const App_Context *ctx)
 {
-    if (ctx->led3Ctrl.normalLampOn == TRUE)
+    if (ctx->led3_ctrl.normal_lamp_on == TRUE)
     {
         Driver_Led_On_3_Normal();
     }
@@ -171,7 +171,7 @@ void App_Led3_Apply(const App_Context *ctx)
         Driver_Led_Off_3_Normal();
     }
 
-    if (ctx->led3Ctrl.fatalLampOn == TRUE)
+    if (ctx->led3_ctrl.fatal_lamp_on == TRUE)
     {
         Driver_Led_On_3_Fatal();
     }

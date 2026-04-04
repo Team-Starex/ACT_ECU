@@ -53,13 +53,12 @@
 /*********************************************************************************************************************/
 void Driver_Servo_Init(void);
 
-void setServo1PulseUs(uint32 pulseUs);
-void setServo2PulseUs(uint32 pulseUs);
-void setServo3PulseUs(uint32 pulseUs);
-void setServoAllPulseUs(uint32 pulseUs);
+void setServo1PulseUs(uint32 pulse_us);
+void setServo2PulseUs(uint32 pulse_us);
+void setServo3PulseUs(uint32 pulse_us);
+void setServoAllPulseUs(uint32 pulse_us);
 
-void setServoPulseUs(uint32 pulseUs);
-void servoRampUs(uint32 startUs, uint32 endUs, uint32 totalMs, uint32 stepMs);
-
+void setServoPulseUs(uint32 pulse_us);
+void servoRampUs(uint32 start_us, uint32 end_us, uint32 total_ms, uint32 step_ms);
 
 #endif /* DRIVER_SERVO_H_ */

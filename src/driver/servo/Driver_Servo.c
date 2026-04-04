@@ -32,57 +32,57 @@
 #include "Bsp.h"
 #include "ActEcu_Cfg.h"
 
-static IfxGtm_Tom_Pwm_Config g_tomConfigServo1;
-static IfxGtm_Tom_Pwm_Driver g_tomDriverServo1;
+static IfxGtm_Tom_Pwm_Config g_tom_config_servo1;
+static IfxGtm_Tom_Pwm_Driver g_tom_driver_servo1;
 
-static IfxGtm_Tom_Pwm_Config g_tomConfigServo2;
-static IfxGtm_Tom_Pwm_Driver g_tomDriverServo2;
+static IfxGtm_Tom_Pwm_Config g_tom_config_servo2;
+static IfxGtm_Tom_Pwm_Driver g_tom_driver_servo2;
 
-static IfxGtm_Tom_Pwm_Config g_tomConfigServo3;
-static IfxGtm_Tom_Pwm_Driver g_tomDriverServo3;
+static IfxGtm_Tom_Pwm_Config g_tom_config_servo3;
+static IfxGtm_Tom_Pwm_Driver g_tom_driver_servo3;
 
-static uint32 servoPulseUsToTicks(uint32 pulseUs)
+static uint32 servo_pulse_us_to_ticks(uint32 pulse_us)
 {
-    return (uint32)(((uint64)ACTECU_SERVO_TOM_CLK_HZ * (uint64)pulseUs) / 1000000ULL);
+    return (uint32)(((uint64)ACTECU_SERVO_TOM_CLK_HZ * (uint64)pulse_us) / 1000000ULL);
 }
 
-static uint32 Driver_Servo_ClampPulseUs(uint32 pulseUs)
+static uint32 driver_servo_clamp_pulse_us(uint32 pulse_us)
 {
-    if (pulseUs < ACTECU_SERVO_MIN_US)
+    if (pulse_us < ACTECU_SERVO_MIN_US)
     {
-        pulseUs = ACTECU_SERVO_MIN_US;
+        pulse_us = ACTECU_SERVO_MIN_US;
     }
-    else if (pulseUs > ACTECU_SERVO_MAX_US)
+    else if (pulse_us > ACTECU_SERVO_MAX_US)
     {
-        pulseUs = ACTECU_SERVO_MAX_US;
+        pulse_us = ACTECU_SERVO_MAX_US;
     }
 
-    return pulseUs;
+    return pulse_us;
 }
 
-static void Driver_Servo_InitChannel(IfxGtm_Tom_Pwm_Config *config,
-                                     IfxGtm_Tom_Pwm_Driver *driver,
-                                     const IfxGtm_Tom_ToutMap *pinMap)
+static void driver_servo_init_channel(IfxGtm_Tom_Pwm_Config *config,
+                                      IfxGtm_Tom_Pwm_Driver *driver,
+                                      const IfxGtm_Tom_ToutMap *pin_map)
 {
     IfxGtm_Tom_Pwm_initConfig(config, &MODULE_GTM);
 
     config->clock                    = IfxGtm_Tom_Ch_ClkSrc_cmuFxclk1;
-    config->tom                      = pinMap->tom;
-    config->tomChannel               = pinMap->channel;
-    config->pin.outputPin            = pinMap;
+    config->tom                      = pin_map->tom;
+    config->tomChannel               = pin_map->channel;
+    config->pin.outputPin            = pin_map;
     config->period                   = ACTECU_SERVO_PERIOD_TICKS;
-    config->dutyCycle                = servoPulseUsToTicks(ACTECU_SERVO_CENTER_US);
+    config->dutyCycle                = servo_pulse_us_to_ticks(ACTECU_SERVO_CENTER_US);
     config->synchronousUpdateEnabled = TRUE;
 
     IfxGtm_Tom_Pwm_init(driver, config);
     IfxGtm_Tom_Pwm_start(driver, TRUE);
 }
 
-static void Driver_Servo_UpdateChannel(IfxGtm_Tom_Pwm_Config *config,
-                                       IfxGtm_Tom_Pwm_Driver *driver,
-                                       uint32 pulseUs)
+static void driver_servo_update_channel(IfxGtm_Tom_Pwm_Config *config,
+                                        IfxGtm_Tom_Pwm_Driver *driver,
+                                        uint32 pulse_us)
 {
-    config->dutyCycle = servoPulseUsToTicks(pulseUs);
+    config->dutyCycle = servo_pulse_us_to_ticks(pulse_us);
     IfxGtm_Tom_Pwm_init(driver, config);
 }
 
@@ -91,71 +91,71 @@ void Driver_Servo_Init(void)
     IfxGtm_enable(&MODULE_GTM);
     IfxGtm_Cmu_enableClocks(&MODULE_GTM, IFXGTM_CMU_CLKEN_FXCLK);
 
-    Driver_Servo_InitChannel(&g_tomConfigServo1, &g_tomDriverServo1, &ACTECU_SERVO1_PIN);
-    Driver_Servo_InitChannel(&g_tomConfigServo2, &g_tomDriverServo2, &ACTECU_SERVO2_PIN);
-    Driver_Servo_InitChannel(&g_tomConfigServo3, &g_tomDriverServo3, &ACTECU_SERVO3_PIN);
+    driver_servo_init_channel(&g_tom_config_servo1, &g_tom_driver_servo1, &ACTECU_SERVO1_PIN);
+    driver_servo_init_channel(&g_tom_config_servo2, &g_tom_driver_servo2, &ACTECU_SERVO2_PIN);
+    driver_servo_init_channel(&g_tom_config_servo3, &g_tom_driver_servo3, &ACTECU_SERVO3_PIN);
 }
 
-void setServo1PulseUs(uint32 pulseUs)
+void setServo1PulseUs(uint32 pulse_us)
 {
-    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo1, &g_tomDriverServo1, pulseUs);
+    pulse_us = driver_servo_clamp_pulse_us(pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo1, &g_tom_driver_servo1, pulse_us);
 }
 
-void setServo2PulseUs(uint32 pulseUs)
+void setServo2PulseUs(uint32 pulse_us)
 {
-    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
+    pulse_us = driver_servo_clamp_pulse_us(pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo2, &g_tom_driver_servo2, pulse_us);
 }
 
-void setServo3PulseUs(uint32 pulseUs)
+void setServo3PulseUs(uint32 pulse_us)
 {
-    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo3, &g_tomDriverServo3, pulseUs);
+    pulse_us = driver_servo_clamp_pulse_us(pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo3, &g_tom_driver_servo3, pulse_us);
 }
 
-void setServoAllPulseUs(uint32 pulseUs)
+void setServoAllPulseUs(uint32 pulse_us)
 {
-    pulseUs = Driver_Servo_ClampPulseUs(pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo1, &g_tomDriverServo1, pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo2, &g_tomDriverServo2, pulseUs);
-    Driver_Servo_UpdateChannel(&g_tomConfigServo3, &g_tomDriverServo3, pulseUs);
+    pulse_us = driver_servo_clamp_pulse_us(pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo1, &g_tom_driver_servo1, pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo2, &g_tom_driver_servo2, pulse_us);
+    driver_servo_update_channel(&g_tom_config_servo3, &g_tom_driver_servo3, pulse_us);
 }
 
 /* 기존 코드 호환용 */
-void setServoPulseUs(uint32 pulseUs)
+void setServoPulseUs(uint32 pulse_us)
 {
-    setServoAllPulseUs(pulseUs);
+    setServoAllPulseUs(pulse_us);
 }
 
-void servoRampUs(uint32 startUs, uint32 endUs, uint32 totalMs, uint32 stepMs)
+void servoRampUs(uint32 start_us, uint32 end_us, uint32 total_ms, uint32 step_ms)
 {
     uint32 i;
-    uint32 stepCount;
+    uint32 step_count;
     sint32 diff;
 
-    if (stepMs == 0U)
+    if (step_ms == 0U)
     {
-        stepMs = 20U;
+        step_ms = 20U;
     }
 
-    stepCount = totalMs / stepMs;
-    if (stepCount == 0U)
+    step_count = total_ms / step_ms;
+    if (step_count == 0U)
     {
-        stepCount = 1U;
+        step_count = 1U;
     }
 
-    diff = (sint32)endUs - (sint32)startUs;
+    diff = (sint32)end_us - (sint32)start_us;
 
-    for (i = 0U; i <= stepCount; i++)
+    for (i = 0U; i <= step_count; i++)
     {
-        uint32 pulseUs;
+        uint32 pulse_us;
 
-        pulseUs = (uint32)((sint32)startUs + ((diff * (sint32)i) / (sint32)stepCount));
-        setServoAllPulseUs(pulseUs);
+        pulse_us = (uint32)((sint32)start_us + ((diff * (sint32)i) / (sint32)step_count));
+        setServoAllPulseUs(pulse_us);
 
-        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, stepMs));
+        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, step_ms));
     }
 
-    setServoAllPulseUs(endUs);
+    setServoAllPulseUs(end_us);
 }

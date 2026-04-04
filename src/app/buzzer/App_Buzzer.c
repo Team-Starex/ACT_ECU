@@ -31,91 +31,91 @@
 
 void App_Buzzer_Init(App_Context *ctx)
 {
-    ctx->buzzerCtrl.buzzerOn = FALSE;
-    ctx->buzzerCtrl.buzzerPrevOn = FALSE;
-    ctx->buzzerCtrl.buzzerElapsedMs = 0U;
-    ctx->buzzerCtrl.noteIdx = P_BUZZER_OFF_NOTE_IDX;
-    ctx->buzzerCtrl.prevNoteIdx = P_BUZZER_OFF_NOTE_IDX;
+    ctx->buzzer_ctrl.buzzer_on = FALSE;
+    ctx->buzzer_ctrl.buzzer_prev_on = FALSE;
+    ctx->buzzer_ctrl.buzzer_elapsed_ms = 0U;
+    ctx->buzzer_ctrl.note_idx = P_BUZZER_OFF_NOTE_IDX;
+    ctx->buzzer_ctrl.prev_note_idx = P_BUZZER_OFF_NOTE_IDX;
 
     Driver_Buzzer_Off();
 }
 
 void App_Buzzer_Task(App_Context *ctx)
 {
-    uint16 onMs = 0U;
-    uint16 offMs = 0U;
-    uint8 targetNote = P_BUZZER_OFF_NOTE_IDX;
+    uint16 on_ms = 0U;
+    uint16 off_ms = 0U;
+    uint8 target_note = P_BUZZER_OFF_NOTE_IDX;
 
-    switch (ctx->state.safeState)
+    switch (ctx->state.safe_state)
     {
     case ACTECU_SAFE_CRITICAL:
-        targetNote = P_BUZZER_CRITICAL_NOTE_IDX;
-        onMs = P_BUZZER_CRITICAL_ON_MS;
-        offMs = P_BUZZER_CRITICAL_OFF_MS;
+        target_note = P_BUZZER_CRITICAL_NOTE_IDX;
+        on_ms = P_BUZZER_CRITICAL_ON_MS;
+        off_ms = P_BUZZER_CRITICAL_OFF_MS;
         break;
 
     case ACTECU_SAFE_FATAL_NO_RESPONSE:
-        targetNote = P_BUZZER_FATAL_NOTE_IDX;
-        onMs = P_BUZZER_FATAL_ON_MS;
-        offMs = P_BUZZER_FATAL_OFF_MS;
+        target_note = P_BUZZER_FATAL_NOTE_IDX;
+        on_ms = P_BUZZER_FATAL_ON_MS;
+        off_ms = P_BUZZER_FATAL_OFF_MS;
         break;
 
     case ACTECU_SAFE_NORMAL:
     case ACTECU_SAFE_WARNING:
     default:
-        ctx->buzzerCtrl.buzzerOn = FALSE;
-        ctx->buzzerCtrl.buzzerElapsedMs = 0U;
-        ctx->buzzerCtrl.noteIdx = P_BUZZER_OFF_NOTE_IDX;
+        ctx->buzzer_ctrl.buzzer_on = FALSE;
+        ctx->buzzer_ctrl.buzzer_elapsed_ms = 0U;
+        ctx->buzzer_ctrl.note_idx = P_BUZZER_OFF_NOTE_IDX;
         return;
     }
 
-    if (ctx->buzzerCtrl.noteIdx != targetNote)
+    if (ctx->buzzer_ctrl.note_idx != target_note)
     {
-        ctx->buzzerCtrl.noteIdx = targetNote;
-        ctx->buzzerCtrl.buzzerOn = TRUE;
-        ctx->buzzerCtrl.buzzerElapsedMs = 0U;
+        ctx->buzzer_ctrl.note_idx = target_note;
+        ctx->buzzer_ctrl.buzzer_on = TRUE;
+        ctx->buzzer_ctrl.buzzer_elapsed_ms = 0U;
         return;
     }
 
-    ctx->buzzerCtrl.noteIdx = targetNote;
-    ctx->buzzerCtrl.buzzerElapsedMs += ACTECU_BUZZER_TASK_PERIOD_MS;
+    ctx->buzzer_ctrl.note_idx = target_note;
+    ctx->buzzer_ctrl.buzzer_elapsed_ms += ACTECU_BUZZER_TASK_PERIOD_MS;
 
-    if (ctx->buzzerCtrl.buzzerOn == TRUE)
+    if (ctx->buzzer_ctrl.buzzer_on == TRUE)
     {
-        if (ctx->buzzerCtrl.buzzerElapsedMs >= onMs)
+        if (ctx->buzzer_ctrl.buzzer_elapsed_ms >= on_ms)
         {
-            ctx->buzzerCtrl.buzzerOn = FALSE;
-            ctx->buzzerCtrl.buzzerElapsedMs = 0U;
+            ctx->buzzer_ctrl.buzzer_on = FALSE;
+            ctx->buzzer_ctrl.buzzer_elapsed_ms = 0U;
         }
     }
     else
     {
-        if (ctx->buzzerCtrl.buzzerElapsedMs >= offMs)
+        if (ctx->buzzer_ctrl.buzzer_elapsed_ms >= off_ms)
         {
-            ctx->buzzerCtrl.buzzerOn = TRUE;
-            ctx->buzzerCtrl.buzzerElapsedMs = 0U;
+            ctx->buzzer_ctrl.buzzer_on = TRUE;
+            ctx->buzzer_ctrl.buzzer_elapsed_ms = 0U;
         }
     }
 }
 
 void App_Buzzer_Apply(App_Context *ctx)
 {
-    if (ctx->buzzerCtrl.buzzerOn == TRUE)
+    if (ctx->buzzer_ctrl.buzzer_on == TRUE)
     {
-        if ((ctx->buzzerCtrl.buzzerPrevOn == FALSE) ||
-            (ctx->buzzerCtrl.prevNoteIdx != ctx->buzzerCtrl.noteIdx))
+        if ((ctx->buzzer_ctrl.buzzer_prev_on == FALSE) ||
+            (ctx->buzzer_ctrl.prev_note_idx != ctx->buzzer_ctrl.note_idx))
         {
-            Driver_Buzzer_SetNote(ctx->buzzerCtrl.noteIdx);
+            Driver_Buzzer_SetNote(ctx->buzzer_ctrl.note_idx);
         }
     }
     else
     {
-        if (ctx->buzzerCtrl.buzzerPrevOn == TRUE)
+        if (ctx->buzzer_ctrl.buzzer_prev_on == TRUE)
         {
             Driver_Buzzer_Off();
         }
     }
 
-    ctx->buzzerCtrl.buzzerPrevOn = ctx->buzzerCtrl.buzzerOn;
-    ctx->buzzerCtrl.prevNoteIdx = ctx->buzzerCtrl.noteIdx;
+    ctx->buzzer_ctrl.buzzer_prev_on = ctx->buzzer_ctrl.buzzer_on;
+    ctx->buzzer_ctrl.prev_note_idx = ctx->buzzer_ctrl.note_idx;
 }
