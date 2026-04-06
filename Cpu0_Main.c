@@ -54,7 +54,7 @@ int core0_main(void)
     Driver_Buzzer_Init();
     Driver_Servo_Init();
     Driver_DfPlayer_Init();
-    Driver_Can_Init();
+    /* Driver_Can_Init(); */   /* 테스트벤치 모드에서는 사용 안 함 */
 
     /* app / input init */
     Virtual_Input_Init();
@@ -65,13 +65,13 @@ int core0_main(void)
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 500));
 
     /* 상태 스피커 초기 설정 */
-    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_STATE, 0x06U, 30U);
+    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_STATE, 0x06U, 25U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
     (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_STATE, 0x09U, 0x0002U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
 
     /* 이벤트 스피커 초기 설정 */
-    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_EVENT, 0x06U, 30U);
+    (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_EVENT, 0x06U, 25U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
     (void)DFPlayer_SendCmd(DFPLAYER_CHANNEL_EVENT, 0x09U, 0x0002U);
     waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 100));
@@ -83,15 +83,74 @@ int core0_main(void)
 
     while (1)
     {
-        /* 1) CAN payload 수신 */
-        Driver_Can_Task();
-
-        /* 2) 수신 프레임 파싱 + 검증 + 상태 반영 */
+        /* 1) CPU1 가상 입력 프레임 파싱 + 검증 + 상태 반영 */
         Virtual_Input_Task();
 
-        /* 3) 현재 상태 기준 출력 제어 */
+        /* 2) 현재 상태 기준 출력 제어 */
         App_Scheduler_Run();
     }
 
     return 0;
 }
+//
+//#include "IfxCpu.h"
+//#include "IfxScuWdt.h"
+//#include "IfxStm.h"
+//#include "Bsp.h"
+//
+//#include "Driver_Servo.h"
+//
+//#define SERVO_MIN_US    1000U
+//#define SERVO_CENTER_US 1500U
+//#define SERVO_MAX_US    2000U
+//
+//static uint32 ReverseServo3PulseUs(uint32 pulseUs)
+//{
+//    if (pulseUs < SERVO_MIN_US)
+//    {
+//        pulseUs = SERVO_MIN_US;
+//    }
+//    else if (pulseUs > SERVO_MAX_US)
+//    {
+//        pulseUs = SERVO_MAX_US;
+//    }
+//
+//    return (SERVO_MIN_US + SERVO_MAX_US) - pulseUs;
+//}
+//
+//static void SetAllServosWithServo3Reverse(uint32 pulseUs)
+//{
+//    setServo1PulseUs(pulseUs);
+//    setServo2PulseUs(pulseUs);
+//    setServo3PulseUs(ReverseServo3PulseUs(pulseUs));
+//}
+//
+//IfxCpu_syncEvent cpuSyncEvent = 0;
+//
+//int core0_main(void)
+//{
+//    IfxCpu_enableInterrupts();
+//
+//    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+//    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+//
+//    Driver_Servo_Init();
+//
+//    /* 시작 중앙 */
+//    SetAllServosWithServo3Reverse(SERVO_MIN_US);
+//    waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
+//
+//    while (1)
+//    {
+//        /* 1000 us */
+//        SetAllServosWithServo3Reverse(SERVO_MIN_US);
+//        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
+//
+//        /* 2000 us */
+//        SetAllServosWithServo3Reverse(SERVO_MIN_US);
+//        waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, 2000));
+//    }
+//
+//    return 0;
+//}
+//

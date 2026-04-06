@@ -37,10 +37,10 @@ typedef struct
 } App_Stm;
 
 static App_Stm g_stm;
-static uint32 g_counter_1ms = 0u;
+static volatile uint32 g_counter_1ms = 0u;
 
-SchedulingFlag st_scheduling_info = {0u, 0u, 0u, 0u};
-stTestCnt st_test_cnt_info = {0u, 0u, 0u, 0u};
+volatile SchedulingFlag st_scheduling_info = {0u, 0u, 0u, 0u};
+volatile stTestCnt st_test_cnt_info = {0u, 0u, 0u, 0u};
 
 IFX_INTERRUPT(STM_Int0Handler, 0, 100);
 

@@ -188,7 +188,8 @@ void Virtual_Input_Task(void)
     g_rx_signals.ack_seq_prev = g_rx_signals.ack_seq;
     g_rx_signals.ack_seq = ack_seq;
 
-    if ((reserved_bit != 0u) ||
+    if ((msg_valid == 0u) ||
+        (reserved_bit != 0u) ||
         (virtual_input_is_valid_safe_state(raw_safe_state) == 0u) ||
         (virtual_input_is_valid_speed_state(raw_speed_state) == 0u))
     {
