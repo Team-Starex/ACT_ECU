@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.rt.hightec.agent.launcher.launchConfigurationType">
+    <stringAttribute key="ACC_HW" value="DAS JTAG SHIELDBUDDY TC275 463D5JK2"/>
+    <booleanAttribute key="ENABLE_AGENTLOG" value="false"/>
+    <booleanAttribute key="ENABLE_FLASHING" value="true"/>
+    <booleanAttribute key="ENABLE_STOPPING" value="true"/>
+    <stringAttribute key="EXECUTABLE_PATH" value="${workspace_loc}/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf"/>
+    <stringAttribute key="STOP_FUNCTION" value="core0_main"/>
+    <stringAttribute key="SVD" value="C:/Infineon/AURIX-Studio-1.10.28/build_system/bundled-artefacts-repo/svd/tc27xdpd/1.1-2/device.svd"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="TC275_ACT_ECU"/>
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/TC275_ACT_ECU"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+    <stringAttribute key="org.eclipse.debug.ui.ATTR_LOCATION" value="/TC275_ACT_ECU/TC275_ACT_ECU TriCore Debug (TASKING).launch"/>
+    <stringAttribute key="org.eclipse.debug.ui.ATTR_PROJECT_NAME" value="TC275_ACT_ECU"/>
+    <booleanAttribute key="org.eclipse.debug.ui.ATTR_SHARED" value="true"/>
+    <stringAttribute key="org.eclipse.tcf.debug.MemoryMap" value="[{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;04bddf63-83d0-45d3-a418-25e45790a945&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;bfb807ca-b986-4e3e-b397-afd8ff4ab097&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;f1fb0f47-932a-42f2-9b14-3a6330d54353&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 0: CPU0 TriCore 1.6E&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;eac54168-37b3-4dd5-8221-fb4614c7bfa4&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;a8578713-edd5-4818-a03d-b99dd8418a28&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 0: CPU0 TriCore 1.6E&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;f2449209-b6f2-4aef-9bb4-950effdc4db4&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;9813a965-2c7e-49c3-878e-0e8c63e7702b&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 0: CPU0 TriCore 1.6E&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;e2841a0c-b05b-4a5d-a331-c15117a4c6cc&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 1: CPU1 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;2f2657d9-1ec0-4822-8af4-cd5678b6b26c&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 2: CPU2 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;b9fd00f8-b493-4f7e-bb43-812ef2ecaeae&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 0: CPU0 TriCore 1.6E&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;33c3e595-b16f-49de-8ca2-6bd2a5e0653e&quot;},{&quot;FileName&quot;:&quot;C:/Users/USER/AURIX-v1.10.28-workspace/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf&quot;,&quot;ID&quot;:&quot;/DAS JTAG SHIELDBUDDY TC275 463D5JK2/Core 1: CPU1 TriCore 1.6P&quot;,&quot;Flags&quot;:0,&quot;UUID&quot;:&quot;c841ff98-7a00-42b1-bf3d-c657b779a780&quot;}]"/>
+    <stringAttribute key="org.eclipse.tcf.debug.PeerID" value="TCP:127.0.0.1:1534"/>
+    <stringAttribute key="org.eclipse.tcf.debug.ProjectName" value="TC275_ACT_ECU"/>
+    <booleanAttribute key="org.eclipse.tcf.debug.RunLocalAgent" value="false"/>
+    <booleanAttribute key="org.eclipse.tcf.debug.RunLocalServer" value="false"/>
+    <booleanAttribute key="org.eclipse.tcf.debug.UseLocalAgent" value="false"/>
+    <stringAttribute key="org.eclipse.tcf.debug.executable_name" value="${workspace_loc}/TC275_ACT_ECU/TriCore Debug (TASKING)/TC275_ACT_ECU.elf"/>
+    <stringAttribute key="sessionID" value="59c773fb-2b17-4ca8-ad0c-9a918aa990d6"/>
+</launchConfiguration>
