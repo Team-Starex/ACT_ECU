@@ -1,0 +1,1713 @@
+	; Module start
+	.compiler_version	"TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler v1.1r8 Build 22011964"
+	.compiler_invocation	"ctc -f cc18704a --dep-file=App/dfplayer/App_DfPlayer.d -c99 --fp-model=3cflnrSTz -D__CPU__=tc27xd -D__CPU_TC27XD__ --core=tc1.6.x --fp-model=+float -D__CPU__=tc27xd -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App\\\\buzzer -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App\\\\dfplayer -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App\\\\led -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App\\\\scheduler -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\App\\\\servo -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Common -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Configurations -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\buzzer -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\can -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\dfplayer -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\led -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\servo -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\stm -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Platform -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Platform\\\\Tricore\\\\Compilers -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Sfr -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Infra\\\\Sfr\\\\TC27D\\\\_Reg -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Service -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Service\\\\CpuGeneric -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Service\\\\CpuGeneric\\\\SysSe\\\\Bsp -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\Service\\\\CpuGeneric\\\\_Utilities -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Asc -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Asclin\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\CStart -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Irq -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Trap -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Tom -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Gtm\\\\Tom\\\\Pwm -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Mtu\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Can -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Multican\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Port\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Scu\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Src\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Stm\\\\Std -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Impl -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_Lib\\\\DataHandling -IC:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\_PinMap -g2 -w544 -w557 -t4 --language=+volatile -N0 -O0 -Y0 -Z0 --compact-max-size=200 --misrac-version=2012 -o App/dfplayer/App_DfPlayer.src ../App/dfplayer/App_DfPlayer.c"
+	.compiler_name		"ctc"
+	;source	'../App/dfplayer/App_DfPlayer.c'
+
+	
+$TC16X
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_MapStateAudio',code,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_MapStateAudio'
+	.align	2
+	
+; Function App_DfPlayer_MapStateAudio
+.L73:
+App_DfPlayer_MapStateAudio:	.type	func
+	ld.bu	d15,[a4]12
+.L254:
+	mov	d0,#8
+.L255:
+	jne	d15,d0,.L2
+.L256:
+	mov	d2,#10
+.L257:
+	j	.L3
+.L2:
+	ld.bu	d15,[a4]12
+.L258:
+	jeq	d15,#4,.L4
+.L259:
+	ld.bu	d15,[a4]3
+.L260:
+	jne	d15,#5,.L5
+.L4:
+	mov	d2,#9
+.L261:
+	j	.L6
+.L5:
+	ld.bu	d15,[a4]1
+.L262:
+	mov	d0,#1
+	jeq	d15,d0,.L7
+.L263:
+	mov	d0,#2
+	jeq	d15,d0,.L8
+.L264:
+	mov	d0,#4
+	jeq	d15,d0,.L9
+.L265:
+	mov	d0,#8
+	jeq	d15,d0,.L10
+	j	.L11
+.L8:
+	mov	d2,#2
+.L266:
+	j	.L12
+.L9:
+	mov	d2,#3
+.L267:
+	j	.L13
+.L10:
+	mov	d2,#4
+.L268:
+	j	.L14
+.L7:
+.L11:
+	mov	d2,#0
+.L269:
+	j	.L15
+.L15:
+.L14:
+.L13:
+.L12:
+.L6:
+.L3:
+	ret
+.L141:
+	
+__App_DfPlayer_MapStateAudio_function_end:
+	.size	App_DfPlayer_MapStateAudio,__App_DfPlayer_MapStateAudio_function_end-App_DfPlayer_MapStateAudio
+.L109:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_MapEventAudio',code,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_MapEventAudio'
+	.align	2
+	
+; Function App_DfPlayer_MapEventAudio
+.L75:
+App_DfPlayer_MapEventAudio:	.type	func
+	mov	d15,#1
+	jeq	d15,d4,.L16
+.L274:
+	mov	d15,#2
+	jeq	d15,d4,.L17
+.L275:
+	mov	d15,#3
+	jeq	d15,d4,.L18
+.L276:
+	mov	d15,#4
+	jeq	d15,d4,.L19
+	j	.L20
+.L16:
+	mov	d2,#5
+.L277:
+	j	.L21
+.L17:
+	mov	d2,#6
+.L278:
+	j	.L22
+.L18:
+	mov	d2,#7
+.L279:
+	j	.L23
+.L19:
+	mov	d2,#8
+.L280:
+	j	.L24
+.L20:
+	mov	d2,#0
+.L281:
+	j	.L25
+.L25:
+.L24:
+.L23:
+.L22:
+.L21:
+	ret
+.L144:
+	
+__App_DfPlayer_MapEventAudio_function_end:
+	.size	App_DfPlayer_MapEventAudio,__App_DfPlayer_MapEventAudio_function_end-App_DfPlayer_MapEventAudio
+.L114:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_GetStateTrackNo',code,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_GetStateTrackNo'
+	.align	2
+	
+; Function App_DfPlayer_GetStateTrackNo
+.L77:
+App_DfPlayer_GetStateTrackNo:	.type	func
+	mov	d15,#2
+	jeq	d15,d4,.L26
+.L286:
+	mov	d15,#3
+	jeq	d15,d4,.L27
+.L287:
+	mov	d15,#4
+	jeq	d15,d4,.L28
+.L288:
+	mov	d15,#9
+	jeq	d15,d4,.L29
+.L289:
+	mov	d15,#10
+	jeq	d15,d4,.L30
+	j	.L31
+.L26:
+	mov	d2,#1
+.L290:
+	j	.L32
+.L27:
+	mov	d2,#2
+.L291:
+	j	.L33
+.L28:
+	mov	d2,#3
+.L292:
+	j	.L34
+.L29:
+	mov	d2,#4
+.L293:
+	j	.L35
+.L30:
+	mov	d2,#5
+.L294:
+	j	.L36
+.L31:
+	mov	d2,#0
+.L295:
+	j	.L37
+.L37:
+.L36:
+.L35:
+.L34:
+.L33:
+.L32:
+	ret
+.L146:
+	
+__App_DfPlayer_GetStateTrackNo_function_end:
+	.size	App_DfPlayer_GetStateTrackNo,__App_DfPlayer_GetStateTrackNo_function_end-App_DfPlayer_GetStateTrackNo
+.L119:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_GetEventTrackNo',code,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_GetEventTrackNo'
+	.align	2
+	
+; Function App_DfPlayer_GetEventTrackNo
+.L79:
+App_DfPlayer_GetEventTrackNo:	.type	func
+	mov	d15,#1
+	jeq	d15,d4,.L38
+.L300:
+	mov	d15,#5
+	jeq	d15,d4,.L39
+.L301:
+	mov	d15,#6
+	jeq	d15,d4,.L40
+.L302:
+	mov	d15,#7
+	jeq	d15,d4,.L41
+.L303:
+	mov	d15,#8
+	jeq	d15,d4,.L42
+	j	.L43
+.L38:
+	mov	d2,#1
+.L304:
+	j	.L44
+.L39:
+	mov	d2,#3
+.L305:
+	j	.L45
+.L40:
+	mov	d2,#2
+.L306:
+	j	.L46
+.L41:
+	mov	d2,#4
+.L307:
+	j	.L47
+.L42:
+	mov	d2,#5
+.L308:
+	j	.L48
+.L43:
+	mov	d2,#0
+.L309:
+	j	.L49
+.L49:
+.L48:
+.L47:
+.L46:
+.L45:
+.L44:
+	ret
+.L148:
+	
+__App_DfPlayer_GetEventTrackNo_function_end:
+	.size	App_DfPlayer_GetEventTrackNo,__App_DfPlayer_GetEventTrackNo_function_end-App_DfPlayer_GetEventTrackNo
+.L124:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_Init',code,cluster('App_DfPlayer_Init')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_Init'
+	.align	2
+	
+	.global	App_DfPlayer_Init
+; Function App_DfPlayer_Init
+.L81:
+App_DfPlayer_Init:	.type	func
+	mov	d15,#0
+.L172:
+	st.b	[a4]54,d15
+.L173:
+	mov	d15,#0
+.L174:
+	st.b	[a4]55,d15
+.L175:
+	mov	d15,#0
+.L176:
+	st.h	[a4]56,d15
+.L177:
+	mov	d15,#1
+.L178:
+	st.b	[a4]58,d15
+.L179:
+	mov	d15,#0
+.L180:
+	st.b	[a4]59,d15
+.L181:
+	mov	d15,#1
+.L182:
+	st.b	[a4]60,d15
+.L183:
+	ld.bu	d15,[a4]12
+.L184:
+	st.b	[a4]61,d15
+.L185:
+	ret
+.L125:
+	
+__App_DfPlayer_Init_function_end:
+	.size	App_DfPlayer_Init,__App_DfPlayer_Init_function_end-App_DfPlayer_Init
+.L94:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_Task',code,cluster('App_DfPlayer_Task')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_Task'
+	.align	2
+	
+	.global	App_DfPlayer_Task
+; Function App_DfPlayer_Task
+.L83:
+App_DfPlayer_Task:	.type	func
+	mov.aa	a15,a4
+.L151:
+	ld.bu	d8,[a15]3
+.L152:
+	ld.bu	d9,[a15]61
+.L153:
+	ld.bu	d10,[a15]12
+.L154:
+	mov.aa	a4,a15
+	call	App_DfPlayer_MapStateAudio
+.L150:
+	ld.bu	d15,[a15]54
+.L190:
+	jeq	d15,d2,.L50
+.L191:
+	st.b	[a15]54,d2
+.L192:
+	mov	d0,#0
+.L193:
+	st.h	[a15]56,d0
+.L194:
+	j	.L51
+.L50:
+	jeq	d2,#0,.L52
+.L195:
+	ld.hu	d0,[a15]56
+.L196:
+	mov	d1,#3000
+.L197:
+	jge.u	d0,d1,.L53
+.L198:
+	ld.hu	d0,[a15]56
+.L199:
+	add	d15,d0,#10
+	st.h	[a15]56,d15
+.L53:
+	j	.L54
+.L52:
+	mov	d15,#0
+.L200:
+	st.h	[a15]56,d15
+.L54:
+.L51:
+	mov	d15,#8
+.L201:
+	jne	d15,d9,.L55
+.L202:
+	jne	d10,#1,.L56
+.L203:
+	mov	d15,#1
+.L204:
+	st.b	[a15]58,d15
+.L205:
+	mov	d15,#1
+.L206:
+	st.b	[a15]60,d15
+.L56:
+.L55:
+	ld.bu	d15,[a15]59
+.L207:
+	jeq	d15,d8,.L57
+.L208:
+	jeq	d8,#0,.L58
+.L209:
+	ld.bu	d15,[a15]1
+.L210:
+	jne	d15,#1,.L59
+.L211:
+	jne	d8,#1,.L60
+.L212:
+	mov	d2,#0
+.L155:
+	j	.L61
+.L60:
+.L59:
+	mov	d4,d8
+.L156:
+	call	App_DfPlayer_MapEventAudio
+.L61:
+	jeq	d2,#0,.L62
+.L213:
+	st.b	[a15]58,d2
+.L214:
+	mov	d15,#1
+.L215:
+	st.b	[a15]60,d15
+.L62:
+.L58:
+.L57:
+	st.b	[a15]59,d8
+.L216:
+	st.b	[a15]61,d10
+.L217:
+	ret
+.L128:
+	
+__App_DfPlayer_Task_function_end:
+	.size	App_DfPlayer_Task,__App_DfPlayer_Task_function_end-App_DfPlayer_Task
+.L99:
+	; End of function
+	
+	.sdecl	'.text.App_DfPlayer.App_DfPlayer_Apply',code,cluster('App_DfPlayer_Apply')
+	.sect	'.text.App_DfPlayer.App_DfPlayer_Apply'
+	.align	2
+	
+	.global	App_DfPlayer_Apply
+; Function App_DfPlayer_Apply
+.L85:
+App_DfPlayer_Apply:	.type	func
+	mov.aa	a15,a4
+.L158:
+	ld.bu	d15,[a15]54
+.L222:
+	jne	d15,#0,.L63
+.L223:
+	ld.bu	d15,[a15]55
+.L224:
+	jeq	d15,#0,.L64
+.L225:
+	mov	d4,#0
+	call	DFPlayer_Stop
+.L157:
+	mov	d15,#0
+.L226:
+	st.b	[a15]55,d15
+.L227:
+	mov	d15,#0
+.L228:
+	st.h	[a15]56,d15
+.L64:
+	j	.L65
+.L63:
+	ld.bu	d15,[a15]54
+.L229:
+	ld.bu	d0,[a15]55
+.L230:
+	jne	d15,d0,.L66
+.L231:
+	ld.hu	d15,[a15]56
+.L232:
+	mov	d0,#3000
+.L233:
+	jlt.u	d15,d0,.L67
+.L66:
+	ld.bu	d4,[a15]54
+	call	App_DfPlayer_GetStateTrackNo
+.L159:
+	jeq	d2,#0,.L68
+.L234:
+	mov	d4,#0
+.L235:
+	mov	d5,#1
+.L236:
+	mov	d6,d2
+.L161:
+	call	DFPlayer_PlayFolderTrack
+.L160:
+	ld.bu	d15,[a15]54
+.L237:
+	st.b	[a15]55,d15
+.L238:
+	mov	d15,#0
+.L239:
+	st.h	[a15]56,d15
+.L68:
+.L67:
+.L65:
+	ld.bu	d15,[a15]60
+.L240:
+	jne	d15,#1,.L69
+.L241:
+	ld.bu	d15,[a15]58
+.L242:
+	jeq	d15,#0,.L70
+.L243:
+	ld.bu	d4,[a15]58
+	call	App_DfPlayer_GetEventTrackNo
+.L162:
+	jeq	d2,#0,.L71
+.L244:
+	mov	d4,#1
+.L245:
+	mov	d5,#1
+.L246:
+	mov	d6,d2
+.L163:
+	call	DFPlayer_PlayFolderTrack
+.L71:
+	mov	d15,#0
+.L247:
+	st.b	[a15]60,d15
+.L248:
+	mov	d15,#0
+.L249:
+	st.b	[a15]58,d15
+.L70:
+.L69:
+	ret
+.L138:
+	
+__App_DfPlayer_Apply_function_end:
+	.size	App_DfPlayer_Apply,__App_DfPlayer_Apply_function_end-App_DfPlayer_Apply
+.L104:
+	; End of function
+	
+	.calls	'App_DfPlayer_Task','App_DfPlayer_MapStateAudio'
+	.calls	'App_DfPlayer_Task','App_DfPlayer_MapEventAudio'
+	.calls	'App_DfPlayer_Apply','DFPlayer_Stop'
+	.calls	'App_DfPlayer_Apply','App_DfPlayer_GetStateTrackNo'
+	.calls	'App_DfPlayer_Apply','DFPlayer_PlayFolderTrack'
+	.calls	'App_DfPlayer_Apply','App_DfPlayer_GetEventTrackNo'
+	.calls	'App_DfPlayer_MapStateAudio','',0
+	.calls	'App_DfPlayer_MapEventAudio','',0
+	.calls	'App_DfPlayer_GetStateTrackNo','',0
+	.calls	'App_DfPlayer_GetEventTrackNo','',0
+	.calls	'App_DfPlayer_Init','',0
+	.calls	'App_DfPlayer_Task','',0
+	.extern	DFPlayer_PlayFolderTrack
+	.extern	DFPlayer_Stop
+	.calls	'App_DfPlayer_Apply','',0
+	.sdecl	'.debug_info',debug
+	.sect	'.debug_info'
+.L87:
+	.word	2416
+	.half	3
+	.word	.L88
+	.byte	4
+.L86:
+	.byte	1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L89
+.L133:
+	.byte	2
+	.byte	'unsigned char',0,1,8,3,1,47,9,12,4
+	.byte	'safe_state_raw',0
+	.word	204
+	.byte	1,2,35,0,4
+	.byte	'speed_state_raw',0
+	.word	204
+	.byte	1,2,35,1,4
+	.byte	'brake_active',0
+	.word	204
+	.byte	1,2,35,2,4
+	.byte	'ev_state',0
+	.word	204
+	.byte	1,2,35,3,4
+	.byte	'ack_button',0
+	.word	204
+	.byte	1,2,35,4,4
+	.byte	'msg_valid',0
+	.word	204
+	.byte	1,2,35,5,4
+	.byte	'alive_cnt',0
+	.word	204
+	.byte	1,2,35,6,4
+	.byte	'ack_seq',0
+	.word	204
+	.byte	1,2,35,7,4
+	.byte	'ack_seq_prev',0
+	.word	204
+	.byte	1,2,35,8,0
+.L135:
+	.byte	5,2,53,9,1,6
+	.byte	'ACTECU_SAFE_NORMAL',0,1,6
+	.byte	'ACTECU_SAFE_WARNING',0,2,6
+	.byte	'ACTECU_SAFE_CRITICAL',0,4,6
+	.byte	'ACTECU_SAFE_FATAL_NO_RESPONSE',0,8,0,3,1,60,9,1,4
+	.byte	'safe_state',0
+	.word	413
+	.byte	1,2,35,0,0,2
+	.byte	'unsigned short int',0,2,7,3,1,65,9,4,4
+	.byte	'led1_on',0
+	.word	204
+	.byte	1,2,35,0,4
+	.byte	'led1_blink_elapsed_ms',0
+	.word	543
+	.byte	2,2,35,2,0,3,1,71,9,1,4
+	.byte	'brake_lamp_count',0
+	.word	204
+	.byte	1,2,35,0,0,3,1,76,9,2,4
+	.byte	'normal_lamp_on',0
+	.word	204
+	.byte	1,2,35,0,4
+	.byte	'fatal_lamp_on',0
+	.word	204
+	.byte	1,2,35,1,0,3,1,82,9,6,4
+	.byte	'buzzer_on',0
+	.word	204
+	.byte	1,2,35,0,4
+	.byte	'buzzer_prev_on',0
+	.word	204
+	.byte	1,2,35,1,4
+	.byte	'buzzer_elapsed_ms',0
+	.word	543
+	.byte	2,2,35,2,4
+	.byte	'note_idx',0
+	.word	204
+	.byte	1,2,35,4,4
+	.byte	'prev_note_idx',0
+	.word	204
+	.byte	1,2,35,5,0,2
+	.byte	'unsigned long int',0,4,7,3,1,91,9,8,4
+	.byte	'start_pulse_us',0
+	.word	821
+	.byte	4,2,35,0,4
+	.byte	'target_pulse_us',0
+	.word	821
+	.byte	4,2,35,4,0
+.L130:
+	.byte	5,2,86,9,1,6
+	.byte	'APP_AUDIO_NONE',0,0,6
+	.byte	'APP_AUDIO_STARTUP',0,1,6
+	.byte	'APP_AUDIO_LOW_SPEED',0,2,6
+	.byte	'APP_AUDIO_MID_SPEED',0,3,6
+	.byte	'APP_AUDIO_HIGH_SPEED',0,4,6
+	.byte	'APP_AUDIO_RAPID_BRAKE',0,5,6
+	.byte	'APP_AUDIO_RAPID_ACCEL',0,6,6
+	.byte	'APP_AUDIO_STEER_LEVEL1',0,7,6
+	.byte	'APP_AUDIO_STEER_LEVEL2',0,8,6
+	.byte	'APP_AUDIO_FAULT',0,9,6
+	.byte	'APP_AUDIO_FATAL',0,10,0,3,1,97,9,4,4
+	.byte	'current_state',0
+	.word	897
+	.byte	1,2,35,0,4
+	.byte	'prev_applied_state',0
+	.word	897
+	.byte	1,2,35,1,4
+	.byte	'repeat_elapsed_ms',0
+	.word	543
+	.byte	2,2,35,2,0,3,1,104,9,4,4
+	.byte	'pending_state',0
+	.word	897
+	.byte	1,2,35,0,4
+	.byte	'prev_ev_state',0
+	.word	204
+	.byte	1,2,35,1,4
+	.byte	'play_req',0
+	.word	204
+	.byte	1,2,35,2,4
+	.byte	'prev_safe_state_for_audio',0
+	.word	413
+	.byte	1,2,35,3,0,3,1,112,9,64,4
+	.byte	'input',0
+	.word	221
+	.byte	12,2,35,0,4
+	.byte	'state',0
+	.word	517
+	.byte	1,2,35,12,4
+	.byte	'led1_ctrl',0
+	.word	565
+	.byte	4,2,35,14,4
+	.byte	'led2_ctrl',0
+	.word	619
+	.byte	1,2,35,18,4
+	.byte	'led3_ctrl',0
+	.word	651
+	.byte	2,2,35,20,4
+	.byte	'buzzer_ctrl',0
+	.word	704
+	.byte	6,2,35,22,4
+	.byte	'servo1_ctrl',0
+	.word	842
+	.byte	8,2,35,28,4
+	.byte	'servo2_ctrl',0
+	.word	842
+	.byte	8,2,35,36,4
+	.byte	'servo3_ctrl',0
+	.word	842
+	.byte	8,2,35,44,4
+	.byte	'prev_safe_state',0
+	.word	413
+	.byte	1,2,35,52,4
+	.byte	'df_player_state_ctrl',0
+	.word	1141
+	.byte	4,2,35,54,4
+	.byte	'df_player_event_ctrl',0
+	.word	1225
+	.byte	4,2,35,58,0
+.L126:
+	.byte	7
+	.word	1330
+	.byte	5,3,46,9,1,6
+	.byte	'DFPLAYER_CHANNEL_STATE',0,0,6
+	.byte	'DFPLAYER_CHANNEL_EVENT',0,1,0,8
+	.byte	'DFPlayer_PlayFolderTrack',0,3,61,9
+	.word	204
+	.byte	1,1,1,1,9
+	.byte	'channel',0,3,61,51
+	.word	1597
+	.byte	9
+	.byte	'folder',0,3,61,66
+	.word	204
+	.byte	9
+	.byte	'track',0,3,61,80
+	.word	204
+	.byte	0,8
+	.byte	'DFPlayer_Stop',0,3,62,9
+	.word	204
+	.byte	1,1,1,1,9
+	.byte	'channel',0,3,62,40
+	.word	1597
+	.byte	0,10
+	.word	1330
+.L142:
+	.byte	7
+	.word	1779
+	.byte	2
+	.byte	'short int',0,2,5,11
+	.byte	'__wchar_t',0,4,1,1
+	.word	1789
+	.byte	2
+	.byte	'unsigned int',0,4,7,11
+	.byte	'__size_t',0,4,1,1
+	.word	1820
+	.byte	2
+	.byte	'int',0,4,5,11
+	.byte	'__ptrdiff_t',0,4,1,1
+	.word	1853
+	.byte	12,1,7
+	.word	1880
+	.byte	11
+	.byte	'__codeptr',0,4,1,1
+	.word	1882
+	.byte	11
+	.byte	'boolean',0,5,104,29
+	.word	204
+	.byte	11
+	.byte	'uint8',0,5,108,29
+	.word	204
+	.byte	11
+	.byte	'uint16',0,5,112,29
+	.word	543
+	.byte	11
+	.byte	'uint32',0,5,116,29
+	.word	821
+	.byte	11
+	.byte	'sint16',0,5,129,1,29
+	.word	1789
+	.byte	2
+	.byte	'long int',0,4,5,11
+	.byte	'sint32',0,5,134,1,29
+	.word	1981
+	.byte	2
+	.byte	'long long int',0,8,5,11
+	.byte	'sint64',0,5,141,1,29
+	.word	2009
+	.byte	2
+	.byte	'float',0,4,4,11
+	.byte	'float32',0,5,170,1,29
+	.word	2042
+	.byte	13
+	.byte	'void',0,7
+	.word	2068
+	.byte	11
+	.byte	'pvoid',0,6,54,28
+	.word	2074
+	.byte	11
+	.byte	'ActEcu_SafeState',0,2,59,3
+	.word	413
+	.byte	11
+	.byte	'App_AudioState',0,2,99,3
+	.word	897
+	.byte	11
+	.byte	'App_InputSignals',0,1,58,3
+	.word	221
+	.byte	11
+	.byte	'App_State',0,1,63,3
+	.word	517
+	.byte	11
+	.byte	'App_Led1Control',0,1,69,3
+	.word	565
+	.byte	11
+	.byte	'App_Led2Control',0,1,74,3
+	.word	619
+	.byte	11
+	.byte	'App_Led3Control',0,1,80,3
+	.word	651
+	.byte	11
+	.byte	'App_BuzzerControl',0,1,89,3
+	.word	704
+	.byte	11
+	.byte	'App_ServoControl',0,1,95,3
+	.word	842
+	.byte	11
+	.byte	'App_DfPlayerStateControl',0,1,102,3
+	.word	1141
+	.byte	11
+	.byte	'App_DfPlayerEventControl',0,1,110,3
+	.word	1225
+	.byte	11
+	.byte	'App_Context',0,1,128,1,3
+	.word	1330
+	.byte	11
+	.byte	'DfPlayer_Channel',0,3,50,3
+	.word	1597
+	.byte	0
+	.sdecl	'.debug_abbrev',debug
+	.sect	'.debug_abbrev'
+.L88:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,16,6,0,0,2,36,0,3,8,11,15,62,15,0,0,3,19,1,58,15,59,15,57,15,11,15
+	.byte	0,0,4,13,0,3,8,73,19,11,15,56,9,0,0,5,4,1,58,15,59,15,57,15,11,15,0,0,6,40,0,3,8,28,13,0,0,7,15,0,73,19
+	.byte	0,0,8,46,1,3,8,58,15,59,15,57,15,73,19,54,15,39,12,63,12,60,12,0,0,9,5,0,3,8,58,15,59,15,57,15,73,19,0
+	.byte	0,10,38,0,73,19,0,0,11,22,0,3,8,58,15,59,15,57,15,73,19,0,0,12,21,0,54,15,0,0,13,59,0,3,8,0,0,0
+	.sdecl	'.debug_line',debug
+	.sect	'.debug_line'
+.L89:
+	.word	.L165-.L164
+.L164:
+	.half	3
+	.word	.L167-.L166
+.L166:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1
+	.byte	'C:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Common',0
+	.byte	'C:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Driver\\\\dfplayer',0
+	.byte	'C:\\\\Users\\\\USER\\\\AURIX-v1.10.28-workspace\\\\TC275_ACT_ECU\\\\Libraries\\\\iLLD\\\\TC27D\\\\Tricore\\\\Cpu\\\\Std',0
+	.byte	0
+	.byte	'ActEcu_Types.h',0,1,0,0
+	.byte	'ActEcu_Enum.h',0,1,0,0
+	.byte	'Driver_DfPlayer.h',0,2,0,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0
+	.byte	'Platform_Types.h',0,3,0,0
+	.byte	'Ifx_Types.h',0,3,0,0,0
+.L167:
+.L165:
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_info'
+.L90:
+	.word	275
+	.half	3
+	.word	.L91
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L93,.L92
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_Init',0,1,132,1,6,1,1,1
+	.word	.L81,.L125,.L80
+	.byte	4
+	.byte	'ctx',0,1,132,1,37
+	.word	.L126,.L127
+	.byte	5
+	.word	.L81,.L125
+	.byte	0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_abbrev'
+.L91:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,54,15
+	.byte	39,12,63,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,0,17,1,18,1,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_line'
+.L92:
+	.word	.L169-.L168
+.L168:
+	.half	3
+	.word	.L171-.L170
+.L170:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L171:
+	.byte	5,47,7,0,5,2
+	.word	.L81
+	.byte	3,133,1,1,5,45,9
+	.half	.L172-.L81
+	.byte	1,5,52,9
+	.half	.L173-.L172
+	.byte	3,1,1,5,50,9
+	.half	.L174-.L173
+	.byte	1,5,51,9
+	.half	.L175-.L174
+	.byte	3,1,1,5,49,9
+	.half	.L176-.L175
+	.byte	1,5,47,9
+	.half	.L177-.L176
+	.byte	3,2,1,5,45,9
+	.half	.L178-.L177
+	.byte	1,5,47,9
+	.half	.L179-.L178
+	.byte	3,1,1,5,45,9
+	.half	.L180-.L179
+	.byte	1,5,42,9
+	.half	.L181-.L180
+	.byte	3,1,1,5,40,9
+	.half	.L182-.L181
+	.byte	1,5,69,9
+	.half	.L183-.L182
+	.byte	3,1,1,5,57,9
+	.half	.L184-.L183
+	.byte	1,5,1,9
+	.half	.L185-.L184
+	.byte	3,1,1,7,9
+	.half	.L94-.L185
+	.byte	0,1,1
+.L169:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_ranges'
+.L93:
+	.word	-1,.L81,0,.L94-.L81,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_info'
+.L95:
+	.word	410
+	.half	3
+	.word	.L96
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L98,.L97
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_Task',0,1,144,1,6,1,1,1
+	.word	.L83,.L128,.L82
+	.byte	4
+	.byte	'ctx',0,1,144,1,37
+	.word	.L126,.L129
+	.byte	5
+	.word	.L83,.L128
+	.byte	6
+	.byte	'state_audio',0,1,146,1,20
+	.word	.L130,.L131
+	.byte	6
+	.byte	'new_event_audio',0,1,147,1,20
+	.word	.L130,.L132
+	.byte	6
+	.byte	'ev_state',0,1,148,1,11
+	.word	.L133,.L134
+	.byte	6
+	.byte	'prev_safe_state',0,1,149,1,22
+	.word	.L135,.L136
+	.byte	6
+	.byte	'curr_safe_state',0,1,150,1,22
+	.word	.L135,.L137
+	.byte	0,0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_abbrev'
+.L96:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,54,15
+	.byte	39,12,63,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,1,17,1,18,1,0,0,6,52,0,3
+	.byte	8,58,15,59,15,57,15,73,16,2,6,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_line'
+.L97:
+	.word	.L187-.L186
+.L186:
+	.half	3
+	.word	.L189-.L188
+.L188:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L189:
+	.byte	5,6,7,0,5,2
+	.word	.L83
+	.byte	3,143,1,1,5,32,9
+	.half	.L151-.L83
+	.byte	3,4,1,5,65,9
+	.half	.L152-.L151
+	.byte	3,1,1,5,50,9
+	.half	.L153-.L152
+	.byte	3,1,1,5,46,9
+	.half	.L154-.L153
+	.byte	3,2,1,5,34,9
+	.half	.L150-.L154
+	.byte	3,2,1,5,5,9
+	.half	.L190-.L150
+	.byte	1,5,49,7,9
+	.half	.L191-.L190
+	.byte	3,2,1,5,55,9
+	.half	.L192-.L191
+	.byte	3,1,1,5,53,9
+	.half	.L193-.L192
+	.byte	1,5,62,9
+	.half	.L194-.L193
+	.byte	3,127,1,5,9,9
+	.half	.L50-.L194
+	.byte	3,5,1,5,42,7,9
+	.half	.L195-.L50
+	.byte	3,2,1,5,63,9
+	.half	.L196-.L195
+	.byte	1,5,13,9
+	.half	.L197-.L196
+	.byte	1,5,42,7,9
+	.half	.L198-.L197
+	.byte	3,2,1,5,61,9
+	.half	.L199-.L198
+	.byte	1,5,13,9
+	.half	.L53-.L199
+	.byte	3,126,1,5,59,9
+	.half	.L52-.L53
+	.byte	3,7,1,5,57,9
+	.half	.L200-.L52
+	.byte	1,5,29,9
+	.half	.L51-.L200
+	.byte	3,5,1,5,9,9
+	.half	.L201-.L51
+	.byte	1,5,26,7,9
+	.half	.L202-.L201
+	.byte	3,1,1,5,51,7,9
+	.half	.L203-.L202
+	.byte	3,2,1,5,49,9
+	.half	.L204-.L203
+	.byte	1,5,46,9
+	.half	.L205-.L204
+	.byte	3,1,1,5,44,9
+	.half	.L206-.L205
+	.byte	1,5,47,9
+	.half	.L55-.L206
+	.byte	3,3,1,5,9,9
+	.half	.L207-.L55
+	.byte	1,5,19,7,9
+	.half	.L208-.L207
+	.byte	3,1,1,5,43,7,9
+	.half	.L209-.L208
+	.byte	3,3,1,5,13,9
+	.half	.L210-.L209
+	.byte	1,5,42,7,9
+	.half	.L211-.L210
+	.byte	3,1,1,5,29,7,9
+	.half	.L212-.L211
+	.byte	3,2,1,5,45,9
+	.half	.L155-.L212
+	.byte	1,5,58,9
+	.half	.L59-.L155
+	.byte	3,4,1,5,9,9
+	.half	.L61-.L59
+	.byte	3,3,1,5,53,7,9
+	.half	.L213-.L61
+	.byte	3,2,1,5,50,9
+	.half	.L214-.L213
+	.byte	3,1,1,5,48,9
+	.half	.L215-.L214
+	.byte	1,5,45,9
+	.half	.L57-.L215
+	.byte	3,4,1,5,57,9
+	.half	.L216-.L57
+	.byte	3,1,1,5,1,9
+	.half	.L217-.L216
+	.byte	3,1,1,7,9
+	.half	.L99-.L217
+	.byte	0,1,1
+.L187:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_ranges'
+.L98:
+	.word	-1,.L83,0,.L99-.L83,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_info'
+.L100:
+	.word	299
+	.half	3
+	.word	.L101
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L103,.L102
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_Apply',0,1,207,1,6,1,1,1
+	.word	.L85,.L138,.L84
+	.byte	4
+	.byte	'ctx',0,1,207,1,38
+	.word	.L126,.L139
+	.byte	5
+	.word	.L85,.L138
+	.byte	6
+	.byte	'track_no',0,1,209,1,11
+	.word	.L133,.L140
+	.byte	0,0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_abbrev'
+.L101:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,54,15
+	.byte	39,12,63,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,1,17,1,18,1,0,0,6,52,0,3
+	.byte	8,58,15,59,15,57,15,73,16,2,6,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_line'
+.L102:
+	.word	.L219-.L218
+.L218:
+	.half	3
+	.word	.L221-.L220
+.L220:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L221:
+	.byte	5,6,7,0,5,2
+	.word	.L85
+	.byte	3,206,1,1,5,34,9
+	.half	.L158-.L85
+	.byte	3,4,1,5,5,9
+	.half	.L222-.L158
+	.byte	1,5,38,7,9
+	.half	.L223-.L222
+	.byte	3,2,1,5,9,9
+	.half	.L224-.L223
+	.byte	1,5,33,7,9
+	.half	.L225-.L224
+	.byte	3,2,1,5,60,9
+	.half	.L157-.L225
+	.byte	3,1,1,5,58,9
+	.half	.L226-.L157
+	.byte	1,5,59,9
+	.half	.L227-.L226
+	.byte	3,1,1,5,57,9
+	.half	.L228-.L227
+	.byte	1,5,9,9
+	.half	.L64-.L228
+	.byte	3,124,1,5,39,9
+	.half	.L63-.L64
+	.byte	3,9,1,5,82,9
+	.half	.L229-.L63
+	.byte	1,5,13,9
+	.half	.L230-.L229
+	.byte	1,5,39,7,9
+	.half	.L231-.L230
+	.byte	3,1,1,5,61,9
+	.half	.L232-.L231
+	.byte	1,5,58,9
+	.half	.L233-.L232
+	.byte	1,5,78,7,9
+	.half	.L66-.L233
+	.byte	3,2,1,5,13,9
+	.half	.L159-.L66
+	.byte	3,2,1,5,21,7,9
+	.half	.L234-.L159
+	.byte	3,3,1,9
+	.half	.L235-.L234
+	.byte	3,1,1,9
+	.half	.L236-.L235
+	.byte	3,1,1,5,89,9
+	.half	.L160-.L236
+	.byte	3,2,1,5,62,9
+	.half	.L237-.L160
+	.byte	1,5,63,9
+	.half	.L238-.L237
+	.byte	3,1,1,5,61,9
+	.half	.L239-.L238
+	.byte	1,5,35,9
+	.half	.L65-.L239
+	.byte	3,5,1,5,9,9
+	.half	.L240-.L65
+	.byte	1,5,35,7,9
+	.half	.L241-.L240
+	.byte	3,1,1,5,50,9
+	.half	.L242-.L241
+	.byte	1,5,74,7,9
+	.half	.L243-.L242
+	.byte	3,2,1,5,9,9
+	.half	.L162-.L243
+	.byte	3,2,1,5,17,7,9
+	.half	.L244-.L162
+	.byte	3,3,1,9
+	.half	.L245-.L244
+	.byte	3,1,1,9
+	.half	.L246-.L245
+	.byte	3,1,1,5,46,9
+	.half	.L71-.L246
+	.byte	3,3,1,5,44,9
+	.half	.L247-.L71
+	.byte	1,5,51,9
+	.half	.L248-.L247
+	.byte	3,1,1,5,49,9
+	.half	.L249-.L248
+	.byte	1,5,1,9
+	.half	.L69-.L249
+	.byte	3,2,1,7,9
+	.half	.L104-.L69
+	.byte	0,1,1
+.L219:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_ranges'
+.L103:
+	.word	-1,.L85,0,.L104-.L85,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_info'
+.L105:
+	.word	285
+	.half	3
+	.word	.L106
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L108,.L107
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_MapStateAudio',0,1,33,23
+	.word	.L130
+	.byte	1,1
+	.word	.L73,.L141,.L72
+	.byte	4
+	.byte	'ctx',0,1,33,69
+	.word	.L142,.L143
+	.byte	5
+	.word	.L73,.L141
+	.byte	0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_abbrev'
+.L106:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,73,16
+	.byte	54,15,39,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,0,17,1,18,1,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_line'
+.L107:
+	.word	.L251-.L250
+.L250:
+	.half	3
+	.word	.L253-.L252
+.L252:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L253:
+	.byte	5,19,7,0,5,2
+	.word	.L73
+	.byte	3,34,1,5,34,9
+	.half	.L254-.L73
+	.byte	1,5,5,9
+	.half	.L255-.L254
+	.byte	1,5,16,7,9
+	.half	.L256-.L255
+	.byte	3,2,1,5,9,9
+	.half	.L257-.L256
+	.byte	1,5,20,9
+	.half	.L2-.L257
+	.byte	3,3,1,5,9,9
+	.half	.L258-.L2
+	.byte	1,5,20,7,9
+	.half	.L259-.L258
+	.byte	3,1,1,5,30,9
+	.half	.L260-.L259
+	.byte	1,5,16,7,9
+	.half	.L4-.L260
+	.byte	3,2,1,5,9,9
+	.half	.L261-.L4
+	.byte	1,5,42,9
+	.half	.L5-.L261
+	.byte	3,3,1,5,10,9
+	.half	.L262-.L5
+	.byte	3,11,1,9
+	.half	.L263-.L262
+	.byte	3,119,1,9
+	.half	.L264-.L263
+	.byte	3,3,1,9
+	.half	.L265-.L264
+	.byte	3,3,1,5,16,9
+	.half	.L8-.L265
+	.byte	3,123,1,5,9,9
+	.half	.L266-.L8
+	.byte	1,5,16,9
+	.half	.L9-.L266
+	.byte	3,3,1,5,9,9
+	.half	.L267-.L9
+	.byte	1,5,16,9
+	.half	.L10-.L267
+	.byte	3,3,1,5,9,9
+	.half	.L268-.L10
+	.byte	1,5,16,9
+	.half	.L11-.L268
+	.byte	3,4,1,5,9,9
+	.half	.L269-.L11
+	.byte	1,5,1,9
+	.half	.L3-.L269
+	.byte	3,2,1,7,9
+	.half	.L109-.L3
+	.byte	0,1,1
+.L251:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_ranges'
+.L108:
+	.word	-1,.L73,0,.L109-.L73,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_info'
+.L110:
+	.word	290
+	.half	3
+	.word	.L111
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L113,.L112
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_MapEventAudio',0,1,63,23
+	.word	.L130
+	.byte	1,1
+	.word	.L75,.L144,.L74
+	.byte	4
+	.byte	'ev_state',0,1,63,56
+	.word	.L133,.L145
+	.byte	5
+	.word	.L75,.L144
+	.byte	0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_abbrev'
+.L111:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,73,16
+	.byte	54,15,39,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,0,17,1,18,1,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_line'
+.L112:
+	.word	.L271-.L270
+.L270:
+	.half	3
+	.word	.L273-.L272
+.L272:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L273:
+	.byte	5,10,7,0,5,2
+	.word	.L75
+	.byte	3,194,0,1,9
+	.half	.L274-.L75
+	.byte	3,3,1,9
+	.half	.L275-.L274
+	.byte	3,3,1,9
+	.half	.L276-.L275
+	.byte	3,3,1,5,16,9
+	.half	.L16-.L276
+	.byte	3,120,1,5,9,9
+	.half	.L277-.L16
+	.byte	1,5,16,9
+	.half	.L17-.L277
+	.byte	3,3,1,5,9,9
+	.half	.L278-.L17
+	.byte	1,5,16,9
+	.half	.L18-.L278
+	.byte	3,3,1,5,9,9
+	.half	.L279-.L18
+	.byte	1,5,16,9
+	.half	.L19-.L279
+	.byte	3,3,1,5,9,9
+	.half	.L280-.L19
+	.byte	1,5,16,9
+	.half	.L20-.L280
+	.byte	3,3,1,5,9,9
+	.half	.L281-.L20
+	.byte	1,5,1,9
+	.half	.L21-.L281
+	.byte	3,2,1,7,9
+	.half	.L114-.L21
+	.byte	0,1,1
+.L271:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_ranges'
+.L113:
+	.word	-1,.L75,0,.L114-.L75,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_info'
+.L115:
+	.word	289
+	.half	3
+	.word	.L116
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L118,.L117
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_GetStateTrackNo',0,1,84,14
+	.word	.L133
+	.byte	1,1
+	.word	.L77,.L146,.L76
+	.byte	4
+	.byte	'state',0,1,84,58
+	.word	.L130,.L147
+	.byte	5
+	.word	.L77,.L146
+	.byte	0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_abbrev'
+.L116:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,73,16
+	.byte	54,15,39,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,0,17,1,18,1,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_line'
+.L117:
+	.word	.L283-.L282
+.L282:
+	.half	3
+	.word	.L285-.L284
+.L284:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L285:
+	.byte	5,10,7,0,5,2
+	.word	.L77
+	.byte	3,215,0,1,9
+	.half	.L286-.L77
+	.byte	3,3,1,9
+	.half	.L287-.L286
+	.byte	3,3,1,9
+	.half	.L288-.L287
+	.byte	3,3,1,9
+	.half	.L289-.L288
+	.byte	3,3,1,5,16,9
+	.half	.L26-.L289
+	.byte	3,117,1,5,9,9
+	.half	.L290-.L26
+	.byte	1,5,16,9
+	.half	.L27-.L290
+	.byte	3,3,1,5,9,9
+	.half	.L291-.L27
+	.byte	1,5,16,9
+	.half	.L28-.L291
+	.byte	3,3,1,5,9,9
+	.half	.L292-.L28
+	.byte	1,5,16,9
+	.half	.L29-.L292
+	.byte	3,3,1,5,9,9
+	.half	.L293-.L29
+	.byte	1,5,16,9
+	.half	.L30-.L293
+	.byte	3,3,1,5,9,9
+	.half	.L294-.L30
+	.byte	1,5,16,9
+	.half	.L31-.L294
+	.byte	3,3,1,5,9,9
+	.half	.L295-.L31
+	.byte	1,5,1,9
+	.half	.L32-.L295
+	.byte	3,2,1,7,9
+	.half	.L119-.L32
+	.byte	0,1,1
+.L283:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_ranges'
+.L118:
+	.word	-1,.L77,0,.L119-.L77,0,0
+	.sdecl	'.debug_info',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_info'
+.L120:
+	.word	289
+	.half	3
+	.word	.L121
+	.byte	4,1
+	.byte	'../App/dfplayer/App_DfPlayer.c',0
+	.byte	'TASKING VX-toolset for AURIX Development Studio (non-commercial): C compiler',0
+	.byte	'C:\\Users\\USER\\AURIX-v1.10.28-workspace\\TC275_ACT_ECU\\TriCore Debug (TASKING)\\',0,12,1
+	.word	.L123,.L122
+	.byte	2
+	.word	.L86
+	.byte	3
+	.byte	'App_DfPlayer_GetEventTrackNo',0,1,108,14
+	.word	.L133
+	.byte	1,1
+	.word	.L79,.L148,.L78
+	.byte	4
+	.byte	'state',0,1,108,58
+	.word	.L130,.L149
+	.byte	5
+	.word	.L79,.L148
+	.byte	0,0
+	.sdecl	'.debug_abbrev',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_abbrev'
+.L121:
+	.byte	1,17,1,3,8,37,8,27,8,19,15,128,70,12,85,6,16,6,0,0,2,61,0,24,16,0,0,3,46,1,3,8,58,15,59,15,57,15,73,16
+	.byte	54,15,39,12,17,1,18,1,64,6,0,0,4,5,0,3,8,58,15,59,15,57,15,73,16,2,6,0,0,5,11,0,17,1,18,1,0,0,0
+	.sdecl	'.debug_line',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_line'
+.L122:
+	.word	.L297-.L296
+.L296:
+	.half	3
+	.word	.L299-.L298
+.L298:
+	.byte	2,1,-4,9,10,0,1,1,1,1,0,0,0,1,0
+	.byte	'../App/dfplayer/App_DfPlayer.c',0,0,0,0,0
+.L299:
+	.byte	5,10,7,0,5,2
+	.word	.L79
+	.byte	3,239,0,1,9
+	.half	.L300-.L79
+	.byte	3,3,1,9
+	.half	.L301-.L300
+	.byte	3,3,1,9
+	.half	.L302-.L301
+	.byte	3,3,1,9
+	.half	.L303-.L302
+	.byte	3,3,1,5,16,9
+	.half	.L38-.L303
+	.byte	3,117,1,5,9,9
+	.half	.L304-.L38
+	.byte	1,5,16,9
+	.half	.L39-.L304
+	.byte	3,3,1,5,9,9
+	.half	.L305-.L39
+	.byte	1,5,16,9
+	.half	.L40-.L305
+	.byte	3,3,1,5,9,9
+	.half	.L306-.L40
+	.byte	1,5,16,9
+	.half	.L41-.L306
+	.byte	3,3,1,5,9,9
+	.half	.L307-.L41
+	.byte	1,5,16,9
+	.half	.L42-.L307
+	.byte	3,3,1,5,9,9
+	.half	.L308-.L42
+	.byte	1,5,16,9
+	.half	.L43-.L308
+	.byte	3,3,1,5,9,9
+	.half	.L309-.L43
+	.byte	1,5,1,9
+	.half	.L44-.L309
+	.byte	3,2,1,7,9
+	.half	.L124-.L44
+	.byte	0,1,1
+.L297:
+	.sdecl	'.debug_ranges',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_ranges'
+.L123:
+	.word	-1,.L79,0,.L124-.L79,0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_loc'
+.L84:
+	.word	-1,.L85,0,.L138-.L85
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L139:
+	.word	-1,.L85,0,.L157-.L85
+	.half	1
+	.byte	100
+	.word	.L158-.L85,.L138-.L85
+	.half	1
+	.byte	111
+	.word	.L63-.L85,.L159-.L85
+	.half	1
+	.byte	100
+	.word	0,0
+.L140:
+	.word	-1,.L85,.L159-.L85,.L160-.L85
+	.half	1
+	.byte	82
+	.word	.L161-.L85,.L160-.L85
+	.half	1
+	.byte	86
+	.word	.L162-.L85,.L71-.L85
+	.half	1
+	.byte	82
+	.word	.L163-.L85,.L71-.L85
+	.half	1
+	.byte	86
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_loc'
+.L78:
+	.word	-1,.L79,0,.L148-.L79
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L149:
+	.word	-1,.L79,0,.L148-.L79
+	.half	1
+	.byte	84
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_loc'
+.L76:
+	.word	-1,.L77,0,.L146-.L77
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L147:
+	.word	-1,.L77,0,.L146-.L77
+	.half	1
+	.byte	84
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_loc'
+.L80:
+	.word	-1,.L81,0,.L125-.L81
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L127:
+	.word	-1,.L81,0,.L125-.L81
+	.half	1
+	.byte	100
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_loc'
+.L74:
+	.word	-1,.L75,0,.L144-.L75
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L145:
+	.word	-1,.L75,0,.L144-.L75
+	.half	1
+	.byte	84
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_loc'
+.L72:
+	.word	-1,.L73,0,.L141-.L73
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L143:
+	.word	-1,.L73,0,.L141-.L73
+	.half	1
+	.byte	100
+	.word	0,0
+	.sdecl	'.debug_loc',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_loc'
+.L82:
+	.word	-1,.L83,0,.L128-.L83
+	.half	2
+	.byte	138,0
+	.word	0,0
+.L129:
+	.word	-1,.L83,0,.L150-.L83
+	.half	1
+	.byte	100
+	.word	.L151-.L83,.L128-.L83
+	.half	1
+	.byte	111
+	.word	0,0
+.L137:
+	.word	-1,.L83,.L154-.L83,.L128-.L83
+	.half	1
+	.byte	90
+	.word	0,0
+.L134:
+	.word	-1,.L83,.L152-.L83,.L128-.L83
+	.half	1
+	.byte	88
+	.word	.L156-.L83,.L61-.L83
+	.half	1
+	.byte	84
+	.word	0,0
+.L132:
+	.word	-1,.L83,.L155-.L83,.L59-.L83
+	.half	1
+	.byte	82
+	.word	.L61-.L83,.L57-.L83
+	.half	1
+	.byte	82
+	.word	0,0
+.L136:
+	.word	-1,.L83,.L153-.L83,.L128-.L83
+	.half	1
+	.byte	89
+	.word	0,0
+.L131:
+	.word	-1,.L83,.L150-.L83,.L155-.L83
+	.half	1
+	.byte	82
+	.word	.L59-.L83,.L61-.L83
+	.half	1
+	.byte	82
+	.word	0,0
+	.sdecl	'.debug_frame',debug
+	.sect	'.debug_frame'
+.L310:
+	.word	48
+	.word	-1
+	.byte	3,0,2,1,27,12,26,0,8,26,8,27,8,30,8,29,8,28,8,16,8,17,8,24,8,25,8,31,8,32,8,33,8,34,8,35,8,36,8,37,8,38
+	.byte	8,39
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_MapStateAudio')
+	.sect	'.debug_frame'
+	.word	24
+	.word	.L310,.L73,.L141-.L73
+	.byte	8,18,8,19,8,21,8,22,8,23,0,0
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_MapEventAudio')
+	.sect	'.debug_frame'
+	.word	24
+	.word	.L310,.L75,.L144-.L75
+	.byte	8,18,8,19,8,20,8,21,8,22,8,23
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_GetStateTrackNo')
+	.sect	'.debug_frame'
+	.word	24
+	.word	.L310,.L77,.L146-.L77
+	.byte	8,18,8,19,8,20,8,21,8,22,8,23
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_GetEventTrackNo')
+	.sect	'.debug_frame'
+	.word	24
+	.word	.L310,.L79,.L148-.L79
+	.byte	8,18,8,19,8,20,8,21,8,22,8,23
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_Init')
+	.sect	'.debug_frame'
+	.word	24
+	.word	.L310,.L81,.L125-.L81
+	.byte	8,18,8,19,8,21,8,22,8,23,0,0
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_Task')
+	.sect	'.debug_frame'
+	.word	12
+	.word	.L310,.L83,.L128-.L83
+	.sdecl	'.debug_frame',debug,cluster('App_DfPlayer_Apply')
+	.sect	'.debug_frame'
+	.word	12
+	.word	.L310,.L85,.L138-.L85
+	; Module end

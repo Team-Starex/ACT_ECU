@@ -55,8 +55,8 @@ typedef struct
 /*********************************************************************************************************************/
 /*------------------------------------------------Function Prototypes------------------------------------------------*/
 /*********************************************************************************************************************/
-extern volatile SchedulingFlag st_scheduling_info;
-extern volatile stTestCnt st_test_cnt_info;
+extern SchedulingFlag st_scheduling_info;
+extern stTestCnt st_test_cnt_info;
 
 void Driver_Stm_Init(void);
 
