@@ -182,7 +182,16 @@ void App_DfPlayer_Task(App_Context *ctx)
     if ((ev_state != ctx->df_player_event_ctrl.prev_ev_state) &&
         (ev_state != (uint8)ACTECU_EVENT_NONE))
     {
-        new_event_audio = App_DfPlayer_MapEventAudio(ev_state);
+        /* STOP 상태에서는 급브레이크 이벤트 음 재생 금지 */
+        if (((ActEcu_SpeedState)ctx->input.speed_state_raw == ACTECU_SPEED_STOP) &&
+            ((ActEcu_EventState)ev_state == ACTECU_EVENT_RAPID_BRAKE))
+        {
+            new_event_audio = APP_AUDIO_NONE;
+        }
+        else
+        {
+            new_event_audio = App_DfPlayer_MapEventAudio(ev_state);
+        }
 
         if (new_event_audio != APP_AUDIO_NONE)
         {
@@ -194,6 +203,7 @@ void App_DfPlayer_Task(App_Context *ctx)
     ctx->df_player_event_ctrl.prev_ev_state = ev_state;
     ctx->df_player_event_ctrl.prev_safe_state_for_audio = curr_safe_state;
 }
+
 void App_DfPlayer_Apply(App_Context *ctx)
 {
     uint8 track_no;
